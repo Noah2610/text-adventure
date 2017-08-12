@@ -1,16 +1,13 @@
 
 
 
-class Item
+class Item < Instance
 
 	def initialize
 		@default_use      = "That doesn't seem to work."
 		@default_use_with = "Thoes don't seem to work together."
-		@name = @description = "NONE"
-	end
-
-	def describe
-		@description
+		@name = "item_name"
+		@desc = "item_desc"
 	end
 
 end
@@ -21,7 +18,7 @@ class Test_item < Item
 
 	def initialize
 		@name = "Test Item"
-		@description = "This is a test item.\nIt looks as if it's sole purpose is functionality testing."
+		@desc = "This is a test item.\nIt looks as if it's sole purpose is functionality testing."
 	end
 
 end

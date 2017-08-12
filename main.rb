@@ -1,7 +1,27 @@
 
+class Instance
+	def initialize
+		@desc = "This is an Instance, self does not have a @desc."
+	end
+	def describe
+		@desc
+	end
+end
+
+# require area first (for global area vars below)
+require_relative "./area"
+
+$area = AREAS[0][0][0]
+AREAS.each do |area|
+	if ($area == area[0][0])
+		$area_ref = area[1]
+	end
+end
+$area_neighbors = AREA_MAP[$area]
+
+# require other classes
 require_relative "./verb"
 require_relative "./item"
-require_relative "./area"
 
 
 class Game
@@ -11,6 +31,8 @@ class Game
 	end
 
 	def update
+		puts "---\nCurrent Area: " + $area.to_s
+
 		print "> "
 		input = gets.split " "
 
@@ -23,11 +45,17 @@ class Game
 		end
 	end
 
+	def accept_input? (keyword,input)
+		(keyword.to_s.index(input) == 0) && (input.length > 2 || input.length == keyword.length)
+	end
+
 	def process_normal (input)
-		verb     = false
-		item     = false
+		opts = {}
+		input_verb = false
+		input_item = false
+		input_area = false
+		input_area_sym = false
 		# person = false
-		# area   = false
 
 		input.each do |word|
 
@@ -35,7 +63,7 @@ class Game
 			VERBS.each do |vrow|
 				vrow[0].each do |v|
 					if (word == v.to_s)
-						verb = vrow[1]
+						input_verb = vrow[1]
 						break
 					end
 				end
@@ -44,17 +72,50 @@ class Game
 			# check item
 			ITEMS.each do |irow|
 				irow[0].each do |i|
-					if (word == i.to_s)
-						item = irow[1]
+					if (accept_input?(i,word))
+						input_item = irow[1]
 						break
 					end
 				end
 			end
 
+			# check area
+			catch (:big_break) do
+				Array.new.concat($area_neighbors,[$area]).each do |area|
+					AREAS.each do |arow|
+						if (area == arow[0][0])
+							arow[0].each do |a|
+								if (accept_input?(a,word))
+									input_area = arow[1]
+									opts[:area_sym] = arow[0][0]
+									throw :big_break
+								end
+							end
+						end
+					end
+				end
+			end
+
+			#AREAS.each do |arow|
+				#arow[0].each do |a|
+					#if (accept_input?(a,word))
+						#input_area = arow[1]
+						#break
+					#end
+				#end
+			#end
+
 		end
 
-		if (verb || item)
-			puts verb.index(item)
+		if (input_verb && input_area)
+			# use with area
+			puts input_verb.action(input_area,opts)
+		elsif (input_verb && input_item)
+			# use with item
+			puts input_verb.action(input_item)
+		elsif (input_verb)
+			# use without item
+			puts input_verb.action
 		end
 
 	end
@@ -62,7 +123,6 @@ class Game
 end
 
 
-#@@cur_area = Starting_area.new
 game = Game.new
 game_running = true
 
