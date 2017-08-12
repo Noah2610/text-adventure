@@ -11,6 +11,7 @@ class Game
 	end
 
 	def update
+		print "> "
 		input = gets.split " "
 
 		case ( @interaction_state )
@@ -23,9 +24,10 @@ class Game
 	end
 
 	def process_normal (input)
-		verb = false
-		item = false
+		verb     = false
+		item     = false
 		# person = false
+		# area   = false
 
 		input.each do |word|
 
@@ -49,10 +51,11 @@ class Game
 				end
 			end
 
-
 		end
 
-		puts verb.index(item)
+		if (verb || item)
+			puts verb.index(item)
+		end
 
 	end
 

@@ -6,7 +6,7 @@ class Verb
 	end
 
 	def index (p)
-		return @default  unless !!p
+		return @default  unless p
 
 		# for item
 		action p
