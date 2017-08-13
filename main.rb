@@ -13,6 +13,7 @@ end
 
 # require area first (for global area vars below)
 require_relative "./area"
+require_relative "./item"
 
 $area = AREAS[0][0][0]
 AREAS.each do |area|
@@ -24,7 +25,6 @@ $area_neighbors = AREA_MAP[$area]
 
 # require other classes
 require_relative "./verb"
-require_relative "./item"
 
 
 class Game
@@ -57,9 +57,10 @@ class Game
 
 	def process_normal (input)
 		opts = {}
-		input_verb = false
-		input_item = false
-		input_area = false
+		input_verb     = false
+		input_item     = false
+		input_item2    = false
+		input_area     = false
 		input_area_sym = false
 		# person = false
 
@@ -83,6 +84,24 @@ class Game
 						break
 					end
 				end
+			end
+			catch (:big_break) do
+				$area_ref.items.each do |aitems|
+					ITEMS.each do |row|
+						if (row[0][0] == aitems)
+							row[0].each do |item|
+								if (accept_input?(item,word))
+									input_item2 = row[1]
+									throw :big_break
+								end
+							end
+						end
+					end
+				end
+			end
+			if (!input_item && input_item2)
+				input_item = input_item2
+				input_item2 = false
 			end
 
 			# check area
@@ -116,9 +135,11 @@ class Game
 		if (input_verb && input_area)
 			# use with area
 			puts input_verb.action(input_area,opts)
+
 		elsif (input_verb && input_item)
 			# use with item
 			puts input_verb.action(input_item)
+
 		elsif (input_verb)
 			# use without item
 			puts input_verb.action

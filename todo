@@ -1,13 +1,13 @@
-
 VERB show
 	- inventory
-
+VERB take
+	- area
+	- environment object in area
 
 change area stuff similar to items
 
 area:
 	items in objects or environment
-
 
 class Person
 	- VERBS

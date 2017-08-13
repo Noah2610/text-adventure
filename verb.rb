@@ -1,10 +1,11 @@
 
 class Verb
-
 	def initialize
 		@default = "I don't understand."
 	end
-
+	def action (*args)
+		"Default Verb action, args: " + args.join(", ")
+	end
 end
 
 
@@ -16,10 +17,12 @@ class Look < Verb
 	end
 
 	def action (p=false,opts=false)
-		if (p)
-			p.look
+		return $area_ref.look  if p == false
+
+		if (p.class == Class)
+			return p.new.look
 		else
-			$area_ref.look
+			p.look
 		end
 	end
 end
@@ -61,7 +64,13 @@ class Take < Verb
 	def initialize
 	end
 
-	def action
+	def action (item)
+		$area_ref.items.each do |i|
+			if (i == item)
+				add_item item
+				$area_ref.items.delete item
+			end
+		end
 	end
 end
 
@@ -70,7 +79,8 @@ end
 VERBS = [
 
 	[[:look,:inspect], Look.new],
-	[[:go,:move,:walk,:run], Go.new]
+	[[:go,:move,:walk,:run], Go.new],
+	[[:take,:pick,:pickup], Take.new]
 
 ]
 

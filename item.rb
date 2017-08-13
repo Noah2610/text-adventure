@@ -6,8 +6,9 @@ class Item < Instance
 		#@default_use      = "That doesn't seem to work."
 		#@default_use_with = "Thoes don't seem to work together."
 		#@name = "item_name"
-		#@desc = "item_desc"
-		@name = "-default-item-name-"
+		@desc = "item_desc"
+		@desc_passive = "item_desc_passive"
+		@name = "Default Item name"
 		@args = args
 		self.init
 	end
@@ -22,12 +23,24 @@ class Item < Instance
 		end
 		return false
 	end
+
+	def look
+		$inventory.each do |item|
+			if (item[1] == self)
+				return @desc
+			end
+		end
+		#return "test"
+		return @desc_passive
+	end
+
 end
 
 
 class Inventory < Item
 	def init
 		@desc = "Inventory description."
+		@desc_passive = "Crappy bag that can carrys stuff."
 		@name = "Inventory (item)"
 	end
 
@@ -50,18 +63,34 @@ end
 
 
 class Test_item < Item
-
 	def init
 		@name = "Test Item".red
 		@desc = "This is a #{@name}.\nIt looks as if it's sole purpose is functionality testing."
 	end
+end
 
+class Foo < Item
+	def init
+		@name = "Foo".yellow
+		@desc = "FOoobar barfoo"
+		@desc_passive = "fooo's passive description"
+	end
+end
+
+class Bar < Item
+	def init
+		@name = "Bar".blue
+		@desc = "Hello".green + " World".yellow
+		@desc_passive = "Bar passive yo yo yo"
+	end
 end
 
 
 ITEMS = [
 	[[:inventory,:inv], Inventory, [:an]],
-	[[:test_item,:testitem,:item], Test_item, []]
+	[[:test_item,:testitem,:item], Test_item, []],
+	[[:foo], Foo, []],
+	[[:bar], Bar, []]
 ]
 
 
