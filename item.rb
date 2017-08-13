@@ -34,6 +34,10 @@ class Item < Instance
 		return @desc_passive
 	end
 
+	def take
+		"Took the #{@name}."
+	end
+
 end
 
 
@@ -96,7 +100,7 @@ ITEMS = [
 
 def add_item(item)
 	ITEMS.each do |row|
-		if (row[0][0] == item.to_sym)
+		if (row[0][0] == item) || (row[1] == item)
 			$inventory.push [row[0],row[1].new(row[2])]
 		end
 	end

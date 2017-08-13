@@ -34,6 +34,7 @@ class Go < Verb
 	end
 
 	def action (area=false, opts=false)
+		return @default  unless area.is_area?
 		if (area && opts[:area_sym])
 			$area = opts[:area_sym]
 			$area_ref = area
@@ -56,6 +57,7 @@ class Go < Verb
 			end
 			return ret
 		end
+		""
 	end
 end
 
@@ -65,12 +67,13 @@ class Take < Verb
 	end
 
 	def action (item)
-		$area_ref.items.each do |i|
-			if (i == item)
-				add_item item
-				$area_ref.items.delete item
-			end
+		$inventory.each do |i|
+			return "I already grabbed #{i[1].name}."  if (i[1] == item)
 		end
+
+		$area_ref.items.delete item
+		add_item item
+		$inventory.last[1].take
 	end
 end
 

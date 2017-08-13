@@ -40,3 +40,22 @@ AREAS = [
 
 ]
 
+class Instance
+	def is_item?
+		ITEMS.each do |item|
+			if (item[1] == self)
+				return true
+			end
+		end
+		return false
+	end
+	def is_area?
+		AREAS.each do |area|
+			if (area[1] == self)
+				return true
+			end
+		end
+		return false
+	end
+end
+
