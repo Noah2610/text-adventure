@@ -34,8 +34,8 @@ class Go < Verb
 	end
 
 	def action (area=false, opts=false)
-		return @default  unless area.is_area?
 		if (area && opts[:area_sym])
+			return @default  unless area.is_area?
 			$area = opts[:area_sym]
 			$area_ref = area
 			$area_neighbors = []
