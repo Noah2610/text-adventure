@@ -2,7 +2,7 @@
 class Verb
 
 	def initialize
-		
+		@default = "I don't understand."
 	end
 
 end
@@ -11,15 +11,15 @@ end
 
 class Look < Verb
 	def initialize
-		@default = $area_ref.describe  if $area_ref
+		@default = $area_ref.look  if $area_ref
 		#@default = "Default look output."
 	end
 
 	def action (p=false,opts=false)
 		if (p)
-			p.describe
+			p.look
 		else
-			$area_ref.describe
+			$area_ref.look
 		end
 	end
 end
@@ -53,6 +53,15 @@ class Go < Verb
 			end
 			return ret
 		end
+	end
+end
+
+
+class Take < Verb
+	def initialize
+	end
+
+	def action
 	end
 end
 

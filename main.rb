@@ -1,9 +1,12 @@
 
+require "colorize"
+
+
 class Instance
 	def initialize
 		@desc = "This is an Instance, self does not have a @desc."
 	end
-	def describe
+	def look
 		@desc
 	end
 end
@@ -29,6 +32,9 @@ class Game
 	def initialize
 		puts "TESTING"
 		@interaction_state = :normal
+		$inventory = []
+		add_item :inventory
+		add_item :test_item
 	end
 
 	def update
@@ -70,8 +76,8 @@ class Game
 				end
 			end
 
-			# check item
-			ITEMS.each do |irow|
+			# check items
+			$inventory.each do |irow|
 				irow[0].each do |i|
 					if (accept_input?(i,word))
 						input_item = irow[1]
