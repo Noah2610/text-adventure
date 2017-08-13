@@ -2,3 +2,16 @@
 VERB show
 	- inventory
 
+
+change area stuff similar to items
+
+area:
+	items in objects or environment
+
+
+class Person
+	- VERBS
+		- new: talk
+		- new: give :item
+		- look (at)
+
