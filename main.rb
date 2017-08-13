@@ -30,7 +30,6 @@ require_relative "./item"
 class Game
 
 	def initialize
-		puts "TESTING"
 		@interaction_state = :normal
 		$inventory = []
 		add_item :inventory

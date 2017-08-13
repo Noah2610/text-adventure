@@ -40,7 +40,7 @@ class Inventory < Item
 			else
 				ret += "a "
 			end
-			ret += item[1].name.red
+			ret += item[1].name
 			ret += ",\n"  unless (i == $inventory.length - 1)
 		end
 		return ret + "."
@@ -52,8 +52,8 @@ end
 class Test_item < Item
 
 	def init
-		@name = "Test Item"
-		@desc = "This is a test item.\nIt looks as if it's sole purpose is functionality testing."
+		@name = "Test Item".red
+		@desc = "This is a #{@name}.\nIt looks as if it's sole purpose is functionality testing."
 	end
 
 end
