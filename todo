@@ -1,23 +1,23 @@
 VERB show
 	- inventory
 x VERB take
-	X - area
+	x - area
 	- environment object in area
 VERB use
 	- use ITEM with ITEM
 (after Person:)
-VERB talk
+x VERB talk
 
 (change area stuff similar to items)
 
 area:
 	items in objects or environment
 
-class Person
+x class Person
 	- VERBS
-		- talk
-		- give ITEM
-		- look (at)
+		x - talk
+		- give ITEM (works when talking to person)
+		x - look (at)
 
 class Environment
 	- VERBS

@@ -27,7 +27,7 @@ class Item < Instance
 	def look
 		$inventory.each do |item|
 			if (item[1] == self)
-				return @desc
+				return "#{@name}\n#{@desc}"
 			end
 		end
 		#return "test"
@@ -93,16 +93,7 @@ end
 ITEMS = [
 	[[:inventory,:inv], Inventory, [:an]],
 	[[:test_item,:testitem,:item], Test_item, []],
-	[[:foo], Foo, []],
+	[[:foo], Foo, [:an]],
 	[[:bar], Bar, []]
 ]
-
-
-def add_item(item)
-	ITEMS.each do |row|
-		if (row[0][0] == item) || (row[1] == item)
-			$inventory.push [row[0],row[1].new(row[2])]
-		end
-	end
-end
 

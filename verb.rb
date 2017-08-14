@@ -2,6 +2,7 @@
 class Verb
 	def initialize
 		@default = "I don't understand."
+		self.init
 	end
 	def action (*args)
 		"Default Verb action, args: " + args.join(", ")
@@ -11,25 +12,25 @@ end
 
 
 class Look < Verb
-	def initialize
+	def init
 		@default = $area_ref.look  if $area_ref
 		#@default = "Default look output."
 	end
 
-	def action (p=false,opts=false)
-		return $area_ref.look  if p == false
+	def action (instance=false,opts=false)
+		return $area_ref.look  if instance == false
 
-		if (p.class == Class)
-			return p.new.look
+		if (instance.class == Class)
+			return instance.new.look
 		else
-			p.look
+			instance.look
 		end
 	end
 end
 
 
 class Go < Verb
-	def initialize
+	def init
 		@default = "I can't go there."
 	end
 
@@ -63,10 +64,11 @@ end
 
 
 class Take < Verb
-	def initialize
+	def init
 	end
 
-	def action (item)
+	def action (item=false)
+		return "Take what?"  unless item
 		$inventory.each do |i|
 			return "I already grabbed #{i[1].name}."  if (i[1] == item)
 		end
@@ -78,12 +80,35 @@ class Take < Verb
 end
 
 
+class Talk < Verb
+	def init
+	end
+
+	def action (person=false,opts=false)
+		return "To who do I want to talk?"  unless person
+		if person.is_person?
+			$interaction_state = :talk
+			$talking_to = person
+			return person.talk
+
+		elsif person.is_item?
+			return "I can't talk to #{person.name.to_s}."
+		elsif person.is_area?
+			return "I can't talk to #{person.name.to_s}."
+		else
+			return "I don't understand."
+		end
+	end
+end
+
+
 
 VERBS = [
 
 	[[:look,:inspect], Look.new],
 	[[:go,:move,:walk,:run], Go.new],
-	[[:take,:pick,:pickup], Take.new]
+	[[:take,:pick,:pickup], Take.new],
+	[[:talk,:communicate], Talk.new]
 
 ]
 
