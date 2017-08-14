@@ -6,15 +6,19 @@ AREA_MAP = {
 
 
 class Area < Instance
-	attr_accessor :name, :items, :people
-
-	def initialize
+	attr_accessor :name, :neighbors, :items, :people, :has_visited
+	def initialize_instance (*args)
 		@name = "area_name"
 		@desc = "Default Area description."
 		@neighbors = []
 		@items = []
 		@people = []
+		@has_visited = false
 		self.init
+	end
+	def goto!
+		$area = self
+		@has_visited = true
 	end
 end
 

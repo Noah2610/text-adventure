@@ -2,7 +2,7 @@
 class Person < Instance
 	attr_accessor :name
 
-	def initialize
+	def initialize_instance (*args)
 		@name = "person_name".red
 		@desc = "Default Person description."
 		@descSelf = "I am a Person."

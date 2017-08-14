@@ -3,47 +3,61 @@ require "colorize"
 
 
 class Instance
-	def initialize
+	def initialize (*args)
 		@name = "This is an Instance, self does not have a @name."
 		@desc = "This is an Instance, self does not have a @desc."
 		@name_symbol = false
+		@name_symbols = []
+		@items = []
+		self.initialize_instance (args)
 	end
 	def look
 		"#{@name}\n#{@desc}"
 	end
-	def to_sym
+	def to_sym (option=false)
 		ITEMS.each do |item|
 			if (item[1].new.class == self.class)
+				@name_symbols = item[0]
 				@name_symbol = item[0][0]
 				break
 			end
-		end  unless @name_symbol
+		end  unless (@name_symbol && !@name_symbols.empty?)
 		Array.new.concat(AREAS,PEOPLE).each do |instance|
 			if (instance[1] == self)
+				@name_symbols = instance[0]
 				@name_symbol = instance[0][0]
 			end
-		end  unless @name_symbol
+		end  unless (@name_symbol && !@name_symbols.empty?)
 		@name_symbol = :no_symbol  unless @name_symbol
-		return @name_symbol
+		return @name_symbol  unless option == :all
+		return @name_symbols
+	end
+
+	def add_item (item)
+		ITEMS.each do |row|
+			if (row[0][0] == item) || (row[1] == item)
+				@items.push row[0][0]
+			end
+		end
+	end
+	def rm_item (item)
+		@items.each do |i|
+			if (i == item)
+				@items.delete i
+			end
+		end
 	end
 end
 
 # require area first (for global area vars below)
 require_relative "./area"
 require_relative "./item"
-
-$area = AREAS[0][0][0]
-AREAS.each do |area|
-	if ($area == area[0][0])
-		$area_ref = area[1]
-	end
-end
-$area_neighbors = AREA_MAP[$area]
-
-# require other classes
 require_relative "./verb"
 require_relative "./keyword"
 require_relative "./person"
+
+$area = AREAS[0][1]
+$area.has_visited = true
 
 
 def add_item(item)
@@ -83,7 +97,7 @@ class Game
 	end
 
 	def update
-		puts "Current Area: " + $area.to_s
+		puts "Current Area: #{$area.name} (#{$area.to_sym.to_s})"
 
 		print ">"  if $interaction_state == :talk
 		print "> "
@@ -121,12 +135,12 @@ class Game
 				end
 			end
 		end
-		$area_ref.items.each do |aitems|
+		$area.items.each do |aitems|
 			ITEMS.each do |row|
 				if (row[0][0] == aitems)
 					row[0].each do |item|
 						if (accept_input?(item,word))
-							return row[1]
+							return row[1].new
 						end
 					end
 				end
@@ -136,12 +150,12 @@ class Game
 	end
 
 	def input_check_area (word)
-		Array.new.concat($area_neighbors,[$area]).each do |area|
+		Array.new.concat($area.neighbors,$area.to_sym(:all)).each do |area|
 			AREAS.each do |arow|
 				if (area == arow[0][0])
 					arow[0].each do |a|
 						if (accept_input?(a,word))
-							return [arow[1],{area_sym:arow[0][0]}]
+							return arow[1]
 						end
 					end
 				end
@@ -151,7 +165,7 @@ class Game
 	end
 
 	def input_check_person (word)
-		$area_ref.people.each do |person|
+		$area.people.each do |person|
 			PEOPLE.each do |prow|
 				if (person == prow[0][0])
 					prow[0].each do |p|
@@ -175,32 +189,31 @@ class Game
 
 	def process_normal (input)
 		input_verb     = false
-		input_item     = false
-		input_item2    = false
-		input_area     = false
-		input_area_sym = false
-		input_person   = false
-		# person = false
+		#input_item     = false
+		#input_item2    = false
+		#input_area     = false
+		#input_area_sym = false
+		#input_person   = false
+		params = {items:[],areas:[],people:[]}
 
 		input.each do |word|
 
 			# check verb
-			input_verb = input_check_verb word      unless input_verb
+			input_verb = input_check_verb word  unless input_verb
 
 			# check items
-			input_item = input_check_item word      unless input_item
+			input_item = input_check_item word
+			params[:items].push input_item     if input_item
 			# IMPORTANT:
 			# implement some mechanic to read and properly process 2 (or maybe more) items!
 
-			# check area
-			input_area = input_check_area word      unless input_area
-			if (input_area.class == Array)
-				input_area_sym = input_area[1]
-				input_area = input_area[0]
-			end
+			# check area(s)
+			input_area = input_check_area word
+			params[:areas].push input_area     if input_area
 
 			# check person
-			input_person = input_check_person word  unless input_person
+			input_person = input_check_person word
+			params[:people].push input_person  if input_person
 
 			#AREAS.each do |arow|
 			#arow[0].each do |a|
@@ -213,29 +226,11 @@ class Game
 
 		end
 
-		if (input_verb && input_item && input_person)
-			# use Item with Person
-			puts input_verb.action(input_person,item:input_item)
+		puts input_verb.action(params)  if input_verb
 
-		elsif (input_verb && input_person)
-			# use with Person
-			puts input_verb.action(input_person)
-
-		elsif (input_verb && input_area)
-			# use with Area
-			puts input_verb.action(input_area,input_area_sym)
-
-		elsif (input_verb && input_item)
-			# use with Item
-			puts input_verb.action(input_item)
-
-		elsif (input_verb)
-			# use without Item
-			puts input_verb.action
-
-		elsif (input_person)
+		if (!params[:items].empty? || !params[:areas].empty? || !params[:people].empty?) && (!input_verb)
 			# look at Person if only person is given
-			puts Look.action(input_person)
+			puts Look.new.action(params)
 		end
 
 	end

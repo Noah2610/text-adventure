@@ -26,3 +26,9 @@ class Environment
 		- look (at)
 		- take
 
+REFACTOR:
+	inventory and general item storage system:
+		only store the Object itself in inventory,
+		instead of that weird array inclduing an array of symbols
+		find different solution for Instance items, those should still be symbols
+

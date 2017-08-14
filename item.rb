@@ -2,7 +2,7 @@
 class Item < Instance
 	attr_accessor :name
 
-	def initialize (args=[])
+	def initialize_instance (args=[])
 		#@default_use      = "That doesn't seem to work."
 		#@default_use_with = "Thoes don't seem to work together."
 		#@name = "item_name"
