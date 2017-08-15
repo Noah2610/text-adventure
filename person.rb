@@ -31,22 +31,22 @@ class Person < Instance
 		$talking_to = false
 		"Hope I never see you again! Default #{"bye_bad".red} output."
 	end
-	def talk_tell (params=[])
+	def talk_tell (params=false)
 		"Default #{"tell".red} output."
 	end
-	def talk_about (params=[])
+	def talk_about (params=false)
 		"I am the default! Default #{"about".red} output."
 	end
-	def talk_doing (params=[])
+	def talk_doing (params=false)
 		"Default #{"doing".red} output."
 	end
-	def talk_take (params=[])
+	def talk_take (params=false)
 		"Default #{"take".red} output."
 	end
-	def talk_about (params=[])
+	def talk_about (params=false)
 		"I am a test Person. Only here for testing purposes during development.\nDefault #{"about".red} output."
 	end
-	def talk_about (params=[])
+	def talk_about (params=false)
 		"I'm doing great! Default #{"doing".red} output."
 	end
 end
@@ -67,14 +67,14 @@ class Test_person < Person
 		return ret
 	end
 
-	def talk_take (params)
+	def talk_take (params=false)
 		ret = []
 		response = []
 		params[:items].each_with_index do |item,i|
-			if (has_item? item)
+			if (item.in_inv?)
 				if (@take_items.include? item.to_sym)
 					@take_items.delete item.to_sym
-					rm_item item
+					remove_item(item.to_sym)
 					ret.push "I gave the #{params[:items][i].name} to #{@name}."
 					response.push "Thanks for that #{item.name}. I really needed that."
 				else

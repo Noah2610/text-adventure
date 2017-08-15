@@ -33,7 +33,7 @@ class Go < Verb
 		@default = "How would I be able to go there?"
 	end
 
-	def action (areas:[],items:[],people:[])
+	def action (items:[],areas:[],people:[])
 		return @default  if (areas.empty? && (!items.empty? || !people.empty?))
 		if (!areas.empty?)
 			ret = areas[0].has_visited ? areas[0].name : areas[0].look
@@ -91,7 +91,7 @@ class Talk < Verb
 	end
 
 	#def action (person=false,opts=false)
-	def action (people:[],items:[],areas:[])
+	def action (items:[],areas:[],people:[])
 		if (!people.empty? && people[0].is_person?)
 			$interaction_state = :talk
 			$talking_to = people[0]
@@ -99,6 +99,21 @@ class Talk < Verb
 		end
 		return "I don't think that would be a very interesting conversation."  unless (items.empty? && areas.empty?)
 		return "To who do I want to talk?"
+	end
+end
+
+
+class Give < Verb
+	def init
+	end
+
+	def action (items:[],areas:[],people:[])
+		ret = []
+		if (!items.empty? && !people.empty?)
+			ret.push people[0].talk_take items:items
+		end
+		return ret.join("\n")  unless ret.empty?
+		return "Give who what?".yellow
 	end
 end
 
@@ -116,11 +131,23 @@ end
 
 VERBS = [
 
-	[[:test], Test_verb.new],
-	[[:look,:inspect], Look.new],
-	[[:go,:move,:walk,:run], Go.new],
-	[[:take,:pick,:pickup,:grab], Take.new],
-	[[:talk,:communicate], Talk.new]
+	[[:test],
+		Test_verb.new],
+
+	[[:look,:inspect],
+		Look.new],
+
+	[[:go,:move,:walk,:run],
+		Go.new],
+
+	[[:take,:pick,:pickup,:grab],
+		Take.new],
+
+	[[:talk,:communicate],
+		Talk.new],
+
+	[[:give,:donate],
+		Give.new]
 
 ]
 

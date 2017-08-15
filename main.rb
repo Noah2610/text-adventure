@@ -1,5 +1,6 @@
 
 require "colorize"
+require "awesome_print"
 
 
 class Instance
@@ -60,29 +61,25 @@ $area = AREAS[0][1]
 $area.has_visited = true
 
 
-def add_item(item)
+def add_item (item)
 	ITEMS.each do |row|
-		if (row[0][0] == item) || (row[1] == item)
+		if (row[0][0] == item)
 			$inventory.push [row[0],row[1].new(row[2])]
+			return true
 		end
 	end
+	throw "Couldn't add_item: #{item} (#{item.class})"
 end
 
-def rm_item (item)
+def remove_item (item)
 	$inventory.each_with_index do |row,i|
-		if (row[0][0] == item) || (row[1] == item)
+		if (row[0][0] == item)
 			$inventory.delete_at i
-		end
-	end
-end
-
-def has_item? (item)
-	$inventory.each do |row|
-		if (row[0][0] == item) || (row[1] == item)
 			return true
 		end
 	end
 	return false
+	throw "Couldn't rm_item: #{item} (#{item.class})"
 end
 
 

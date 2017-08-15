@@ -38,6 +38,16 @@ class Item < Instance
 		"Took the #{@name}."
 	end
 
+	def in_inv?
+		#ap $inventory
+		$inventory.each do |row|
+			if (row[0][0] == self.to_sym)
+				return true
+			end
+		end
+		return false
+	end
+
 end
 
 
