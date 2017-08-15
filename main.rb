@@ -33,6 +33,23 @@ class Instance
 		return @name_symbol  unless option == :all
 		return @name_symbols
 	end
+	def Instance.to_sym (instance,option=false)
+		ITEMS.each do |item|
+			if (item[1].new.class == instance.class)
+				return item[0][0]  unless option == :all
+				return item[0]
+			end
+		end  unless (@name_symbol && !@name_symbols.empty?)
+		Array.new.concat(AREAS,PEOPLE).each do |instance|
+			if (instance[1] == self)
+				return item[0][0]  unless option == :all
+				return item[0]
+			end
+		end  unless (@name_symbol && !@name_symbols.empty?)
+		@name_symbol = :no_symbol  unless @name_symbol
+		return @name_symbol  unless option == :all
+		return @name_symbols
+	end
 
 	def add_item (item)
 		ITEMS.each do |row|
@@ -82,6 +99,9 @@ def remove_item (item)
 	throw "Couldn't rm_item: #{item} (#{item.class})"
 end
 
+def get_input
+	return gets.downcase.delete("'.,!?-").split(" ")
+end
 
 class Game
 
@@ -98,7 +118,7 @@ class Game
 
 		print ">"  if $interaction_state == :talk
 		print "> "
-		input = gets.downcase.delete("'.,!?-").split(" ")
+		input = get_input
 
 		case ( $interaction_state )
 		when :normal
@@ -176,6 +196,18 @@ class Game
 		return false
 	end
 
+	def input_include? (input,instance)
+		instance.each do |row|
+			row[0].each do |area|
+				if (input.include? area.to_s.gsub("_"," "))
+					return row[1]  unless row[1].class == Class
+					return row[1].new
+				end
+			end
+		end
+		return false
+	end
+
 =begin  catch-throw (to break out of multiple nested loops)
 	catch (:some_symbol) do
 		...
@@ -192,6 +224,17 @@ class Game
 		#input_area_sym = false
 		#input_person   = false
 		params = {items:[],areas:[],people:[]}
+
+		# check for include s
+			# check items
+			input_item = input_include?(input, Array.new.concat($inventory,$area.items))
+			params[:items].push input_item     if input_item
+			# check areas
+			input_area = input_include?(input, AREAS)
+			params[:areas].push input_area     if input_area
+			# check person
+			input_person = input_include?(input, PEOPLE)
+			params[:people].push input_person  if input_person
 
 		input.each do |word|
 
@@ -222,6 +265,10 @@ class Game
 			#end
 
 		end
+
+		params[:items].uniq!
+		params[:areas].uniq!
+		params[:people].uniq!
 
 		puts input_verb.action(params)  if input_verb
 

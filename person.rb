@@ -4,8 +4,8 @@ class Person < Instance
 
 	def initialize_instance (*args)
 		@name = "person_name".red
-		@desc = "Default Person description."
-		@descSelf = "I am a Person."
+		@desc_passive = "Default passive Person description."
+		@desc = "I am a Person."
 		self.init
 	end
 	def talk
@@ -44,7 +44,7 @@ class Person < Instance
 		"Default #{"take".red} output."
 	end
 	def talk_about (params=false)
-		"I am a test Person. Only here for testing purposes during development.\nDefault #{"about".red} output."
+		"#@desc\nDefault #{"about".red} output."
 	end
 	def talk_about (params=false)
 		"I'm doing great! Default #{"doing".red} output."
@@ -56,8 +56,8 @@ end
 class Test_person < Person
 	def init
 		@name = "Test Person".red
-		@desc = "It looks like a person used for development testing."
-		@descSelf = "I am only here for testing purposes"
+		@desc_passive = "It looks like a person used for development testing."
+		@desc = "I am only here for testing purposes"
 		@take_items = [:test_item]
 	end
 

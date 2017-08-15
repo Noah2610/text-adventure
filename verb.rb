@@ -13,7 +13,7 @@ end
 
 class Look < Verb
 	def init
-		@default = $area.look  if $area
+		#@default = $area.look  if $area
 		#@default = "Default look output."
 	end
 
