@@ -227,11 +227,12 @@ class Game
 
 		# check for include s
 			# check items
-			input_item = input_include?(input, Array.new.concat($inventory,$area.items))
+			#input_item = input_include?(input, Array.new.concat($inventory,$area.items))
+			input_item = input_include?(input, $inventory)
 			params[:items].push input_item     if input_item
 			# check areas
-			input_area = input_include?(input, AREAS)
-			params[:areas].push input_area     if input_area
+			#input_area = input_include?(input, Array.new.concat($area.neighbors,$area))
+			#params[:areas].push input_area     if input_area
 			# check person
 			input_person = input_include?(input, PEOPLE)
 			params[:people].push input_person  if input_person
