@@ -1,15 +1,20 @@
 
 class Person < Instance
-	attr_accessor :name
+	attr_accessor :name, :keywords
 
 	def initialize_instance (*args)
 		@name = "person_name".red
 		@desc_passive = "Default passive Person description."
 		@desc = "I am a Person."
+		@keywords = []
 		self.init
 	end
 	def talk
 		"Started talking to #{@name} now. Default talk output."
+	end
+	def leave
+		$interaction_state = :normal
+		$talking_to = false
 	end
 
 	# all verbs for conversation:
@@ -17,16 +22,17 @@ class Person < Instance
 		"Hello! Default #{"hello".red} output."
 	end
 	def talk_bye (params=[])
-		$interaction_state = :normal
-		$talking_to = false
+		leave
 		"Goodbye! Default #{"bye".red} output."
 	end
 	def talk_bye_good (params=[])
+		leave
 		$interaction_state = :normal
 		$talking_to = false
 		"Goodbye fine sir! Default #{"bye_good".red} output."
 	end
 	def talk_bye_bad (params=[])
+		leave
 		$interaction_state = :normal
 		$talking_to = false
 		"Hope I never see you again! Default #{"bye_bad".red} output."
@@ -90,8 +96,53 @@ class Test_person < Person
 
 end
 
+class Crazy_person < Person
+	def init
+		@name = "Crazy Dude"
+		@talked = false
+		@keywords = [
+			[:them,:they],
+			[:mansion,:house],
+			[:no_problem]
+		]
+		@desc_passive == "It looks like something that could have been human once.\n"
+										 "It barely has any hair and it's body appears very disformed.\n"
+										 "Hopefully it's just some harmless #{"crazy person".green}."
+
+		@desc = "I Am ThE OWNerr oF ThIS #{"mANSiON".red}\nYOU Got a #{"proBlEM".yellow} wiHT dat?"
+	end
+
+	def convert_output (output)
+		return output.split("").map { |let| next let.upcase  if (rand(2) == 0); next let }
+													 .join("")
+	end
+
+	def talk
+		unless (@talked)
+			@talked = true
+			return "It doesn't seem to have noticed me yet."
+		else
+			return convert_output("what do you want?")
+		end
+	end
+	def talk_hello (params=false)
+		return "ARe you One oF #{"THEM".blue}?"
+	end
+	def talk_bye (params=false)
+		leave
+		return "yOu Know You caNNOt EsCapE #{"MY HOUSE".red}"
+	end
+	def talk_them (params=false)
+		return "ThE PeoPLe In WHiTE SheEEts wHo trY AnD MAke ME ThiNK tHAt I'm #{"CRazY".green} And seEing thIngS."
+	end
+	def talk_mansion (params=false)
+		return "ThIS Is #{"MY MANSION".red}. I'Ve BeEEn HERE foR a lOng TiMe.\nMaybE Too LonG."
+	end
+end
+
 
 PEOPLE = [
-	[[:test_person,:person], Test_person.new]
+	[[:test_person,:person], Test_person.new],
+	[[:crazy_person,:human_like_figure,:figure], Crazy_person.new],
 ]
 

@@ -4,6 +4,7 @@ x VERB take
 	x - area
 	- environment object in area
 VERB use
+	- use ITEM
 	- use ITEM with ITEM
 (after Person:)
 x VERB talk
@@ -19,12 +20,13 @@ x class Person
 		- give ITEM (works when talking to person)
 		x - look (at)
 
-class Environment
+class Area_object
 	- VERBS
 		- use
 		- use with ITEM
 		- look (at)
 		- take
+		- open
 
 REFACTOR:
 	inventory and general item storage system:

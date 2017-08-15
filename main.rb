@@ -1,6 +1,6 @@
 
 require "colorize"
-require "awesome_print"
+#require "awesome_print"
 
 
 class Instance
@@ -73,6 +73,7 @@ require_relative "./item"
 require_relative "./verb"
 require_relative "./keyword"
 require_relative "./person"
+require_relative "./area_object"
 
 $area = AREAS[0][1]
 $area.has_visited = true
@@ -99,8 +100,21 @@ def remove_item (item)
 	throw "Couldn't rm_item: #{item} (#{item.class})"
 end
 
+def has_item? (item)
+	ITEMS.each do |row|
+		if (row[0][0] == item)
+			return true
+		end
+	end
+	return false
+end
+
 def get_input
 	return gets.downcase.delete("'.,!?-").split(" ")
+end
+
+def convert_symbol (sym)
+	return sym.to_s.downcase.gsub("_"," ")
 end
 
 class Game
@@ -234,8 +248,8 @@ class Game
 			#input_area = input_include?(input, Array.new.concat($area.neighbors,$area))
 			#params[:areas].push input_area     if input_area
 			# check person
-			input_person = input_include?(input, PEOPLE)
-			params[:people].push input_person  if input_person
+			#input_person = input_include?(input, PEOPLE)
+			#params[:people].push input_person  if input_person
 
 		input.each do |word|
 
@@ -299,7 +313,18 @@ class Game
 			catch (:big_break) do
 				KEYWORDS_TALK.each do |row|
 					row.each do |kw|
-						if (kw.to_s == word)
+						if (convert_symbol(kw) == word)
+							method = row[0]
+							throw :big_break
+						end
+					end
+				end
+			end
+			# check method - person
+			catch (:big_break) do
+				$talking_to.keywords.each do |row|
+					row.each do |kw|
+						if (convert_symbol(kw) == word)
 							method = row[0]
 							throw :big_break
 						end

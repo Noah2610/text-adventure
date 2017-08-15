@@ -13,9 +13,18 @@ class Area < Instance
 	end
 	def goto!
 		$area = self
-		@has_visited = true
 		@neighbors = AREA_MAP[to_sym]
-		#self.goto
+		ret = []
+		ret.push goto
+		@has_visited = true
+		return ret
+	end
+	def goto
+		if (!@has_visited)
+			return look
+		elsif (@has_visited)
+			return @name
+		end
 	end
 	def Area.goto (area)
 		$area.neighbors.each do |ngb|
@@ -65,31 +74,37 @@ end
 class Hall_room_left < Area
 	def init
 		@name = "Left Room - Hallway".blue
-		@desc_passive = "Hm, it seems even darker in here.\nMaybe I can find some portable source of light."
-		@desc = "Ah, I can see this room more clearly now."
-		
+		@desc_passive = "I can't see anything from here,\nthe room is way too dark."
+		@desc_noaccess = "Hm, it seems even darker in here.\nMaybe I can find some portable source of light."
+		@desc = "Ah, I can see this room more clearly now.\nThere seems to be some #{"human-like figure".green} standing in the back.\nHe looks creepy..."
 		@neighbors = []
+		@people = [:crazy_person]
 	end
 
 	def goto
-		sleep 1
-		look_at_arr = ["Ceiling".black,"Floor".blue,"Run Away".yellow].shuffle
-		output = ["Where should I look to first?"]
-		look_at_arr.each do |spot|
-			output.push spot
+		if (has_item? :torch)
+			@people = [:crazy_person]  unless (@people[0] == :crazy_person)
+			return @desc
+		else
+			return @desc_noaccess
 		end
-		puts output.join("\n")
-		input = get_input
-		case (input.include?)
-		when "ceiling"
-			return "The " "Ceiling".black " is very dark."
-		when "floor"
-			return "The " "Floor".blue " has more to come!"
-		when "run"
-			Area.goto :hallway
-			return "I " "Run Away".yellow " screaming like a little child."\
-						 "\n...".bold "\nI'm a real scardy-cat..."
-		end
+
+		#look_at_arr = ["Ceiling".light_black,"Floor".blue,"Run Away".yellow].shuffle
+		#output = ["Where should I look to first?".italic]
+		#look_at_arr.each do |spot|
+			#output.push spot
+		#end
+		#puts output.join("\n")
+		#input = get_input
+		#if (input.include? "ceiling")
+			#return "The " + "Ceiling".light_black + " is very dark."
+		#elsif (input.include? "floor")
+			#return "The " + "Floor".blue + " has more to come!"
+		#elsif (input.include? "run")
+			#Area.goto :hallway
+			#return "I " + "Run Away".yellow + " screaming like a little child."\
+						 #"\n...".bold + "\nI'm a real scardy-cat..."
+		#end
 
 	end
 end
