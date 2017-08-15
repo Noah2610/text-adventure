@@ -56,6 +56,7 @@ end
 class Hall_area < Area
 	def init
 		@name = "Hallway".red
+		@desc_passive = "It looks like a very dark and long hallway."
 		@desc = "There area lots of doors to the left and right,\nthe light is very dim in here."
 		@neighbors = []
 	end
@@ -63,7 +64,7 @@ end
 
 class Hall_room_left < Area
 	def init
-		@name = "Left Room".blue
+		@name = "Left Room - Hallway".blue
 		@desc_passive = "Hm, it seems even darker in here.\nMaybe I can find some portable source of light."
 		@desc = "Ah, I can see this room more clearly now."
 		
@@ -94,8 +95,8 @@ class Hall_room_left < Area
 end
 class Hall_room_right < Area
 	def init
-		@name = "Hallway".red
-		@desc = "There area lots of doors to the left and right,\nthe light is very dim in here."
+		@name = "Right Room - Hallway".blue
+		@desc = "Right Hallway Room Description"
 		@neighbors = []
 	end
 end
@@ -113,8 +114,8 @@ AREAS = [
 	[[:starting_area,:start_area,:area], Starting_area.new],
 	[[:start_rm_2,:area2], Start_rm_2.new],
 	[[:hallway,:hall], Hall_area.new],
-		[[:hall_room_left], Hall_room_left.new],
-		[[:hall_room_right], Hall_room_right.new]
+		[[:hall_room_left,:room_left,:left_room], Hall_room_left.new],
+		[[:hall_room_right,:room_right,:right_room], Hall_room_right.new]
 		
 
 ]
