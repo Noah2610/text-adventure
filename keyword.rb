@@ -4,7 +4,8 @@ KEYWORDS_TALK = [
 	[:hello,:hi,:hey,:bonjour],
 	[:bye,:goodbye,:cya,:leave],
 	[:tell,:talk,:explain],
-	[:take,:give]
+	[:take,:give],
+	[:about]
 ]
 
 KEYWORDS_TALK_PHRASES = [
@@ -32,11 +33,11 @@ KEYWORDS_TALK_PHRASES = [
 	[["tell me about yourself","who are you"],
 		:about
 	],
-	[[
-		"what are you doing","why are you ","how are you doing that","how are you doing this",
-		"how can you do "],
-		:doing
-	]
+	#[[
+		#"what are you doing","why are you ","how are you doing that","how are you doing this",
+		#"how can you do "],
+		#:doing
+	#]
 ]
 
 

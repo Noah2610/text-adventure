@@ -74,6 +74,7 @@ require_relative "./verb"
 require_relative "./keyword"
 require_relative "./person"
 require_relative "./area_object"
+#require_relative "./event"
 
 $area = AREAS[0][1]
 $area.has_visited = true
@@ -296,7 +297,7 @@ class Game
 
 
 	def process_talk (input)
-		params = {items:[],areas:[],people:[]}
+		params = {items:[],areas:[],people:[],events:[]}
 		method = false
 
 		KEYWORDS_TALK_PHRASES.each do |phrases|
@@ -306,6 +307,10 @@ class Game
 				end
 			end
 		end
+
+		#if (input.include? "bad")
+			#params[:events].push :bad
+		#end
 
 		input.each do |word|
 
@@ -335,9 +340,9 @@ class Game
 			input_item   = input_check_item word
 			params[:items].push input_item          if input_item
 			input_area   = input_check_area word
-			params[:areas].push input_area          if input_item
+			params[:areas].push input_area          if input_area
 			input_person = input_check_person word
-			params[:people].push input_person       if input_item
+			params[:people].push input_person       if input_person
 
 		end  unless method
 

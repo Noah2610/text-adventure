@@ -78,7 +78,7 @@ class Take < Verb
 				end
 				$area.rm_item item.to_sym
 				add_item item.to_sym
-				ret.push $inventory.last[1].take
+				ret.push $inventory.last[1].take.italic
 			end
 		end
 		return ret.join("\n")
@@ -97,8 +97,8 @@ class Talk < Verb
 			$talking_to = people[0]
 			return people[0].talk
 		end
-		return "I don't think that would be a very interesting conversation."  unless (items.empty? && areas.empty?)
-		return "To who do I want to talk?"
+		return "I don't think that would be a very interesting conversation.".italic  unless (items.empty? && areas.empty?)
+		return "To who do I want to talk?".italic
 	end
 end
 
@@ -113,7 +113,7 @@ class Give < Verb
 			ret.push people[0].talk_take items:items
 		end
 		return ret.join("\n")  unless ret.empty?
-		return "Give who what?".yellow
+		return "Give who what?".italic
 	end
 end
 
