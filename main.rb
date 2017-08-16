@@ -1,10 +1,11 @@
 
 require "colorize"
-require "awesome_print"
+#require "awesome_print"
 
 
 class Instance
-	def initialize (*args)
+	attr_accessor :name, :desc
+	def initialize (args=[])
 		@name = "This is an Instance, self does not have a @name."
 		@desc = "This is an Instance, self does not have a @desc."
 		@name_symbol = false
@@ -51,14 +52,14 @@ class Instance
 		return @name_symbols
 	end
 
-	def add_item (item)
+	def add_item_instance (item)
 		ITEMS.each do |row|
 			if (row[0][0] == item) || (row[1] == item)
 				@items.push row[0][0]
 			end
 		end
 	end
-	def rm_item (item)
+	def rm_item_instance (item)
 		@items.each do |i|
 			if (i == item)
 				@items.delete i
@@ -90,7 +91,7 @@ def add_item (item)
 	throw "Couldn't add_item: #{item} (#{item.class})"
 end
 
-def remove_item (item)
+def rm_item (item)
 	$inventory.each_with_index do |row,i|
 		if (row[0][0] == item)
 			$inventory.delete_at i
@@ -151,9 +152,7 @@ class Game
 	def input_check_verb (word)
 		VERBS.each do |vrow|
 			vrow[0].each do |v|
-				if (word == v.to_s)
-					return vrow[1]
-				end
+				return vrow[1]  if (word == v.to_s)
 			end
 		end
 		return false
@@ -162,18 +161,14 @@ class Game
 	def input_check_item (word)
 		$inventory.each do |irow|
 			irow[0].each do |i|
-				if (accept_input?(i,word))
-					return irow[1]
-				end
+				return irow[1]  if (accept_input?(i,word))
 			end
 		end
 		$area.items.each do |aitems|
 			ITEMS.each do |row|
 				if (row[0][0] == aitems)
 					row[0].each do |item|
-						if (accept_input?(item,word))
-							return row[1].new
-						end
+						return row[1].new  if (accept_input?(item,word))
 					end
 				end
 			end
@@ -186,9 +181,7 @@ class Game
 			AREAS.each do |arow|
 				if (area == arow[0][0])
 					arow[0].each do |a|
-						if (accept_input?(a,word))
-							return arow[1]
-						end
+						return arow[1]  if (accept_input?(a,word))
 					end
 				end
 			end
@@ -201,9 +194,20 @@ class Game
 			PEOPLE.each do |prow|
 				if (person == prow[0][0])
 					prow[0].each do |p|
-						if (accept_input?(p,word))
-							return prow[1]
-						end
+						return prow[1]  if (accept_input?(p,word))
+					end
+				end
+			end
+		end
+		return false
+	end
+
+	def input_check_areaObject (word)
+		$area.area_objects.each do |aobj|
+			AREA_OBJECTS.each do |aorow|
+				if (aobj == aorow[0][0])
+					aorow[0].each do |ao|
+						return aorow[1]  if (accept_input?(ao,word))
 					end
 				end
 			end
@@ -238,7 +242,8 @@ class Game
 		#input_area     = false
 		#input_area_sym = false
 		#input_person   = false
-		params = {items:[],areas:[],people:[]}
+		#input_objectArea = false
+		params = {items:[],areas:[],people:[],areaObjects:[]}
 
 		# check for include s
 			# check items
@@ -257,7 +262,7 @@ class Game
 			# check verb
 			input_verb = input_check_verb word  unless input_verb
 
-			# check items
+			# check item(s)
 			input_item = input_check_item word
 			params[:items].push input_item     if input_item
 			# IMPORTANT:
@@ -267,9 +272,13 @@ class Game
 			input_area = input_check_area word
 			params[:areas].push input_area     if input_area
 
-			# check person
+			# check person(s)
 			input_person = input_check_person word
 			params[:people].push input_person  if input_person
+
+			# check area_object(s)
+			input_areaObject = input_check_areaObject word
+			params[:areaObjects].push input_areaObject  if input_areaObject
 
 			#AREAS.each do |arow|
 			#arow[0].each do |a|
@@ -285,10 +294,11 @@ class Game
 		params[:items].uniq!
 		params[:areas].uniq!
 		params[:people].uniq!
+		params[:areaObjects].uniq!
 
 		puts input_verb.action(params)  if input_verb
 
-		if (!params[:items].empty? || !params[:areas].empty? || !params[:people].empty?) && (!input_verb)
+		if (!params[:items].empty? || !params[:areas].empty? || !params[:people].empty? || !params[:areaObjects].empty?) && (!input_verb)
 			# look at Person if only person is given
 			puts Look.new.action(params)
 		end
@@ -297,7 +307,7 @@ class Game
 
 
 	def process_talk (input)
-		params = {items:[],areas:[],people:[],events:[]}
+		params = {items:[],areas:[],people:[],areaObjects:[]}
 		method = false
 
 		KEYWORDS_TALK_PHRASES.each do |phrases|
@@ -307,10 +317,6 @@ class Game
 				end
 			end
 		end
-
-		#if (input.include? "bad")
-			#params[:events].push :bad
-		#end
 
 		input.each do |word|
 
@@ -338,11 +344,13 @@ class Game
 			end
 
 			input_item   = input_check_item word
-			params[:items].push input_item          if input_item
+			params[:items].push input_item              if input_item
 			input_area   = input_check_area word
-			params[:areas].push input_area          if input_area
+			params[:areas].push input_area              if input_area
 			input_person = input_check_person word
-			params[:people].push input_person       if input_person
+			params[:people].push input_person           if input_person
+			input_areaObject = input_check_areaObject word
+			params[:areaObjects].push input_areaObject  if input_areaObject
 
 		end  unless method
 

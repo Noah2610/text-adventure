@@ -1,6 +1,6 @@
 
 class Area < Instance
-	attr_accessor :name, :neighbors, :items, :people, :has_visited
+	attr_accessor :neighbors, :items, :people, :area_objects, :has_visited
 	def initialize_instance (*args)
 		@name = "area_name"
 		@desc = "Default Area description."
@@ -8,6 +8,7 @@ class Area < Instance
 		@neighbors = []
 		@items = []
 		@people = []
+		@area_objects = []
 		@has_visited = false
 		self.init
 	end
@@ -45,10 +46,12 @@ end
 class Starting_area < Area
 	def init
 		@name = "Starting Area".blue
-		@desc = "This is the starting area, only for development though."
+		@desc = "This is the starting area, only for development though.\n".italic +
+						"I can see a #{"person".blue} and a #{"box".cyan}.".italic
 		@desc_passive = "I think that's the #@name I came from."
 		@neighbors = AREA_MAP[self.class.to_s.downcase.to_sym]
 		@people = [:test_person]
+		@area_objects = [:box]
 	end
 end
 

@@ -1,6 +1,6 @@
 
 class Person < Instance
-	attr_accessor :name, :keywords
+	attr_accessor :keywords
 
 	def initialize_instance (*args)
 		@name = "person_name".red
@@ -20,11 +20,7 @@ class Person < Instance
 
 	# all verbs for conversation:
 	def talk_hello (params=[])
-		ret = ["Hello! Default #{"hello".red} output."]
-		if (!params[:events].empty?) && (params[:events][0] == :bad)
-			ret.push("That wasn't very nice")
-		end
-		return ret.join("\n")
+		return "Hello! Default #{"hello".red} output."
 	end
 	def talk_bye (params=[])
 		leave
@@ -56,7 +52,7 @@ class Person < Instance
 			if (item.in_inv?)
 				if (@take_items.include? item.to_sym)
 					@take_items.delete item.to_sym
-					remove_item(item.to_sym)
+					rm_item(item.to_sym)
 					ret.push "I gave the #{params[:items][i].name} to #{@name}.".italic
 					response.push "Thanks for that #{item.name}. I needed that."
 				else

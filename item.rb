@@ -1,7 +1,5 @@
 
 class Item < Instance
-	attr_accessor :name
-
 	def initialize_instance (args=[])
 		#@default_use      = "That doesn't seem to work."
 		#@default_use_with = "Thoes don't seem to work together."
@@ -14,23 +12,21 @@ class Item < Instance
 	end
 
 	def has_arg? (arg)
-		return false  if (@args.empty?)
 		@args.each do |a|
 			if (a == arg)
 				return true
-				break
 			end
 		end
 		return false
 	end
 
 	def look
-		$inventory.each do |item|
-			if (item[1] == self)
-				return "#{@name}\n#{@desc}"
-			end
-		end
-		#return "test"
+		#$inventory.each do |item|
+			#if (item[1] == self)
+				#return "#{@name}\n#{@desc}"
+			#end
+		#end
+		return "#{@name}\n#{@desc}"  if (self.in_inv?)
 		return @desc_passive
 	end
 
@@ -99,11 +95,19 @@ class Bar < Item
 	end
 end
 
+class Apple < Item
+	def init
+		@name = "Apple".red
+		@desc = "It's really moldy and rotten.\nWho knows how long it's been in that box already."
+	end
+end
+
 
 ITEMS = [
 	[[:inventory,:inv], Inventory, [:an]],
 	[[:test_item,:testitem,:item], Test_item, []],
 	[[:foo], Foo, [:an]],
-	[[:bar], Bar, []]
+	[[:bar], Bar, []],
+	[[:apple], Apple, [:an]]
 ]
 

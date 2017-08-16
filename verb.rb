@@ -17,9 +17,9 @@ class Look < Verb
 		#@default = "Default look output."
 	end
 
-	def action (items:[],areas:[],people:[])
+	def action (items:[],areas:[],people:[],areaObjects:[])
 		ret = []
-		Array.new.concat(items,areas,people).each do |instance|
+		Array.new.concat(items,areas,people,areaObjects).each do |instance|
 			ret.push instance.look
 		end
 		return ret.join("\n")  unless ret.empty?
@@ -33,7 +33,7 @@ class Go < Verb
 		@default = "How would I be able to go there?"
 	end
 
-	def action (items:[],areas:[],people:[])
+	def action (items:[],areas:[],people:[],areaObjects:[])
 		return @default  if (areas.empty? && (!items.empty? || !people.empty?))
 		if (!areas.empty?)
 			return areas[0].goto!
@@ -64,24 +64,28 @@ class Take < Verb
 	def init
 	end
 
-	def action (items:[],areas:[],people:[])
+	def action (items:[],areas:[],people:[],areaObjects:[])
 		return "Now why and how would I take that?"  if (items.empty? && (!areas.empty? || !people.empty?))
-		return "Take what?"  if (items.empty?)
+		return "Take what?"  if (items.empty? && areaObjects.empty?)
 		ret = []
-		items.each do |item|
-			catch (:skip_add) do
-				$inventory.each do |i|
-					if (i[1].class == item.class)
-						ret.push "I already grabbed #{i[1].name}."
-						throw :skip_add
-					end
+		Array.new.concat(items,areaObjects).each do |instance|
+			if (instance.class.superclass == Item)
+				if (instance.in_inv?)
+					ret.push "I already grabbed #{instance.name}."
+				else
+					$area.rm_item_instance instance.to_sym
+					add_item instance.to_sym
+					ret.push $inventory.last[1].take.italic
 				end
-				$area.rm_item item.to_sym
-				add_item item.to_sym
-				ret.push $inventory.last[1].take.italic
+			elsif (instance.class.superclass == Area_object)
+				if (instance.class.method_defined? :take)
+					ret.push instance.take
+				else
+					ret.push "There's nothing to take from #{instance.name}."
+				end
 			end
 		end
-		return ret.join("\n")
+		return ret.join("\n").italic
 	end
 end
 
@@ -91,7 +95,7 @@ class Talk < Verb
 	end
 
 	#def action (person=false,opts=false)
-	def action (items:[],areas:[],people:[])
+	def action (items:[],areas:[],people:[],areaObjects:[])
 		if (!people.empty? && people[0].is_person?)
 			$interaction_state = :talk
 			$talking_to = people[0]
@@ -107,13 +111,41 @@ class Give < Verb
 	def init
 	end
 
-	def action (items:[],areas:[],people:[])
+	def action (items:[],areas:[],people:[],areaObjects:[])
 		ret = []
 		if (!items.empty? && !people.empty?)
 			ret.push people[0].talk_take items:items
 		end
 		return ret.join("\n")  unless ret.empty?
 		return "Give who what?".italic
+	end
+end
+
+
+class Open < Verb
+	def init
+	end
+	def action (items:[],areas:[],people:[],areaObjects:[])
+		ret = []
+		Array.new.concat(items,areaObjects).each do |instance|
+			ret.push instance.open  if instance.class.method_defined? :open
+		end
+		return ret.join("\n").italic  unless ret.empty?
+		return "Open what?".italic
+	end
+end
+
+
+class Close < Verb
+	def init
+	end
+	def action (items:[],areas:[],people:[],areaObjects:[])
+		ret = []
+		Array.new.concat(items,areaObjects).each do |instance|
+			ret.push instance.close  if instance.class.method_defined? :close
+		end
+		return ret.join("\n").italic  unless ret.empty?
+		return "Close what?".italic
 	end
 end
 
@@ -147,7 +179,13 @@ VERBS = [
 		Talk.new],
 
 	[[:give,:donate],
-		Give.new]
+		Give.new],
+
+	[[:open],
+		Open.new],
+
+	[[:close],
+		Close.new]
 
 ]
 
