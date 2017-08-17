@@ -17,6 +17,7 @@ class Instance
 		self.initialize_instance (args)
 	end
 	def look
+		return "#@name\n#@desc_passive".italic  if (self.is_person?)
 		ret = []
 		ret.push @name
 		ret.push @desc
