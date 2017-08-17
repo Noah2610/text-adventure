@@ -2,121 +2,16 @@
 require "colorize"
 #require "awesome_print"
 
-
-class Instance
-	attr_accessor :name, :desc, :desc_passive#, :desc_default
-	def initialize (args=[])
-		@name = "This is an Instance, self does not have a @name."
-		@desc_default = "This is an Instance, self does not have a @desc."
-		#@desc = @desc_default
-		@name_symbol = false
-		@name_symbols = []
-		@items = []
-		@item_descs = {}
-		@is_open = true
-		self.initialize_instance (args)
-	end
-	def look
-		return "#@name\n#{@desc.italic}"          if ($area == self)
-		return @desc_passive.italic               if (self.is_area?)
-		return "#@name\n#{@desc_passive.italic}"  if (self.is_person? && self.have_talked)
-		return @desc_passive.italic               if (self.is_person?)
-		ret = []
-		ret.push @name
-		ret.push @desc
-		@items.each do |item|
-			ret.push(@item_descs[item]).italic      if (@is_open)
-		end
-		return ret.join("\n")
-		#"#{@name}\n#{@desc}".italic
-	end
-	def to_sym (option=false)
-		ITEMS.each do |item|
-			if (item[1].new.class == self.class)
-				@name_symbols = item[0]
-				@name_symbol = item[0][0]
-				break
-			end
-		end  unless (@name_symbol && !@name_symbols.empty?)
-		Array.new.concat(AREAS,PEOPLE).each do |instance|
-			if (instance[1] == self)
-				@name_symbols = instance[0]
-				@name_symbol = instance[0][0]
-			end
-		end  unless (@name_symbol && !@name_symbols.empty?)
-		@name_symbol = :no_symbol  unless @name_symbol
-		return @name_symbol  unless option == :all
-		return @name_symbols
-	end
-	def Instance.to_sym (instance,option=false)
-		ITEMS.each do |item|
-			if (item[1].new.class == instance.class)
-				return item[0][0]  unless option == :all
-				return item[0]
-			end
-		end  unless (@name_symbol && !@name_symbols.empty?)
-		Array.new.concat(AREAS,PEOPLE).each do |instance|
-			if (instance[1] == self)
-				return item[0][0]  unless option == :all
-				return item[0]
-			end
-		end  unless (@name_symbol && !@name_symbols.empty?)
-		@name_symbol = :no_symbol  unless @name_symbol
-		return @name_symbol  unless option == :all
-		return @name_symbols
-	end
-
-	def add_item_instance (item)
-		ITEMS.each do |row|
-			if (row[0][0] == item) || (row[1] == item)
-				@items.push row[0][0]
-			end
-		end
-	end
-	def rm_item_instance (item)
-		@items.each do |i|
-			if (i == item)
-				@items.delete i
-			end
-		end
-	end
-end
-
-def find_item (item)
-	ITEMS.each do |row|
-		return row[1].new  if (row[0][0] == item)
-	end
-	return false
-end
-
-def find_area (area)
-	AREA.each do |row|
-		return row[1]  if (row[0][0] == area)
-	end
-	return false
-end
-
-def find_person (person)
-	PEOPLE.each do |row|
-		return row[1]  if (row[0][0] == person)
-	end
-	return false
-end
-
-def find_areaObject (aobj)
-	AREA_OBJECTS.each do |row|
-		return row[1]  if (row[0][0] == aobj)
-	end
-	return false
-end
-
-# require area first (for global area vars below)
+# game scripts
+require_relative "./src/instance"
+require_relative "./src/functions"
 require_relative "./src/area"
 require_relative "./src/item"
 require_relative "./src/verb"
 require_relative "./src/keyword"
 require_relative "./src/person"
 require_relative "./src/area_object"
+require_relative "./src/init_instance"
 #require_relative "./event"
 
 $area = AREAS[5][1]

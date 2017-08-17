@@ -29,10 +29,3 @@ end
 require_relative "./dev/area_object"
 require_relative "./game/area_object"
 
-
-AREA_OBJECTS = [
-	[[:box], Box_Aobj.new],
-
-	[[:glove_compartment,:glove_box,:cubby_hole], Glove_compartment_Aobj.new]
-]
-

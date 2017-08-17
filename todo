@@ -34,3 +34,6 @@ REFACTOR:
 		instead of that weird array inclduing an array of symbols
 		find different solution for Instance items, those should still be symbols
 
+create system for storing conversational text (tied to methods in Person objects)
+in files (shouldn't be too difficult if i follow my desc text storing system)
+

@@ -74,14 +74,3 @@ end
 require_relative "./dev/item"
 require_relative "./game/item"
 
-
-ITEMS = [
-	[[:inventory,:inv], Inventory, [:an]],
-	[[:test_item,:testitem,:item], Test_item, []],
-	[[:foo], Foo, [:an]],
-	[[:bar], Bar, []],
-	[[:apple], Apple, [:an]],
-
-	[[:joint,:weed,:gras,:doobie], Joint_item, []]
-]
-

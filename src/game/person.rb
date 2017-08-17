@@ -2,8 +2,8 @@
 class Parsley_person < Person
 	def init
 		@name = "Parsley".green
-		@desc = "NONE"
-		@desc_passive = "He's totally knocked-out,\nI hope he'll wake up soon."
+		#@desc = "NONE"
+		#@desc_passive = ""
 		@have_talked = true
 	end
 

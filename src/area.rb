@@ -51,30 +51,6 @@ require_relative "./dev/area"
 require_relative "./game/area"
 
 
-AREA_MAP = {
-	starting_area: [ :start_rm_2, :hallway ],
-	start_rm_2: [ :starting_area ],
-	hallway: [ :starting_area, :hall_room_left, :hall_room_right ],
-		hall_room_right: [ :hallway ],  # :secret_room
-		hall_room_left: [ :hallway ],
-
-	truck: [ :cornfield ],
-	cornfield: [ :truck ]
-}
-
-AREAS = [
-	[[:starting_area,:start_area,:area], Starting_area.new],
-	[[:start_rm_2,:area2], Start_rm_2.new],
-	[[:hallway,:hall], Hall_area.new],
-		[[:hall_room_left,:room_left,:left_room], Hall_room_left.new],
-		[[:hall_room_right,:room_right,:right_room], Hall_room_right.new],
-
-	[[:truck,:car], Truck_area.new],
-	[[:cornfield,:outside,:out], Cornfield_area.new]
-		
-
-]
-
 class Instance
 	def is_item?
 		ITEMS.each do |item|

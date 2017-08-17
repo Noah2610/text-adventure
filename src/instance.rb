@@ -1,0 +1,94 @@
+
+class Instance
+	attr_accessor :name, :desc, :desc_passive#, :desc_default
+	def initialize (args=[])
+		@name = "This is an Instance, self does not have a @name."
+		@desc_default = "This is an Instance, self does not have a @desc."
+		@desc = @desc_default
+		@name_symbol = false
+		@name_symbols = []
+		@items = []
+		@item_descs = {}
+		@is_open = true
+		@read_files = false
+		self.initialize_instance (args)
+	end
+	def look
+		get_text
+		return "#@name\n#{@desc.italic}"          if ($area == self)
+		return @desc_passive.italic               if (self.is_area?)
+		return "#@name\n#{@desc_passive.italic}"  if (self.is_person? && self.have_talked)
+		return @desc_passive.italic               if (self.is_person?)
+		ret = []
+		ret.push @name
+		ret.push @desc
+		@items.each do |item|
+			ret.push(@item_descs[item]).italic      if (@is_open)
+		end
+		return ret.join("\n")
+		#"#{@name}\n#{@desc}".italic
+	end
+	def to_sym (option=false)
+		ITEMS.each do |item|
+			if (item[1].new.class == self.class)
+				@name_symbols = item[0]
+				@name_symbol = item[0][0]
+				break
+			end
+		end  unless (@name_symbol && !@name_symbols.empty?)
+		Array.new.concat(AREAS,PEOPLE).each do |instance|
+			if (instance[1] == self)
+				@name_symbols = instance[0]
+				@name_symbol = instance[0][0]
+			end
+		end  unless (@name_symbol && !@name_symbols.empty?)
+		@name_symbol = :no_symbol  unless @name_symbol
+		return @name_symbol  unless option == :all
+		return @name_symbols
+	end
+	def Instance.to_sym (instance,option=false)
+		ITEMS.each do |item|
+			if (item[1].new.class == instance.class)
+				return item[0][0]  unless option == :all
+				return item[0]
+			end
+		end  unless (@name_symbol && !@name_symbols.empty?)
+		Array.new.concat(AREAS,PEOPLE).each do |instance|
+			if (instance[1] == self)
+				return item[0][0]  unless option == :all
+				return item[0]
+			end
+		end  unless (@name_symbol && !@name_symbols.empty?)
+		@name_symbol = :no_symbol  unless @name_symbol
+		return @name_symbol  unless option == :all
+		return @name_symbols
+	end
+	def get_text
+		return  if (@read_files)
+		@read_files = true
+		text = false
+		text = Dir.new("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}")  if (Dir.exists?("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))
+		text.each do |file|
+			if (File.file?("#{text.path}/#{file}"))
+				@desc = File.read("#{text.path}/#{file}").strip          if (file == "desc")
+				@desc_passive = File.read("#{text.path}/#{file}").strip  if (file == "desc_passive")
+			end
+		end  if text
+	end
+
+	def add_item_instance (item)
+		ITEMS.each do |row|
+			if (row[0][0] == item) || (row[1] == item)
+				@items.push row[0][0]
+			end
+		end
+	end
+	def rm_item_instance (item)
+		@items.each do |i|
+			if (i == item)
+				@items.delete i
+			end
+		end
+	end
+end
+
