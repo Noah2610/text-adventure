@@ -73,7 +73,13 @@ class Take < Verb
 				if (instance.in_inv?)
 					ret.push "I already grabbed #{instance.name}."
 				else
-					$area.rm_item_instance instance.to_sym
+					if ($area.items.include? instance.to_sym)
+						$area.rm_item_instance instance.to_sym
+					else
+						$area.area_objects.each do |aobj|
+							find_areaObject(aobj).rm_item_instance instance.to_sym  if (find_areaObject(aobj).items.include? instance.to_sym)
+						end
+					end
 					add_item instance.to_sym
 					ret.push $inventory.last[1].take.italic
 				end
@@ -150,15 +156,7 @@ class Close < Verb
 end
 
 
-
-class Test_verb < Verb
-	def init
-	end
-	def action (*args)
-		return $area.items.join("\n").to_s
-	end
-end
-
+require_relative "./dev/verb"
 
 
 VERBS = [

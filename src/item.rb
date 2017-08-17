@@ -26,8 +26,8 @@ class Item < Instance
 				#return "#{@name}\n#{@desc}"
 			#end
 		#end
-		return "#{@name}\n#{@desc}"  if (self.in_inv?)
-		return @desc_passive
+		return "#{@name}\n#{@desc}".italic  if (self.in_inv?)
+		return @desc_passive.italic
 	end
 
 	def take
@@ -71,36 +71,8 @@ class Inventory < Item
 end
 
 
-
-class Test_item < Item
-	def init
-		@name = "Test Item".red
-		@desc = "This is a #{@name}.\nIt looks as if it's sole purpose is functionality testing."
-	end
-end
-
-class Foo < Item
-	def init
-		@name = "Foo".yellow
-		@desc = "FOoobar barfoo"
-		@desc_passive = "fooo's passive description"
-	end
-end
-
-class Bar < Item
-	def init
-		@name = "Bar".blue
-		@desc = "Hello".green + " World".yellow
-		@desc_passive = "Bar passive yo yo yo"
-	end
-end
-
-class Apple < Item
-	def init
-		@name = "Apple".red
-		@desc = "It's really moldy and rotten.\nWho knows how long it's been in that box already."
-	end
-end
+require_relative "./dev/item"
+require_relative "./game/item"
 
 
 ITEMS = [
@@ -108,6 +80,8 @@ ITEMS = [
 	[[:test_item,:testitem,:item], Test_item, []],
 	[[:foo], Foo, [:an]],
 	[[:bar], Bar, []],
-	[[:apple], Apple, [:an]]
+	[[:apple], Apple, [:an]],
+
+	[[:joint,:weed,:gras,:doobie], Joint_item, []]
 ]
 

@@ -4,17 +4,27 @@ require "colorize"
 
 
 class Instance
-	attr_accessor :name, :desc
+	attr_accessor :name, :desc, :desc_passive#, :desc_default
 	def initialize (args=[])
 		@name = "This is an Instance, self does not have a @name."
-		@desc = "This is an Instance, self does not have a @desc."
+		@desc_default = "This is an Instance, self does not have a @desc."
+		#@desc = @desc_default
 		@name_symbol = false
 		@name_symbols = []
 		@items = []
+		@item_descs = {}
+		@is_open = true
 		self.initialize_instance (args)
 	end
 	def look
-		"#{@name}\n#{@desc}"
+		ret = []
+		ret.push @name
+		ret.push @desc
+		@items.each do |item|
+			ret.push @item_descs[item]  if (@is_open)
+		end
+		return ret.join("\n").italic
+		#"#{@name}\n#{@desc}".italic
 	end
 	def to_sym (option=false)
 		ITEMS.each do |item|
@@ -68,16 +78,45 @@ class Instance
 	end
 end
 
+def find_item (item)
+	ITEMS.each do |row|
+		return row[1].new  if (row[0][0] == item)
+	end
+	return false
+end
+
+def find_area (area)
+	AREA.each do |row|
+		return row[1]  if (row[0][0] == area)
+	end
+	return false
+end
+
+def find_person (person)
+	PEOPLE.each do |row|
+		return row[1]  if (row[0][0] == person)
+	end
+	return false
+end
+
+def find_areaObject (aobj)
+	AREA_OBJECTS.each do |row|
+		return row[1]  if (row[0][0] == aobj)
+	end
+	return false
+end
+
 # require area first (for global area vars below)
-require_relative "./area"
-require_relative "./item"
-require_relative "./verb"
-require_relative "./keyword"
-require_relative "./person"
-require_relative "./area_object"
+require_relative "./src/area"
+require_relative "./src/item"
+require_relative "./src/verb"
+require_relative "./src/keyword"
+require_relative "./src/person"
+require_relative "./src/area_object"
 #require_relative "./event"
 
-$area = AREAS[0][1]
+$area = AREAS[5][1]
+#$area = AREAS[0][1]
 $area.has_visited = true
 
 
@@ -104,9 +143,7 @@ end
 
 def has_item? (item)
 	ITEMS.each do |row|
-		if (row[0][0] == item)
-			return true
-		end
+		return true  if (row[0][0] == item)
 	end
 	return false
 end
@@ -126,7 +163,6 @@ class Game
 		$talking_to = false
 		$inventory = []
 		add_item :inventory
-		add_item :test_item
 	end
 
 	def update
@@ -173,6 +209,11 @@ class Game
 				end
 			end
 		end
+		$area.area_objects.each do |aobjsym|
+			find_areaObject(aobjsym).items.each do |item|
+				return find_item item  if (accept_input?(item,word))
+			end  if (find_areaObject(aobjsym).is_open)
+		end
 		return false
 	end
 
@@ -215,6 +256,15 @@ class Game
 		return false
 	end
 
+	def input_check_area_event (word)
+		$area.events.each do |erow|
+			erow.each do |event|
+				return erow[0]  if (accept_input?(event,word))
+			end
+		end
+		return false
+	end
+
 	def input_include? (input,instance)
 		instance.each do |row|
 			row[0].each do |area|
@@ -243,6 +293,7 @@ class Game
 		#input_area_sym = false
 		#input_person   = false
 		#input_objectArea = false
+		input_area_event = false
 		params = {items:[],areas:[],people:[],areaObjects:[]}
 
 		# check for include s
@@ -256,6 +307,8 @@ class Game
 			# check person
 			#input_person = input_include?(input, PEOPLE)
 			#params[:people].push input_person  if input_person
+			
+			
 
 		input.each do |word|
 
@@ -271,6 +324,8 @@ class Game
 			# check area(s)
 			input_area = input_check_area word
 			params[:areas].push input_area     if input_area
+			# check area event(s)
+			input_area_event = input_check_area_event word  unless input_area_event
 
 			# check person(s)
 			input_person = input_check_person word
@@ -296,7 +351,11 @@ class Game
 		params[:people].uniq!
 		params[:areaObjects].uniq!
 
-		puts input_verb.action(params)  if input_verb
+		if (input_area_event)
+			puts $area.method(input_area_event).call
+		else
+			puts input_verb.action(params)  if input_verb
+		end
 
 		if (!params[:items].empty? || !params[:areas].empty? || !params[:people].empty? || !params[:areaObjects].empty?) && (!input_verb)
 			# look at Person if only person is given

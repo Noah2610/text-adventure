@@ -1,15 +1,4 @@
 
-class Area_object < Instance
-	def initialize_instance (args=[])
-		@name = "Default Area_object name."
-		@desc = "Default Area_object description."
-		@desc_passive = "Default passive Area_object description."
-		@args = args
-		self.init args
-	end
-end
-
-
 class Box_Aobj < Area_object
 	def init (args=[])
 		@name = "Box".cyan
@@ -65,10 +54,4 @@ class Box_Aobj < Area_object
 		end
 	end
 end
-
-
-
-AREA_OBJECTS = [
-	[[:box], Box_Aobj.new]
-]
 

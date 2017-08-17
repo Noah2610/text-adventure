@@ -1,0 +1,38 @@
+
+class Area_object < Instance
+	attr_accessor :is_open, :items
+
+	def initialize_instance (args=[])
+		@name = "Default Area_object name."
+		@desc = "Default Area_object description."
+		@desc_passive = "Default passive Area_object description."
+		@items = []
+		@args = args
+		self.init args
+	end
+
+	def take
+		ret = []
+		if (@is_open)
+			@items.each do |item|
+				add_item item
+				@items.delete item
+				ret.push "I took #{find_item(item).name}"
+			end
+		end
+		return ret.join("\n")  unless ret.empty?
+		return "There's nothing to take here."
+	end
+end
+
+
+require_relative "./dev/area_object"
+require_relative "./game/area_object"
+
+
+AREA_OBJECTS = [
+	[[:box], Box_Aobj.new],
+
+	[[:glove_compartment,:glove_box,:cubby_hole], Glove_compartment_Aobj.new]
+]
+
