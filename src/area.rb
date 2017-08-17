@@ -19,14 +19,21 @@ class Area < Instance
 		ret = []
 		ret.push goto
 		@has_visited = true
-		return ret
+		return ret.join("\n")
 	end
 	def goto
 		if (!@has_visited)
-			return look
+			ret = []
+			first = first_visit
+			ret.push first  if first
+			ret.push look
+			return ret.join("\n")
 		elsif (@has_visited)
 			return @name
 		end
+	end
+	def first_visit
+		return false
 	end
 	def Area.goto (area)
 		$area.neighbors.each do |ngb|
@@ -36,10 +43,6 @@ class Area < Instance
 				$area.has_visited = true
 			end
 		end
-	end
-	def look
-		return "#{@name}\n#{@desc}".italic  if ($area == self)
-		return @desc_passive.italic
 	end
 end
 

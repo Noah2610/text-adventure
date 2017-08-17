@@ -1,6 +1,6 @@
 
 class Person < Instance
-	attr_accessor :keywords
+	attr_accessor :keywords, :have_talked
 
 	def initialize_instance (*args)
 		@name = "person_name".red
@@ -8,6 +8,7 @@ class Person < Instance
 		@desc = "I am a Person."
 		@keywords = []
 		@take_items = []
+		@have_talked = false
 		self.init
 	end
 	def talk

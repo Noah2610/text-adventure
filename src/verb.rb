@@ -37,8 +37,6 @@ class Go < Verb
 		return @default  if (areas.empty? && (!items.empty? || !people.empty?))
 		if (!areas.empty?)
 			return areas[0].goto!
-			ret = areas[0].has_visited ? areas[0].name : areas[0].look
-			return ret
 		else
 			ret = "I can go to "
 			if ($area.neighbors.length > 1)

@@ -1,7 +1,7 @@
 
 class Truck_area < Area
 	def init
-		@name = "Parsley's Truck".blue.italic
+		@name = "Parsley's Truck".blue
 		@desc = "This is #{@name}, he has a weird obsession about it.\nIt's pretty scratched up and dirty.\n" +
 						"I really don't appreciate the smell.\n" +
 						"#{"Parsley".green} seems to have passed out in the driver's seat.\n" +
@@ -18,9 +18,9 @@ end
 class Cornfield_area < Area
 	def init
 		@name = "Cornfield".yellow
-		@desc = "Some parts of the cornfield have been trampled.\nWas that #{"Parsley".green} driving through the field on whatever drugs we were on?".italic +
+		@desc = "Some parts of the cornfield have been trampled.\nWas that #{"Parsley".green} driving through the field on whatever drugs we were on?\n" +
 						"Well, I really need to take a #{"piss".blue} now."
-		@desc_passive = "It's too dark outside, I can't see a thing.".italic
+		@desc_passive = "It's too dark outside, I can't see a thing."
 		@neighbors = AREA_MAP[:truck]
 		@events = [
 			[:pee,:toilet,:piss,:wc]

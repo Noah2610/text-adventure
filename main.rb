@@ -17,14 +17,17 @@ class Instance
 		self.initialize_instance (args)
 	end
 	def look
-		return "#@name\n#@desc_passive".italic  if (self.is_person?)
+		return "#@name\n#{@desc.italic}"          if ($area == self)
+		return @desc_passive.italic               if (self.is_area?)
+		return "#@name\n#{@desc_passive.italic}"  if (self.is_person? && self.have_talked)
+		return @desc_passive.italic               if (self.is_person?)
 		ret = []
 		ret.push @name
 		ret.push @desc
 		@items.each do |item|
-			ret.push @item_descs[item]  if (@is_open)
+			ret.push(@item_descs[item]).italic      if (@is_open)
 		end
-		return ret.join("\n").italic
+		return ret.join("\n")
 		#"#{@name}\n#{@desc}".italic
 	end
 	def to_sym (option=false)
@@ -167,8 +170,8 @@ class Game
 	end
 
 	def update
-		puts "Current Area: #{$area.name} (#{$area.to_sym.to_s})"
-
+		#puts "Current Area: #{$area.name} (#{$area.to_sym.to_s})"
+		puts
 		print ">"  if $interaction_state == :talk
 		print "> "
 		input = get_input
@@ -354,8 +357,8 @@ class Game
 
 		if (input_area_event)
 			puts $area.method(input_area_event).call
-		else
-			puts input_verb.action(params)  if input_verb
+		elsif (input_verb)
+			puts input_verb.action(params).gsub("\n","\n ")
 		end
 
 		if (!params[:items].empty? || !params[:areas].empty? || !params[:people].empty? || !params[:areaObjects].empty?) && (!input_verb)
