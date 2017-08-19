@@ -29,14 +29,10 @@ class Person < Instance
 	end
 	def talk_bye_good (params=[])
 		leave
-		$interaction_state = :normal
-		$talking_to = false
 		"Goodbye fine sir! Default #{"bye_good".red} output."
 	end
 	def talk_bye_bad (params=[])
 		leave
-		$interaction_state = :normal
-		$talking_to = false
 		"Hope I never see you again! Default #{"bye_bad".red} output."
 	end
 	def talk_tell (params=false)

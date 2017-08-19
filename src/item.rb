@@ -20,16 +20,6 @@ class Item < Instance
 		return false
 	end
 
-	def look
-		#$inventory.each do |item|
-			#if (item[1] == self)
-				#return "#{@name}\n#{@desc}"
-			#end
-		#end
-		return "#{@name}\n#{@desc}".italic  if (self.in_inv?)
-		return @desc_passive.italic
-	end
-
 	def take
 		"Took the #{@name}."
 	end

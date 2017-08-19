@@ -15,6 +15,10 @@ class Instance
 	end
 	def look
 		get_text
+		if (self.is_item?)
+			return "#{@name}\n#{@desc}".italic  if (self.in_inv?)
+			return @desc_passive.italic
+		end
 		return "#@name\n#{@desc.italic}"          if ($area == self)
 		return @desc_passive.italic               if (self.is_area?)
 		return "#@name\n#{@desc_passive.italic}"  if (self.is_person? && self.have_talked)
@@ -23,7 +27,7 @@ class Instance
 		ret.push @name
 		ret.push @desc
 		@items.each do |item|
-			ret.push(@item_descs[item]).italic      if (@is_open)
+			ret.push(@item_descs[item].italic)      if (@is_open && @item_descs[item])
 		end
 		return ret.join("\n")
 		#"#{@name}\n#{@desc}".italic
@@ -70,10 +74,12 @@ class Instance
 		text = Dir.new("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}")  if (Dir.exists?("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))
 		text.each do |file|
 			if (File.file?("#{text.path}/#{file}"))
-				@desc = File.read("#{text.path}/#{file}").strip          if (file == "desc")
-				@desc_passive = File.read("#{text.path}/#{file}").strip  if (file == "desc_passive")
+				@desc = eval(File.read("#{text.path}/#{file}").strip)          if (file == "desc")
+				@desc_passive = eval(File.read("#{text.path}/#{file}").strip)  if (file == "desc_passive")
+				#@desc = File.read("#{text.path}/#{file}").strip          if (file == "desc")
+				#@desc_passive = File.read("#{text.path}/#{file}").strip  if (file == "desc_passive")
 			end
-		end  if text
+		end  if (text)
 	end
 
 	def add_item_instance (item)
