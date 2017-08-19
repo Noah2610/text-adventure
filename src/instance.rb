@@ -40,7 +40,7 @@ class Instance
 				break
 			end
 		end  unless (@name_symbol && !@name_symbols.empty?)
-		Array.new.concat(AREAS,PEOPLE).each do |instance|
+		Array.new.concat(AREAS,PEOPLE,AREA_OBJECTS).each do |instance|
 			if (instance[1] == self)
 				@name_symbols = instance[0]
 				@name_symbol = instance[0][0]
@@ -57,7 +57,7 @@ class Instance
 				return item[0]
 			end
 		end  unless (@name_symbol && !@name_symbols.empty?)
-		Array.new.concat(AREAS,PEOPLE).each do |instance|
+		Array.new.concat(AREAS,PEOPLE,AREA_OBJECTS).each do |instance|
 			if (instance[1] == self)
 				return item[0][0]  unless option == :all
 				return item[0]
@@ -70,16 +70,17 @@ class Instance
 	def get_text
 		return  if (@read_files)
 		@read_files = true
-		text = false
-		text = Dir.new("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}")  if (Dir.exists?("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))
-		text.each do |file|
-			if (File.file?("#{text.path}/#{file}"))
-				@desc = eval(File.read("#{text.path}/#{file}").strip)          if (file == "desc")
-				@desc_passive = eval(File.read("#{text.path}/#{file}").strip)  if (file == "desc_passive")
-				#@desc = File.read("#{text.path}/#{file}").strip          if (file == "desc")
-				#@desc_passive = File.read("#{text.path}/#{file}").strip  if (file == "desc_passive")
-			end
-		end  if (text)
+		eval(File.read("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))  if (File.exists?("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))
+		#text = false
+		#text = Dir.new("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}")  if (Dir.exists?("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))
+		#text.each do |file|
+			#if (File.file?("#{text.path}/#{file}"))
+				#@desc = eval(File.read("#{text.path}/#{file}").strip)          if (file == "desc")
+				#@desc_passive = eval(File.read("#{text.path}/#{file}").strip)  if (file == "desc_passive")
+				##@desc = File.read("#{text.path}/#{file}").strip          if (file == "desc")
+				##@desc_passive = File.read("#{text.path}/#{file}").strip  if (file == "desc_passive")
+			#end
+		#end  if (text)
 	end
 
 	def add_item_instance (item)

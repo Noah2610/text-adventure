@@ -2,8 +2,6 @@
 class Glove_compartment_Aobj < Area_object
 	def init (args=[])
 		@name = "Glove Compartment".blue
-		@desc_default = "Just a regular #{@name}"
-		@desc = @desc_default
 		@items = [:joint]
 		@item_descs = {
 			joint: "There's a #{find_item(:joint).name} inside."
@@ -14,7 +12,6 @@ class Glove_compartment_Aobj < Area_object
 	def open
 		unless (@is_open)
 			@is_open = true
-			#@desc = @desc + ""  unless (@items.empty?)
 			ret = []
 			ret.push "I opened the #{@name}."
 			@items.each do |item|
@@ -29,7 +26,6 @@ class Glove_compartment_Aobj < Area_object
 	def close
 		if (@is_open)
 			@is_open = false
-			@desc = @desc_default
 			return "I closed the #{@name}."
 		else
 			return "It's already closed."
