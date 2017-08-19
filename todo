@@ -11,22 +11,20 @@ x VERB talk
 
 (change area stuff similar to items)
 
-area:
-	items in objects or environment
-
 x class Person
 	- VERBS
 		x - talk
-		- give ITEM (works when talking to person)
+		x - give ITEM
 		x - look (at)
 
-class Area_object
+x class Area_object
 	- VERBS
 		- use
 		- use with ITEM
-		- look (at)
-		- take
-		- open
+		x - look
+		x - take
+		x - open
+		x - close
 
 REFACTOR:
 	inventory and general item storage system:
@@ -34,6 +32,8 @@ REFACTOR:
 		instead of that weird array inclduing an array of symbols
 		find different solution for Instance items, those should still be symbols
 
-create system for storing conversational text (tied to methods in Person objects)
-in files (shouldn't be too difficult if i follow my desc text storing system)
+x create system for storing conversational text (tied to methods in Person objects)
+x in files (shouldn't be too difficult if i follow my desc text storing system)
+
+add tests (with guard or something)
 
