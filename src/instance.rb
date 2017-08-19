@@ -71,16 +71,6 @@ class Instance
 		return  if (@read_files)
 		@read_files = true
 		eval(File.read("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))  if (File.exists?("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))
-		#text = false
-		#text = Dir.new("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}")  if (Dir.exists?("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))
-		#text.each do |file|
-			#if (File.file?("#{text.path}/#{file}"))
-				#@desc = eval(File.read("#{text.path}/#{file}").strip)          if (file == "desc")
-				#@desc_passive = eval(File.read("#{text.path}/#{file}").strip)  if (file == "desc_passive")
-				##@desc = File.read("#{text.path}/#{file}").strip          if (file == "desc")
-				##@desc_passive = File.read("#{text.path}/#{file}").strip  if (file == "desc_passive")
-			#end
-		#end  if (text)
 	end
 
 	def add_item_instance (item)

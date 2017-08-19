@@ -9,6 +9,7 @@ class Person < Instance
 		@keywords = []
 		@take_items = []
 		@have_talked = false
+		eval(File.read("text/person/text_talk_default"))
 		self.init
 	end
 	def talk
@@ -21,25 +22,25 @@ class Person < Instance
 
 	# all verbs for conversation:
 	def talk_hello (params=[])
-		return "Hello! Default #{"hello".red} output."
+		@text_talk[:hello]
 	end
 	def talk_bye (params=[])
 		leave
-		"Goodbye! Default #{"bye".red} output."
+		@text_talk[:bye]
 	end
 	def talk_bye_good (params=[])
 		leave
-		"Goodbye fine sir! Default #{"bye_good".red} output."
+		@text_talk[:bye_good]
 	end
 	def talk_bye_bad (params=[])
 		leave
-		"Hope I never see you again! Default #{"bye_bad".red} output."
+		@text_talk[:bye_bad]
 	end
 	def talk_tell (params=false)
-		"Default #{"tell".red} output."
+		@text_talk[:tell]
 	end
 	def talk_doing (params=false)
-		"Default #{"doing".red} output."
+		@text_talk[:doing]
 	end
 	def talk_take (params=false)
 		return "You want to give me something?"  if params[:items].empty?
@@ -61,7 +62,6 @@ class Person < Instance
 		end
 		ret = "#{ret.join("\n")}\n#{@name}: #{response.join("\n")}"
 		return ret
-		
 	end
 	def talk_about (params=false)
 		"#@desc"
