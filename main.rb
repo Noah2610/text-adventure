@@ -14,8 +14,8 @@ require_relative "./src/area_object"
 require_relative "./src/init_instance"
 #require_relative "./event"
 
-#$area = AREAS[5][1]
-$area = AREAS[0][1]
+$area = AREAS[5][1]
+#$area = AREAS[0][1]
 $area.has_visited = true
 
 
