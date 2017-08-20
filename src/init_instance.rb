@@ -39,7 +39,7 @@ PEOPLE = [
 	[[:test_person,:person], Test_person.new],
 	[[:crazy_person,:human_like_figure,:figure], Crazy_person.new],
 
-	[[:parsley_person,:friend], Parsley_person.new]
+	[[:parsley,:friend], Parsley_person.new]
 ]
 
 
