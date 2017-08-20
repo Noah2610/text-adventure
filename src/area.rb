@@ -44,6 +44,10 @@ class Area < Instance
 			end
 		end
 	end
+	def Area.goto! (area)
+		$area = find_area area
+		$area.has_visited = true
+	end
 end
 
 

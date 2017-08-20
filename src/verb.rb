@@ -42,13 +42,14 @@ class Go < Verb
 			if ($area.neighbors.length > 1)
 				$area.neighbors.each_with_index do |nb,i|
 					if (i < $area.neighbors.length - 1)
-						ret += "#{nb.to_s.gsub("_"," ")}, "
+						#ret += "#{nb.to_s.gsub("_"," ")}, "
+						ret += "#{find_area(nb).name}, "
 					else
-						ret += "and #{nb.to_s.gsub("_"," ")}."
+						ret += "and #{find_area(nb).name}."
 					end
 				end
 			elsif ($area.neighbors.length == 1)
-				ret += "#{$area.neighbors[0].to_s.gsub("_"," ")}."
+				ret += "#{find_area($area.neighbors[0]).name}."
 			elsif ($area.neighbors.length == 0)
 				ret = "I can't go anywhere."
 			end
