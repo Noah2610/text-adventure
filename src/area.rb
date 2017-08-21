@@ -80,5 +80,13 @@ class Instance
 		end
 		return false
 	end
+	def is_areaObject?
+		AREA_OBJECTS.each do |aobj|
+			if (aobj[1] == self)
+				return true
+			end
+		end
+		return false
+	end
 end
 

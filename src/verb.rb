@@ -1,5 +1,7 @@
 
 class Verb
+	attr_accessor :keywords
+
 	def initialize
 		@default = "I don't understand.".yellow
 		@keywords = []
@@ -18,7 +20,7 @@ class Look < Verb
 		#@default = "Default look output."
 	end
 
-	def action (items:[],areas:[],people:[],areaObjects:[])
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		ret = []
 		Array.new.concat(items,areas,people,areaObjects).each do |instance|
 			ret.push instance.look
@@ -34,7 +36,7 @@ class Go < Verb
 		@default = "How would I be able to go there?"
 	end
 
-	def action (items:[],areas:[],people:[],areaObjects:[])
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		return @default  if (areas.empty? && (!items.empty? || !people.empty?))
 		if (!areas.empty?)
 			return areas[0].goto!
@@ -64,7 +66,7 @@ class Take < Verb
 	def init
 	end
 
-	def action (items:[],areas:[],people:[],areaObjects:[])
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		return "Now why and how would I take that?"  if (items.empty? && (!areas.empty? || !people.empty?))
 		return "Take what?"  if (items.empty? && areaObjects.empty?)
 		ret = []
@@ -101,7 +103,7 @@ class Talk < Verb
 	end
 
 	#def action (person=false,opts=false)
-	def action (items:[],areas:[],people:[],areaObjects:[])
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		if (!people.empty? && people[0].is_person?)
 			$interaction_state = :talk
 			$talking_to = people[0]
@@ -117,7 +119,7 @@ class Give < Verb
 	def init
 	end
 
-	def action (items:[],areas:[],people:[],areaObjects:[])
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		ret = []
 		if (!items.empty? && !people.empty?)
 			ret.push people[0].talk_take items:items
@@ -131,7 +133,7 @@ end
 class Open < Verb
 	def init
 	end
-	def action (items:[],areas:[],people:[],areaObjects:[])
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		ret = []
 		Array.new.concat(items,areaObjects).each do |instance|
 			ret.push instance.open  if instance.class.method_defined? :open
@@ -145,7 +147,7 @@ end
 class Close < Verb
 	def init
 	end
-	def action (items:[],areas:[],people:[],areaObjects:[])
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		ret = []
 		Array.new.concat(items,areaObjects).each do |instance|
 			ret.push instance.close  if instance.class.method_defined? :close
@@ -160,11 +162,22 @@ class Use < Verb
 	def init
 		@keywords = [:with]
 	end
-	def action (items:[],areas:[],people:[],areaObjects:[])
-		ret = []
-		if (items.any?)
-			items.each do |item|
-				item.use
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
+		return "Use what?".italic  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
+		if (misc[:keywords] != nil)
+			if (misc[:keywords][:with])
+				Array.new.concat(items,areas,people,areaObjects).each do |instance|
+					return instance.use_with(misc[:keywords][:with])
+				end
+			else
+				return "Use with what?".italic
+			end
+		else
+			ret = []
+			if (items.any?)
+				items.each do |item|
+					return item.use
+				end
 			end
 		end
 	end
@@ -198,7 +211,10 @@ VERBS = [
 		Open.new],
 
 	[[:close],
-		Close.new]
+		Close.new],
+
+	[[:use,:interact],
+		Use.new]
 
 ]
 

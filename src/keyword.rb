@@ -40,8 +40,3 @@ KEYWORDS_TALK_PHRASES = [
 	#]
 ]
 
-
-KEYWORDS_NORMAL = [
-	[:with]
-]
-

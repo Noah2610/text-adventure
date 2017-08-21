@@ -32,6 +32,12 @@ class Instance
 		return ret.join("\n")
 		#"#{@name}\n#{@desc}".italic
 	end
+	def use
+		return "I can't use #@name.".italic
+	end
+	def use_with (instance)
+		return "I can't use #@name with #{find_instance(instance).name}".italic
+	end
 	def to_sym (option=false)
 		ITEMS.each do |item|
 			if (item[1].new.class == self.class)
