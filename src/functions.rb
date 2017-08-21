@@ -63,3 +63,20 @@ def find_areaObject (aobj)
 	return false
 end
 
+def find_instance (instance)
+	return find_item(instance) || find_area(instance) || find_person(instance) || find_areaObject(instance) || false
+end
+
+# if given symbol is any name of any instance
+# then return the main identifier symbol of instance
+def is_instance_sym? (instance)
+	Array.new.concat(ITEMS,AREAS,PEOPLE,AREA_OBJECTS).each do |irow|
+		irow[0].each do |iname|
+			if (iname == instance)
+				return irow[0][0]
+			end
+		end
+	end
+	return false
+end
+

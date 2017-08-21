@@ -27,6 +27,8 @@ class Game
 		$talking_to = false
 		$inventory = []
 		add_item :inventory
+		add_item :test_item
+		add_item :apple
 	end
 
 	def update
@@ -158,7 +160,7 @@ class Game
 		#input_person   = false
 		#input_objectArea = false
 		input_area_event = false
-		params = {items:[],areas:[],people:[],areaObjects:[]}
+		params = {items:[],areas:[],people:[],areaObjects:[],misc:{}}
 
 		# check for include s
 			# check items
@@ -175,7 +177,6 @@ class Game
 			
 
 		input.each do |word|
-
 			# check verb
 			input_verb = input_check_verb word  unless input_verb
 
@@ -218,6 +219,30 @@ class Game
 		if (input_area_event)
 			puts $area.method(input_area_event).call
 		elsif (input_verb)
+			input_verb.keywords.each do |kw|
+				if (input.include? kw.to_s)
+					kw_index = input.index(kw.to_s)
+					kw_val_index = kw_index + 1 || false
+					kw_val = is_instance_sym?(input[kw_val_index].to_sym)
+					params[:misc][:keywords] = { kw => kw_val }
+					#Array.new.concat(params[:items],params[:areas],params[:people],params[:areaObjects]).each do |i|
+						#params[:items].delete
+					#end
+					params[:items].each_with_index do |item,index|
+						params[:items].delete_at index  if (item.to_sym == kw_val)
+					end
+					params[:areas].each_with_index do |area,index|
+						params[:areas].delete_at index  if (area.to_sym == kw_val)
+					end
+					params[:people].each_with_index do |person,index|
+						params[:people].delete_at index  if (person.to_sym == kw_val)
+					end
+					params[:areaObjects].each_with_index do |areaObject,index|
+						params[:areaObjects].delete_at index  if (areaObject.to_sym == kw_val)
+					end
+				end
+			end
+
 			puts input_verb.action(params).gsub("\n","\n ")
 		end
 

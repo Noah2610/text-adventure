@@ -40,4 +40,3 @@ KEYWORDS_TALK_PHRASES = [
 	#]
 ]
 
-
