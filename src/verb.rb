@@ -2,6 +2,7 @@
 class Verb
 	def initialize
 		@default = "I don't understand.".yellow
+		@keywords = []
 		self.init
 	end
 	def action (*args)
@@ -151,6 +152,21 @@ class Close < Verb
 		end
 		return ret.join("\n").italic  unless ret.empty?
 		return "Close what?".italic
+	end
+end
+
+
+class Use < Verb
+	def init
+		@keywords = [:with]
+	end
+	def action (items:[],areas:[],people:[],areaObjects:[])
+		ret = []
+		if (items.any?)
+			items.each do |item|
+				item.use
+			end
+		end
 	end
 end
 

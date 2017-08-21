@@ -129,6 +129,14 @@ class Game
 		return false
 	end
 
+	def input_check_keywordNormal (word)
+		KEYWORDS_NORMAL.each do |krow|
+			krow.each do |kw|
+				return krow[0]  if (word == kw.to_s)
+			end
+		end
+	end
+
 	def input_include? (input,instance)
 		instance.each do |row|
 			row[0].each do |area|
@@ -158,7 +166,7 @@ class Game
 		#input_person   = false
 		#input_objectArea = false
 		input_area_event = false
-		params = {items:[],areas:[],people:[],areaObjects:[]}
+		params = {items:[],areas:[],people:[],areaObjects:[],keywords:[]}
 
 		# check for include s
 			# check items
@@ -175,6 +183,9 @@ class Game
 			
 
 		input.each do |word|
+			if (params[:keywords].last == :with)
+
+			end
 
 			# check verb
 			input_verb = input_check_verb word  unless input_verb
@@ -198,6 +209,10 @@ class Game
 			# check area_object(s)
 			input_areaObject = input_check_areaObject word
 			params[:areaObjects].push input_areaObject  if input_areaObject
+
+			# check keywords (normal)
+			input_keyword = input_check_keywordNormal word
+			params[:keywords].push input_keyword  if input_keyword
 
 			#AREAS.each do |arow|
 			#arow[0].each do |a|
