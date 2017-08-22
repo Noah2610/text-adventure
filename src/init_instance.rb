@@ -30,8 +30,9 @@ AREAS = [
 		[[:hall_room_right,:room_right,:right_room], Hall_room_right.new],
 
 	[[:truck,:car], Truck_area.new],
-	[[:cornfield,:outside,:out], Cornfield_area.new]
-		
+	[[:cornfield,:outside,:out], Cornfield_area.new],
+
+	[[:spaceship_abduct,:ship], Spaceship_abduct_area.new]
 ]
 
 
@@ -39,7 +40,8 @@ PEOPLE = [
 	[[:test_person,:person], Test_person.new],
 	[[:crazy_person,:human_like_figure,:figure], Crazy_person.new],
 
-	[[:parsley,:friend], Parsley_person.new]
+	[[:parsley,:friend], Parsley_person.new],
+	[[:aliens_abduct], Aliens_abduct_person.new]
 ]
 
 

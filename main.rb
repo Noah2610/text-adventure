@@ -14,10 +14,8 @@ require_relative "./src/area_object"
 require_relative "./src/init_instance"
 #require_relative "./event"
 
-#$area = AREAS[5][1]
-#$area = AREAS[0][1]
-#$area.has_visited = true
-Area.goto! :truck
+output Area.goto!(:truck)
+#output Area.goto!(:spaceship_abduct)
 
 
 class Game
@@ -215,9 +213,14 @@ class Game
 		params[:areas].uniq!
 		params[:people].uniq!
 		params[:areaObjects].uniq!
+		params.each_value do |arr|
+			arr.each do |inst|
+				inst.get_text
+			end
+		end
 
 		if (input_area_event)
-			puts $area.method(input_area_event).call
+			output $area.method(input_area_event).call
 		elsif (input_verb)
 			input_verb.keywords.each do |kw|
 				if (input.include? kw.to_s)
@@ -243,12 +246,12 @@ class Game
 				end
 			end
 
-			puts input_verb.action(params).gsub("\n","\n ")
+			output input_verb.action(params)
 		end
 
 		if (!params[:items].empty? || !params[:areas].empty? || !params[:people].empty? || !params[:areaObjects].empty?) && (!input_verb)
 			# look at Person if only person is given
-			puts Look.new.action(params)
+			output Look.new.action(params)
 		end
 
 	end

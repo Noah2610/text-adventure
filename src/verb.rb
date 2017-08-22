@@ -176,9 +176,18 @@ class Use < Verb
 			ret = []
 			if (items.any?)
 				items.each do |item|
-					return item.use
+					use_ret = item.use
+					return use_ret  if (use_ret)
 				end
 			end
+			arr = Array.new.concat(items,areas,people,areaObjects)
+			return "I can't use #{arr.first.name}.".italic  if (arr.count == 1)
+			ret = ["I can't use"]
+			arr.each_with_index do |instance,i|
+				ret.push "#{instance.name},"  unless (i == arr.count - 1)
+			end
+			ret.push "or #{arr.last.name}."
+			return ret.join(" ").italic
 		end
 	end
 end

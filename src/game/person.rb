@@ -15,3 +15,12 @@ class Parsley_person < Person
 
 end
 
+class Aliens_abduct_person < Person
+	def init
+	end
+
+	def talk
+		return @text[:talk]
+	end
+end
+

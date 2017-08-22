@@ -13,6 +13,9 @@ class Instance
 		@read_files = false
 		self.initialize_instance (args)
 	end
+	def initialize_instance (*args)
+	end
+
 	def look
 		get_text
 		if (self.is_item?)
@@ -32,15 +35,18 @@ class Instance
 		return ret.join("\n")
 		#"#{@name}\n#{@desc}".italic
 	end
+
 	def use
-		return "I can't use #@name.".italic
+		return false
+		#return "I can't use #@name.".italic
 	end
 	def use_with (instance)
 		return "I can't use #@name with #{find_instance(instance).name}".italic
 	end
+
 	def to_sym (option=false)
 		ITEMS.each do |item|
-			if (item[1].new.class == self.class)
+			if (item[1] == self.class)
 				@name_symbols = item[0]
 				@name_symbol = item[0][0]
 				break
@@ -58,7 +64,7 @@ class Instance
 	end
 	def Instance.to_sym (instance,option=false)
 		ITEMS.each do |item|
-			if (item[1].new.class == instance.class)
+			if (item[1] == instance.class)
 				return item[0][0]  unless option == :all
 				return item[0]
 			end
@@ -73,10 +79,11 @@ class Instance
 		return @name_symbol  unless option == :all
 		return @name_symbols
 	end
+
 	def get_text
 		return  if (@read_files)
 		@read_files = true
-		eval(File.read("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))  if (File.exists?("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}"))
+		eval(File.read("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}.rb"))  if (File.exists?("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}.rb"))
 	end
 
 	def add_item_instance (item)

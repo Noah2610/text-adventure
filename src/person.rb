@@ -9,7 +9,7 @@ class Person < Instance
 		@keywords = []
 		@take_items = []
 		@have_talked = false
-		eval(File.read("text/person/text_talk_default"))
+		eval(File.read("text/person/text_talk_default.rb"))
 		self.init
 	end
 	def talk

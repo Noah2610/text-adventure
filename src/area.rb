@@ -15,7 +15,7 @@ class Area < Instance
 	end
 	def goto!
 		$area = self
-		@neighbors = AREA_MAP[to_sym]
+		@neighbors = AREA_MAP[to_sym] || []
 		ret = []
 		ret.push goto
 		@has_visited = true
@@ -39,14 +39,16 @@ class Area < Instance
 		$area.neighbors.each do |ngb|
 			AREAS.each do |row|
 				next  unless (row[0][0] == ngb)
-				$area = row[1]
-				$area.has_visited = true
+				#$area = row[1]
+				#$area.has_visited = true
+				row[1].goto!
 			end
 		end
 	end
 	def Area.goto! (area)
-		$area = find_area area
-		$area.has_visited = true
+		#$area = find_area area
+		#$area.has_visited = true
+		find_area(area).goto!
 	end
 end
 
