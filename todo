@@ -3,9 +3,9 @@ VERB show
 x VERB take
 	x - area
 	- environment object in area
-VERB use
-	- use ITEM
-	- use ITEM with ITEM
+x VERB use
+	x - use ITEM
+	x - use ITEM with ITEM
 (after Person:)
 x VERB talk
 
@@ -19,8 +19,8 @@ x class Person
 
 x class Area_object
 	- VERBS
-		- use
-		- use with ITEM
+		x - use
+		x - use with ITEM
 		x - look
 		x - take
 		x - open
