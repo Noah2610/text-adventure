@@ -26,6 +26,13 @@ end
 class Spaceship_abduct_area < Area
 	def init
 		@people = [:aliens_abduct]
+		@neighbors = [:window_abduct]
+	end
+end
+
+class Window_abduct < Area
+	def init
+		@neighbors = [:spaceship_abduct]
 	end
 end
 

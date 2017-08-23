@@ -19,7 +19,7 @@ class Person < Instance
 	def start_talk
 		return "Started talking to #{@name} now. Default talk output."
 	end
-	def leave
+	def leave_talk
 		$interaction_state = :normal
 		$talking_to = false
 	end
@@ -29,15 +29,15 @@ class Person < Instance
 		@text_talk[:hello]
 	end
 	def talk_bye (params=[])
-		leave
+		leave_talk
 		@text_talk[:bye]
 	end
 	def talk_bye_good (params=[])
-		leave
+		leave_talk
 		@text_talk[:bye_good]
 	end
 	def talk_bye_bad (params=[])
-		leave
+		leave_talk
 		@text_talk[:bye_bad]
 	end
 	def talk_tell (params=false)

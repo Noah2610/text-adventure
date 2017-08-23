@@ -7,7 +7,10 @@ AREA_MAP = {
 		hall_room_left: [ :hallway ],
 
 	truck: [ :cornfield ],
-	cornfield: [ :truck ]
+	cornfield: [ :truck ],
+
+	spaceship_abduct: [ :window_abduct ],
+	window_abduct: [ :spaceship_abduct ]
 }
 
 
@@ -32,7 +35,8 @@ AREAS = [
 	[[:truck,:car], Truck_area.new],
 	[[:cornfield,:outside,:out], Cornfield_area.new],
 
-	[[:spaceship_abduct,:ship], Spaceship_abduct_area.new]
+	[[:spaceship_abduct,:ship], Spaceship_abduct_area.new],
+	[[:window_abduct], Window_abduct.new]
 ]
 
 

@@ -8,8 +8,8 @@ class Parsley_person < Person
 	end
 
 	def start_talk
-		#$interaction_state = :normal
-		#$talking_to = false
+		$interaction_state = :normal
+		$talking_to = false
 		return "He's completely blacked-out,\nI can't do anything to get him to wake up.".italic
 	end
 
@@ -23,9 +23,11 @@ class Aliens_abduct_person < Person
 	end
 	def talk (meth=false,params=[])
 		return start_talk  unless meth
+		leave_talk  if (meth == :bye)
 		return "#@name:\n" + gibberish
 	end
 	def gibberish
+		output(@text[:gibberish_thoughts].sample.italic)
 		lines = rand(1..4)
 		ret = []
 		lines.times do

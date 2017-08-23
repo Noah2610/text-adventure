@@ -44,6 +44,7 @@ class Go < Verb
 			ret = "I can go to "
 			if ($area.neighbors.length > 1)
 				$area.neighbors.each_with_index do |nb,i|
+					find_area(nb).get_text
 					if (i < $area.neighbors.length - 1)
 						#ret += "#{nb.to_s.gsub("_"," ")}, "
 						ret += "#{find_area(nb).name}, "
@@ -52,6 +53,7 @@ class Go < Verb
 					end
 				end
 			elsif ($area.neighbors.length == 1)
+				find_area($area.neighbors.first).get_text
 				ret += "#{find_area($area.neighbors[0]).name}."
 			elsif ($area.neighbors.length == 0)
 				ret = "I can't go anywhere."
