@@ -6,4 +6,5 @@
 	"Why did they abduct me?",
 	"Why do I have so many questions?",
 	"I dunno.",
+	"Something with #{find_area(:window_abduct).name}."
 ].join("\n")

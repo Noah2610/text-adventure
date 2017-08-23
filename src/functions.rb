@@ -44,6 +44,7 @@ end
 
 def find_area (area)
 	AREAS.each do |row|
+		row[1].get_text
 		return row[1]  if (row[0][0] == area)
 	end
 	return false
@@ -51,6 +52,7 @@ end
 
 def find_person (person)
 	PEOPLE.each do |row|
+		row[1].get_text
 		return row[1]  if (row[0][0] == person)
 	end
 	return false
@@ -58,6 +60,7 @@ end
 
 def find_areaObject (aobj)
 	AREA_OBJECTS.each do |row|
+		row[1].get_text
 		return row[1]  if (row[0][0] == aobj)
 	end
 	return false
