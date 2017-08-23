@@ -12,8 +12,12 @@ class Person < Instance
 		eval(File.read("text/person/text_talk_default.rb"))
 		self.init
 	end
-	def talk
-		"Started talking to #{@name} now. Default talk output."
+	def talk (meth=false,params=[])
+		return start_talk  unless (meth)
+		return "#@name:\n" + method("talk_" + meth.to_s).call(params)
+	end
+	def start_talk
+		return "Started talking to #{@name} now. Default talk output."
 	end
 	def leave
 		$interaction_state = :normal
@@ -60,8 +64,9 @@ class Person < Instance
 				ret.push "I don't have #{item.name}.".italic
 			end
 		end
-		ret = "#{ret.join("\n")}\n#{@name}: #{response.join("\n")}"
-		return ret
+		#ret = "#{ret.join("\n")}\n#{@name}: #{response.join("\n")}"
+		output ret.join("\n")
+		return response.join("\n")
 	end
 	def talk_about (params=false)
 		"#@desc"

@@ -7,8 +7,8 @@ class Test_person < Person
 		@take_items = [:test_item]
 	end
 
-	def talk
-		ret = "#{@name}: "
+	def start_talk
+		ret = "#{@name}:\n"
 		ret += "We are talking now!"
 		return ret
 	end

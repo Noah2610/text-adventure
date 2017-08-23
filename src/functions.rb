@@ -81,6 +81,6 @@ def is_instance_sym? (instance)
 end
 
 def output (text)
-	puts text.gsub("\n","\n ")
+	puts " " + text.gsub("\n","\n  ")
 end
 

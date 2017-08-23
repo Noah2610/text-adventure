@@ -2,7 +2,7 @@
 class Truck_area < Area
 	def init
 		@name = "Parsley's Truck".blue
-		@people = [:parsley]
+		@people = [:parsley,:test_person]
 		#@neighbors = AREA_MAP[:truck]
 		@area_objects = [:glove_compartment]
 	end

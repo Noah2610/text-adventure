@@ -25,6 +25,7 @@ class Game
 		$talking_to = false
 		$inventory = []
 		add_item :inventory
+		add_item :test_item
 	end
 
 	def update
@@ -303,7 +304,8 @@ class Game
 
 		end  unless method
 
-		puts $talking_to.method("talk_" + method.to_s).call(params)  if method
+		#puts $talking_to.method("talk_" + method.to_s).call(params)  if method
+		output $talking_to.talk(method,params)  if method
 
 	end
 end
