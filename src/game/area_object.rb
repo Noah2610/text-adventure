@@ -34,3 +34,8 @@ class Glove_compartment_Aobj < Area_object
 
 end
 
+class Console_abduct < Area_object
+	def init (args=[])
+	end
+end
+

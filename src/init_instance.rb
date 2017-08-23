@@ -9,8 +9,9 @@ AREA_MAP = {
 	truck: [ :cornfield ],
 	cornfield: [ :truck ],
 
-	spaceship_abduct: [ :window_abduct ],
-	window_abduct: [ :spaceship_abduct ]
+	spaceship_abduct: [ :bridge_abduct,:window_abduct ],
+	window_abduct: [ :spaceship_abduct ],
+	bridge_abduct: [ :spaceship_abduct ]
 }
 
 
@@ -36,7 +37,8 @@ AREAS = [
 	[[:cornfield,:outside,:out], Cornfield_area.new],
 
 	[[:spaceship_abduct,:ship], Spaceship_abduct_area.new],
-	[[:window_abduct], Window_abduct.new]
+	[[:window_abduct], Window_abduct.new],
+	[[:bridge_abduct], Bridge_area.new]
 ]
 
 
@@ -52,6 +54,8 @@ PEOPLE = [
 AREA_OBJECTS = [
 	[[:box], Box_Aobj.new],
 
-	[[:glove_compartment,:glove_box,:cubby_hole], Glove_compartment_Aobj.new]
+	[[:glove_compartment,:glove_box,:cubby_hole], Glove_compartment_Aobj.new],
+
+	[[:console_abduct,:computer,:controller,:command_console], Console_abduct.new]
 ]
 

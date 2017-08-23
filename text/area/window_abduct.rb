@@ -5,3 +5,6 @@
 	"It looks like it forms a very detailed shape.",
 	"Does this have anything to do with my abduction?"
 ].join("\n")
+@desc_passive = [
+	"A large window."
+].join("\n")
