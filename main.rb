@@ -25,8 +25,6 @@ class Game
 		$talking_to = false
 		$inventory = []
 		add_item :inventory
-		add_item :test_item
-		add_item :apple
 	end
 
 	def update
