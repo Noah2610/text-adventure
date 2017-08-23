@@ -14,8 +14,8 @@ require_relative "./src/area_object"
 require_relative "./src/init_instance"
 #require_relative "./event"
 
-#output Area.goto!(:truck)
-output Area.goto!(:spaceship_abduct)
+output Area.goto!(:truck)
+#output Area.goto!(:spaceship_abduct)
 
 
 class Game

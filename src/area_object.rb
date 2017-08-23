@@ -8,7 +8,7 @@ class Area_object < Instance
 		@desc_passive = "Default passive Area_object description."
 		@items = []
 		@args = args
-		self.init args
+		self.init# args
 	end
 
 	def take
