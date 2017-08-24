@@ -162,7 +162,9 @@ end
 
 class Use < Verb
 	def init
-		@keywords = [:with]
+		@keywords = [
+			[[:with], true]
+		]
 	end
 	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		return "Use what?".italic  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
@@ -197,7 +199,10 @@ end
 
 class Turn < Verb
 	def init
-		@keywords = [:on,:off]
+		@keywords = [
+			[[:on],false],
+			[[:off],false]
+		]
 	end
 	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		return "Turn what?"  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
@@ -205,6 +210,7 @@ class Turn < Verb
 			if (misc[:keywords][:on])
 
 			elsif (misc[:keywords][:off])
+
 			end
 		else
 			return "You can't actually turn anything at the moment."

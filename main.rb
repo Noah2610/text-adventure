@@ -233,37 +233,47 @@ class Game
 		if (input_area_event)
 			output $area.method(input_area_event).call
 		elsif (input_verb)
-			input_verb.keywords.each do |kw|
-				if (input.include? kw.to_s)
-					kw_index = input.index(kw.to_s)
-					kw_val_index = kw_index + 1  if (input[kw_index + 1])
-					#kw_val = is_instance_sym?(input[kw_val_index].to_sym)
-					if (kw_val_index)
-						kw_val = input_check_instance(input[kw_val_index])
-					else
-						kw_val = false
-					end
+			input_verb.keywords.each do |kwrow|
+				kwrow[0].each do |kw|
+					if (input.include? kw.to_s)
+						if (kwrow[1])
+							kw_index = input.index(kw.to_s)
+							kw_val_index = kw_index + 1  if (input[kw_index + 1])
+							#kw_val = is_instance_sym?(input[kw_val_index].to_sym)
+							if (kw_val_index)
+								kw_val = input_check_instance(input[kw_val_index])
+							else
+								kw_val = false
+							end
 
-					kw_val = false  if (kw_val && kw_val.is_item? && !has_item?(kw_val.to_sym))
-					params[:misc][:keywords] = { kw => kw_val }
-					#Array.new.concat(params[:items],params[:areas],params[:people],params[:areaObjects]).each do |i|
-						#params[:items].delete
-					#end
-					if (kw_val)
-						params[:items].each_with_index do |item,index|
-							params[:items].delete_at index  if (item.to_sym == kw_val.to_sym)
-						end
-						params[:areas].each_with_index do |area,index|
-							params[:areas].delete_at index  if (area.to_sym == kw_val.to_sym)
-						end
-						params[:people].each_with_index do |person,index|
-							params[:people].delete_at index  if (person.to_sym == kw_val.to_sym)
-						end
-						params[:areaObjects].each_with_index do |areaObject,index|
-							params[:areaObjects].delete_at index  if (areaObject.to_sym == kw_val.to_sym)
+							kw_val = false  if (kw_val != false && kw_val.is_item? && !has_item?(kw_val.to_sym))
+							params[:misc][:keywords] = { kwrow[0][0] => kw_val }
+							#Array.new.concat(params[:items],params[:areas],params[:people],params[:areaObjects]).each do |i|
+								#params[:items].delete
+							#end
+							if (kw_val != false)
+								params[:items].each_with_index do |item,index|
+									params[:items].delete_at index  if (item.to_sym == kw_val.to_sym)
+								end
+								params[:areas].each_with_index do |area,index|
+									params[:areas].delete_at index  if (area.to_sym == kw_val.to_sym)
+								end
+								params[:people].each_with_index do |person,index|
+									params[:people].delete_at index  if (person.to_sym == kw_val.to_sym)
+								end
+								params[:areaObjects].each_with_index do |areaObject,index|
+									params[:areaObjects].delete_at index  if (areaObject.to_sym == kw_val.to_sym)
+								end
+							end
+
+						else
+
+							params[:misc][:keywords] = { kwrow[0][0] => true }
 						end
 					end
 				end
+
+
 			end
 
 			output input_verb.action(params)
