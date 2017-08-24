@@ -43,8 +43,8 @@ class Instance
 	end
 
 	def use
-		return false
-		#return "I can't use #@name.".italic
+		#return false
+		return "I can't use #@name.".italic
 	end
 	def use_with (instance)
 		return "I can't use #@name with #{instance.name}.".italic

@@ -178,6 +178,13 @@ class Use < Verb
 				return "Use with what?".italic
 			end
 		else
+
+			ret = []
+			Array.new.concat(items,areas,people,areaObjects).each do |instance|
+				ret.push instance.use
+			end
+			return ret.join("\n")
+=begin
 			ret = []
 			if (items.any?)
 				items.each do |item|
@@ -193,6 +200,7 @@ class Use < Verb
 			end
 			ret.push "or #{arr.last.name}."
 			return ret.join(" ").italic
+=end
 		end
 	end
 end

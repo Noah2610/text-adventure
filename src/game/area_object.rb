@@ -39,7 +39,9 @@ class Console_abduct < Area_object
 		@turned_on = false
 	end
 	def use
-		
+		puts "TEST".red
+		return @text[:use_turned_off]  unless (@turned_on)
+		return "use console"
 	end
 	def look_additional
 		unless (@turned_on)
