@@ -1,6 +1,6 @@
 
 class Instance
-	attr_accessor :name, :desc, :desc_passive#, :desc_default
+	attr_accessor :name, :desc, :desc_passive, :turnonable
 	def initialize (args=[])
 		@name = "This is an Instance, self does not have a @name."
 		@desc_default = "This is an Instance, self does not have a @desc."
@@ -11,6 +11,7 @@ class Instance
 		@item_descs = {}
 		@is_open = true
 		@read_files = false
+		@turnonable
 		self.initialize_instance (args)
 	end
 	def initialize_instance (*args)

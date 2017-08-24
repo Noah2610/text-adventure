@@ -37,6 +37,7 @@ end
 class Console_abduct < Area_object
 	def init (args=[])
 		@turned_on = false
+		@turnonable = true
 	end
 	def use
 		
