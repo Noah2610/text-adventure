@@ -211,27 +211,21 @@ class Turn < Verb
 			if (misc[:keywords][:on])
 				return "Turn on what?"  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
 				Array.new.concat(items,areas,people,areaObjects).each do |instance|
-					if (instance.turnonable)
-						ret.push "turned ON #{instance.name}."
-					else
-						ret.push "#{instance.name} can't be turned on."
-					end
+					ret.push instance.turn_on
 				end
 
 			elsif (misc[:keywords][:off])
 				return "Turn off what?"  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
 				Array.new.concat(items,areas,people,areaObjects).each do |instance|
-					if (instance.turnonable)
-						ret.push "turned OFF #{instance.name}."
-					else
-						ret.push "#{instance.name} can't be turned off."
-					end
+					ret.push instance.turn_off
 				end
 
 			end
 		else
 			return "Turn what?"  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
-			return "You can't actually turn anything at the moment."
+			Array.new.concat(items,areas,people,areaObjects).each do |instance|
+				ret.push instance.turn
+			end
 		end
 		return ret.join("\n").italic
 	end

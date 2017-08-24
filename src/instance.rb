@@ -1,6 +1,6 @@
 
 class Instance
-	attr_accessor :name, :desc, :desc_passive, :turnonable
+	attr_accessor :name, :desc, :desc_passive
 	def initialize (args=[])
 		@name = "This is an Instance, self does not have a @name."
 		@desc_default = "This is an Instance, self does not have a @desc."
@@ -47,7 +47,17 @@ class Instance
 		#return "I can't use #@name.".italic
 	end
 	def use_with (instance)
-		return "I can't use #@name with #{instance.name}".italic
+		return "I can't use #@name with #{instance.name}.".italic
+	end
+
+	def turn
+		"#@name can't be turned."
+	end
+	def turn_on
+		"#@name can't be turned on."
+	end
+	def turn_off
+		"#@name can't be turned off."
 	end
 
 	def to_sym (option=false)

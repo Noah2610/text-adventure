@@ -26,6 +26,9 @@ class Game
 		$inventory = []
 		add_item :inventory
 		add_item :test_item
+		add_item :apple
+		add_item :foo
+		add_item :bar
 	end
 
 	def update

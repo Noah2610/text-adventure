@@ -6,5 +6,7 @@
 ].join("\n")
 @text = {
 	turned_off: "It doesn't seem to be running though.",
-	turned_on: "It's running, some indicator lights are on now and the screen has a bunch of gibberish alien symbols on it."
+	turned_on: "It's running, some indicator lights are on now and the screen has a bunch of gibberish alien symbols on it.",
+	after_turn_on: "After turning on the #@name lights start flashing up alien symbols on screen bla bla...",
+	after_turn_off: "I turned #@name off."
 }

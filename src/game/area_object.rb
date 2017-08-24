@@ -37,7 +37,6 @@ end
 class Console_abduct < Area_object
 	def init (args=[])
 		@turned_on = false
-		@turnonable = true
 	end
 	def use
 		
@@ -49,5 +48,15 @@ class Console_abduct < Area_object
 			return @text[:turned_on]
 		end
 	end
+	
+	def turn_on
+		@turned_on = true
+		return @text[:after_turn_on]
+	end
+	def turn_off
+		@turned_on = false
+		return @text[:after_turn_off]
+	end
+
 end
 
