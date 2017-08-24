@@ -128,6 +128,18 @@ class Game
 		return false
 	end
 
+	def input_check_instance (word)
+		item = input_check_item(word)
+		return item  if item
+		area = input_check_area(word)
+		return area  if area
+		person = input_check_person(word)
+		return person  if person
+		areaObject = input_check_areaObject(word)
+		return areaObject  if areaObject
+		return false
+	end
+
 	def input_include? (input,instance)
 		instance.each do |row|
 			row[0].each do |area|
@@ -224,27 +236,32 @@ class Game
 			input_verb.keywords.each do |kw|
 				if (input.include? kw.to_s)
 					kw_index = input.index(kw.to_s)
-					kw_val_index = kw_index + 1 || false
+					kw_val_index = kw_index + 1  if (input[kw_index + 1])
 					#kw_val = is_instance_sym?(input[kw_val_index].to_sym)
-					kw_val = is_instance_sym?(input[kw_val_index].to_sym)
+					if (kw_val_index)
+						kw_val = input_check_instance(input[kw_val_index])
+					else
+						kw_val = false
+					end
 
-					puts kw_val.to_s.red
-					kw_val = false  if (find_instance(kw_val).is_item? && !has_item?(kw_val))
+					kw_val = false  if (kw_val && kw_val.is_item? && !has_item?(kw_val.to_sym))
 					params[:misc][:keywords] = { kw => kw_val }
 					#Array.new.concat(params[:items],params[:areas],params[:people],params[:areaObjects]).each do |i|
 						#params[:items].delete
 					#end
-					params[:items].each_with_index do |item,index|
-						params[:items].delete_at index  if (item.to_sym == kw_val)
-					end
-					params[:areas].each_with_index do |area,index|
-						params[:areas].delete_at index  if (area.to_sym == kw_val)
-					end
-					params[:people].each_with_index do |person,index|
-						params[:people].delete_at index  if (person.to_sym == kw_val)
-					end
-					params[:areaObjects].each_with_index do |areaObject,index|
-						params[:areaObjects].delete_at index  if (areaObject.to_sym == kw_val)
+					if (kw_val)
+						params[:items].each_with_index do |item,index|
+							params[:items].delete_at index  if (item.to_sym == kw_val.to_sym)
+						end
+						params[:areas].each_with_index do |area,index|
+							params[:areas].delete_at index  if (area.to_sym == kw_val.to_sym)
+						end
+						params[:people].each_with_index do |person,index|
+							params[:people].delete_at index  if (person.to_sym == kw_val.to_sym)
+						end
+						params[:areaObjects].each_with_index do |areaObject,index|
+							params[:areaObjects].delete_at index  if (areaObject.to_sym == kw_val.to_sym)
+						end
 					end
 				end
 			end

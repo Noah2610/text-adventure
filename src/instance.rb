@@ -46,7 +46,7 @@ class Instance
 		#return "I can't use #@name.".italic
 	end
 	def use_with (instance)
-		return "I can't use #@name with #{find_instance(instance).name}".italic
+		return "I can't use #@name with #{instance.name}".italic
 	end
 
 	def to_sym (option=false)
