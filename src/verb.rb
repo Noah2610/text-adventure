@@ -195,6 +195,24 @@ class Use < Verb
 end
 
 
+class Turn < Verb
+	def init
+		@keywords = [:on,:off]
+	end
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
+		return "Turn what?"  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
+		if (misc[:keywords] != nil)
+			if (misc[:keywords][:on])
+
+			elsif (misc[:keywords][:off])
+			end
+		else
+			return "You can't actually turn anything at the moment."
+		end
+	end
+end
+
+
 require_relative "./dev/verb"
 
 

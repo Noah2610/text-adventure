@@ -32,8 +32,13 @@ class Instance
 		@items.each do |item|
 			ret.push(@item_descs[item].italic)      if (@is_open && @item_descs[item])
 		end
+		additional = look_additional
+		ret.push additional  if (additional)
 		return ret.join("\n")
 		#"#{@name}\n#{@desc}".italic
+	end
+	def look_additional
+		false
 	end
 
 	def use

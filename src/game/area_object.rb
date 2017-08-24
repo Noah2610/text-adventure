@@ -36,6 +36,17 @@ end
 
 class Console_abduct < Area_object
 	def init (args=[])
+		@turned_on = false
+	end
+	def use
+		
+	end
+	def look_additional
+		unless (@turned_on)
+			return @text[:turned_off]
+		else
+			return @text[:turned_on]
+		end
 	end
 end
 
