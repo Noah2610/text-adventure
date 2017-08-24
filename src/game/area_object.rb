@@ -1,11 +1,7 @@
 
 class Glove_compartment_Aobj < Area_object
 	def init (args=[])
-		@name = "Glove Compartment".blue
 		@items = [:joint]
-		@item_descs = {
-			joint: "There's a #{find_item(:joint).name} inside."
-		}
 		@is_open = false
 	end
 
@@ -39,7 +35,6 @@ class Console_abduct < Area_object
 		@turned_on = false
 	end
 	def use
-		puts "TEST".red
 		return @text[:use_turned_off]  unless (@turned_on)
 		return "use console"
 	end

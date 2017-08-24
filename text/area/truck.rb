@@ -1,3 +1,4 @@
+@name = "Parsley's Truck".blue
 @desc = "This is #{@name}, he has a weird obsession about it.\nIt's pretty scratched up and dirty.\n" +
 				"I really don't appreciate the smell.\n" +
 				"#{"Parsley".green} seems to have passed out in the driver's seat.\n" +
