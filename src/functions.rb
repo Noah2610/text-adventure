@@ -21,7 +21,7 @@ def rm_item (item)
 end
 
 def has_item? (item)
-	ITEMS.each do |row|
+	$inventory.each do |row|
 		return true  if (row[0][0] == item)
 	end
 	return false

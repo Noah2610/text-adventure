@@ -14,8 +14,8 @@ require_relative "./src/area_object"
 require_relative "./src/init_instance"
 #require_relative "./event"
 
-#output Area.goto!(:truck)
-output Area.goto!(:spaceship_abduct)
+output Area.goto!(:truck)
+#output Area.goto!(:spaceship_abduct)
 
 
 class Game
@@ -225,7 +225,11 @@ class Game
 				if (input.include? kw.to_s)
 					kw_index = input.index(kw.to_s)
 					kw_val_index = kw_index + 1 || false
+					#kw_val = is_instance_sym?(input[kw_val_index].to_sym)
 					kw_val = is_instance_sym?(input[kw_val_index].to_sym)
+
+					puts kw_val.to_s.red
+					kw_val = false  if (find_instance(kw_val).is_item? && !has_item?(kw_val))
 					params[:misc][:keywords] = { kw => kw_val }
 					#Array.new.concat(params[:items],params[:areas],params[:people],params[:areaObjects]).each do |i|
 						#params[:items].delete
