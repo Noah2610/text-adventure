@@ -162,14 +162,10 @@ end
 
 class Use < Verb
 	def init
-<<<<<<< Updated upstream
-		@keywords = [:with]
-=======
 		@keywords = [
 			#         vvvv keyword accepts instance if set to true
 			[[:with], true]
 		]
->>>>>>> Stashed changes
 	end
 	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		return "Use what?".italic  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
@@ -204,7 +200,10 @@ end
 
 class Turn < Verb
 	def init
-		@keywords = [:on,:off]
+		@keywords = [
+			[[:on],false],
+			[[:off],false]
+		]
 	end
 	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		if (misc[:keywords] != nil)
@@ -213,11 +212,8 @@ class Turn < Verb
 
 
 			elsif (misc[:keywords][:off])
-<<<<<<< Updated upstream
-=======
 				return "Turn off what?"  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
 
->>>>>>> Stashed changes
 			end
 		else
 			return "Turn what?"  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
