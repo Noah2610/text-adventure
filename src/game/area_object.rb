@@ -33,10 +33,29 @@ end
 class Console_abduct < Area_object
 	def init (args=[])
 		@turned_on = false
+		@cmd_not_found = gibberish
 	end
 	def use
 		return @text[:use_turned_off]  unless (@turned_on)
-		return "use console"
+		ret = []
+		#ret.push "§ " + gibberish
+		#ret.push @text[:use].italic
+		print " § ".bold
+		continue_input = true
+		user_cmd = []
+		while (continue_input)
+			STDIN.noecho do |a|
+				char = STDIN.getch
+				unless (char == "\r")
+					user_cmd.push gibberish_char
+					print user_cmd.last
+				else
+					print("\n   " + user_cmd.join("") + ": " + @cmd_not_found.red)
+					continue_input = false
+				end
+			end
+		end
+		return ret.join("\n")
 	end
 	def look_additional
 		unless (@turned_on)
@@ -53,6 +72,25 @@ class Console_abduct < Area_object
 	def turn_off
 		@turned_on = false
 		return @text[:after_turn_off]
+	end
+
+	def gibberish
+		arr = ("!"..."0").to_a.concat((":"..."A").to_a).concat(("["..."a").to_a).shuffle[0..rand(10..40)]
+		skip = false
+		arr.map! do |a|
+			if (!skip) && (rand(0...5) == 0)
+				skip = true
+				next " "
+			else
+				skip = false
+				skip = true  if (a == " ")
+				next a
+			end
+		end
+		return arr.join("")
+	end
+	def gibberish_char
+		return (" "..."0").to_a.concat((":"..."A").to_a).concat(("["..."a").to_a).sample
 	end
 
 end

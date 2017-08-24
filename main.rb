@@ -1,6 +1,7 @@
 
 require "colorize"
 #require "awesome_print"
+require "io/console"
 
 # game scripts
 require_relative "./src/instance"

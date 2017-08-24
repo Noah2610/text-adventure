@@ -29,12 +29,12 @@ class Instance
 		return @desc_passive.italic               if (self.is_person?)
 		ret = []
 		ret.push @name
-		ret.push @desc
+		ret.push @desc.italic
 		@items.each do |item|
 			ret.push(@item_descs[item].italic)      if (@is_open && @item_descs[item])
 		end
 		additional = look_additional
-		ret.push additional  if (additional)
+		ret.push additional.italic  if (additional)
 		return ret.join("\n")
 		#"#{@name}\n#{@desc}".italic
 	end
