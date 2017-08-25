@@ -1,5 +1,5 @@
 
-class Glove_compartment_Aobj < Area_object
+class Glove_compartment_areaObject < Area_object
 	def init (args=[])
 		@items = [:joint]
 		@is_open = false
@@ -30,7 +30,7 @@ class Glove_compartment_Aobj < Area_object
 
 end
 
-class Console_abduct < Area_object
+class Console_abduct_areaObject < Area_object
 	def init (args=[])
 		@turned_on = false
 		@cmd_not_found = gibberish
@@ -93,5 +93,14 @@ class Console_abduct < Area_object
 		return (" "..."0").to_a.concat((":"..."A").to_a).concat(("["..."a").to_a).sample
 	end
 
+end
+
+class Sofa_abduct_areaObject < Area_object
+	def init
+	end
+
+	def sit
+		"I sit down on the #@name for a while but then I stand up again.".italic
+	end
 end
 

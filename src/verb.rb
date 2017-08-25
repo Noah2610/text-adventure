@@ -5,6 +5,7 @@ class Verb
 	def initialize
 		@default = "I don't understand.".yellow
 		@keywords = []
+		eval(File.read("./text/verb_text.rb"))
 		self.init
 	end
 	def action (*args)
@@ -169,7 +170,7 @@ class Use < Verb
 	end
 	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		return "Use what?".italic  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
-		if (misc[:keywords] != nil)
+		unless (misc[:keywords].nil?)
 			if (misc[:keywords][:with])
 				Array.new.concat(items,areas,people,areaObjects).each do |instance|
 					return instance.use_with(misc[:keywords][:with])
@@ -215,7 +216,7 @@ class Turn < Verb
 	end
 	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		ret = []
-		if (misc[:keywords] != nil)
+		unless (misc[:keywords].nil?)
 			if (misc[:keywords][:on])
 				return "Turn on what?"  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
 				Array.new.concat(items,areas,people,areaObjects).each do |instance|
@@ -238,6 +239,38 @@ class Turn < Verb
 		return ret.join("\n").italic
 	end
 end
+
+
+class Sit < Verb
+	def init
+		@keywords = [
+			[[:floor,:ground], false]
+		]
+	end
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
+		ret = []
+		unless (misc[:keywords].nil?)
+			if (misc[:keywords][:floor])
+				ret.push @text[:sit_floor]
+			end
+		else
+			Array.new.concat(items,areas,people,areaObjects).each do |instance|
+				ret.push instance.sit
+			end
+			return "Do I want to sit on the #{"floor".red}?".italic  if (items.empty? && areas.empty? && people.empty? && areaObjects.empty?)
+
+		end
+		return ret.join("\n").italic
+	end
+end
+
+#class Stand_up < Verb
+	#def init
+	#end
+	#def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
+	#end
+#end
+
 
 
 require_relative "./dev/verb"
@@ -273,7 +306,10 @@ VERBS = [
 		Use.new],
 
 	[[:turn],
-		Turn.new]
+		Turn.new],
+
+	[[:sit],
+		Sit.new]
 
 ]
 

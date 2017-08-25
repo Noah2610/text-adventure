@@ -60,6 +60,10 @@ class Instance
 		"#@name can't be turned off."
 	end
 
+	def sit
+		"I can't sit on #@name."
+	end
+
 	def to_sym (option=false)
 		ITEMS.each do |item|
 			if (item[1] == self.class)

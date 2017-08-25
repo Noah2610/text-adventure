@@ -52,10 +52,10 @@ class Game
 		(keyword.to_s.index(input) == 0) && (input.length > 2 || input.length == keyword.length)
 	end
 
-	def input_check_verb (word)
+	def input_check_verb (string)
 		VERBS.each do |vrow|
 			vrow[0].each do |v|
-				return vrow[1]  if (word == v.to_s)
+				return vrow[1]  if (string.include?(v.to_s.gsub("_"," ")))
 			end
 		end
 		return false
@@ -187,12 +187,10 @@ class Game
 			#input_person = input_include?(input, PEOPLE)
 			#params[:people].push input_person  if input_person
 			
-			
+			# check verb
+			input_verb = input_check_verb input.join(" ")  #unless input_verb
 
 		input.each do |word|
-			# check verb
-			input_verb = input_check_verb word  unless input_verb
-
 			# check item(s)
 			input_item = input_check_item word
 			params[:items].push input_item     if input_item
