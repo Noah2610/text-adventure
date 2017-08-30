@@ -88,26 +88,28 @@ def output (text)
 	puts " " + text.gsub("\n","\n  ")
 end
 
-def save_game
+def save_game (savefile=$default_savefile)
+	Dir.mkdir("./saves")  unless (File.exists?("./saves"))
+	savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
 	save_data = { current_area: $area.to_sym }
 	Array.new.concat($inventory,AREAS,PEOPLE,AREA_OBJECTS).each do |inst|
 		instance = inst[1]
 		save_data[instance.to_sym] = instance.save
 	end
-	file = File.new("./save.rb","w")
-	puts save_data.to_s
+	file = File.new($savedir + savefile,"w")
 	file.print save_data.to_s
 	file.close
-	return "Saved game!"
+	return "Game saved to '#{savefile}'!"
 end
 
-def load_game
-	save_data = eval(File.read("./save.rb"))
+def load_game (savefile=$default_savefile)
+	savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
+	return "File '#{savefile}' not found."  unless (File.exists?($savedir + savefile))
+	save_data = eval(File.read($savedir + savefile))
 	Array.new.concat($inventory,AREAS,PEOPLE,AREA_OBJECTS).each do |inst|
 		instance = inst[1]
-		puts instance.to_sym.to_s.red
 		instance.load(save_data[instance.to_sym])  if (save_data[instance.to_sym])
 	end
-	return "Game loaded!"
+	return "Game loaded from '#{savefile}'!"
 end
 

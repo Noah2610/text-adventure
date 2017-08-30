@@ -1,10 +1,11 @@
 
 class Verb
-	attr_accessor :keywords
+	attr_accessor :keywords, :accept_string
 
 	def initialize
 		@default = "I don't understand.".yellow
 		@keywords = []
+		@accept_string = false
 		eval(File.read("./text/verb_text.rb"))
 		self.init
 	end
@@ -13,6 +14,33 @@ class Verb
 	end
 end
 
+
+
+class Save < Verb
+	def init
+		@accept_string = true
+	end
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
+		unless (misc[:string].nil?)
+			return save_game misc[:string]
+		else
+			return save_game
+		end
+	end
+end
+
+class Load < Verb
+	def init
+		@accept_string = true
+	end
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
+		unless (misc[:string].nil?)
+			return load_game misc[:string]
+		else
+			return load_game
+		end
+	end
+end
 
 
 class Look < Verb

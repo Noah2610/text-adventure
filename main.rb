@@ -1,6 +1,6 @@
 
 require "colorize"
-require "awesome_print"
+#require "awesome_print"
 require "io/console"
 
 # game scripts
@@ -17,6 +17,9 @@ require_relative "./src/init_instance"
 
 #output Area.goto!(:truck)
 output Area.goto!(:spaceship_abduct)
+
+$savedir = "./saves/"
+$default_savefile = "save0.rb"
 
 
 class Game
@@ -52,10 +55,14 @@ class Game
 		(keyword.to_s.index(input) == 0) && (input.length > 2 || input.length == keyword.length)
 	end
 
-	def input_check_verb (string)
+	def input_check_verb (word,return_bool=false)
 		VERBS.each do |vrow|
 			vrow[0].each do |v|
-				return vrow[1]  if (string.include?(v.to_s.gsub("_"," ")))
+				#return vrow[1]  if (string.include?(v.to_s.gsub("_"," ")))
+				if (v.to_s.gsub("_"," ") == word)
+					return true  if return_bool
+					return vrow[1]
+				end
 			end
 		end
 		return false
@@ -173,6 +180,7 @@ class Game
 		#input_person   = false
 		#input_objectArea = false
 		input_area_event = false
+		string = ""
 		params = {items:[],areas:[],people:[],areaObjects:[],misc:{}}
 
 		# check for include s
@@ -188,37 +196,29 @@ class Game
 			#params[:people].push input_person  if input_person
 			
 			# check verb
-			input_verb = input_check_verb input.join(" ")  #unless input_verb
+			#input_verb = input_check_verb input.join(" ")  #unless input_verb
 
 		input.each do |word|
-			# check item(s)
+			input_verb = input_check_verb word              unless input_verb
 			input_item = input_check_item word
-			params[:items].push input_item     if input_item
-			# IMPORTANT:
-			# implement some mechanic to read and properly process 2 (or maybe more) items!
-
-			# check area(s)
 			input_area = input_check_area word
-			params[:areas].push input_area     if input_area
 			# check area event(s)
 			input_area_event = input_check_area_event word  unless input_area_event
-
-			# check person(s)
 			input_person = input_check_person word
-			params[:people].push input_person  if input_person
-
-			# check area_object(s)
 			input_areaObject = input_check_areaObject word
+
+			params[:items].push input_item              if input_item
+			params[:areas].push input_area              if input_area
+			params[:people].push input_person           if input_person
 			params[:areaObjects].push input_areaObject  if input_areaObject
 
-			#AREAS.each do |arow|
-			#arow[0].each do |a|
-			#if (accept_input?(a,word))
-			#input_area = arow[1]
-			#break
-			#end
-			#end
-			#end
+			unless (input_check_verb(word).class == input_verb.class)
+				if (string == "")
+					string = word
+				else
+					string += " #{word}"
+				end
+			end
 
 		end
 
@@ -276,6 +276,10 @@ class Game
 				end
 
 
+			end
+
+			if (input_verb.accept_string && string != "")
+				params[:misc][:string] = string
 			end
 
 			output input_verb.action(params)
