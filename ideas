@@ -12,6 +12,9 @@ IDEAS
 		- possibility of finding clues for player to process on their own that reveal that this is only an experiment (leads to player fealing smart when it is confirmed)
 		- something like a "staff-only" room where you are being monitored from
 			- as a clue could be somehow seen without entering it
+		- aliens could talk in a caesar or rot13 encrypted english language
+			(because they are so advanced it's no problem for them, and player would feel very smart if they find out)
+			- could easily hide eastereggs in command console with that idea: generic commands or words entered in proper encryption could result in some fun text
 
 		- MAYBE: instead of having a babelfish like translation device, aliens speak english but during experiment act like they don't
 			- could lead to unlockable skills of learning new languages for other planets and species
@@ -35,5 +38,15 @@ IDEAS
 			closet     - find power cable in it
 			)
 		
+	}
+
+
+
+	GENERAL {
+
+		- hide eastereggs in form of encrypted messages (easiest for users to find: caesar, rot13, vigenere with some key that has been emphasized)
+		- idea for giving users clues:
+			generate files in game or saves directory if user has a problem with a mission for a longer period
+
 	}
 
