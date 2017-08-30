@@ -46,12 +46,12 @@ class Console_abduct_areaObject < Area_object
 		while (continue_input)
 			STDIN.noecho do |a|
 				char = STDIN.getch
-				unless (char == "\r")
-					user_cmd.push gibberish_char
-					print user_cmd.last
-				else
+				if (char == "\r" || char == "\n")
 					print("\n   " + user_cmd.join("") + ": " + @cmd_not_found.red)
 					continue_input = false
+				else
+					user_cmd.push gibberish_char
+					print user_cmd.last
 				end
 			end
 		end
