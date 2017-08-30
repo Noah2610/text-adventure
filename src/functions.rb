@@ -88,3 +88,26 @@ def output (text)
 	puts " " + text.gsub("\n","\n  ")
 end
 
+def save_game
+	save_data = { current_area: $area.to_sym }
+	Array.new.concat($inventory,AREAS,PEOPLE,AREA_OBJECTS).each do |inst|
+		instance = inst[1]
+		save_data[instance.to_sym] = instance.save
+	end
+	file = File.new("./save.rb","w")
+	puts save_data.to_s
+	file.print save_data.to_s
+	file.close
+	return "Saved game!"
+end
+
+def load_game
+	save_data = eval(File.read("./save.rb"))
+	Array.new.concat($inventory,AREAS,PEOPLE,AREA_OBJECTS).each do |inst|
+		instance = inst[1]
+		puts instance.to_sym.to_s.red
+		instance.load(save_data[instance.to_sym])  if (save_data[instance.to_sym])
+	end
+	return "Game loaded!"
+end
+

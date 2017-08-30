@@ -281,6 +281,11 @@ VERBS = [
 	[[:test],
 		Test_verb.new],
 
+	[[:save],
+		Save.new],
+	[[:load],
+		Load.new],
+
 	[[:look,:inspect],
 		Look.new],
 

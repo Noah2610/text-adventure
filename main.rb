@@ -1,6 +1,6 @@
 
 require "colorize"
-#require "awesome_print"
+require "awesome_print"
 require "io/console"
 
 # game scripts

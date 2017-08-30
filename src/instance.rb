@@ -11,7 +11,7 @@ class Instance
 		@item_descs = {}
 		@is_open = true
 		@read_files = false
-		@turnonable
+		@to_save = [:name, :desc]
 		self.initialize_instance (args)
 	end
 	def initialize_instance (*args)
@@ -20,7 +20,7 @@ class Instance
 	def look
 		get_text
 		if (self.is_item?)
-			return "#{@name}\n#{@desc}".italic  if (self.in_inv?)
+			return "#{@name}\n#{@desc.italic}"  if (self.in_inv?)
 			return @desc_passive.italic
 		end
 		return "#@name\n#{@desc.italic}"          if ($area == self)
@@ -118,6 +118,20 @@ class Instance
 			if (i == item)
 				@items.delete i
 			end
+		end
+	end
+
+	def save
+		ret = {}
+		@to_save.each do |sym|
+			ret[sym] = instance_variable_get("@#{sym.to_s}")
+		end
+		return ret
+	end
+
+	def load (data)
+		data.each_key do |key|
+			instance_variable_set("@#{key.to_s}", data[key])
 		end
 	end
 end
