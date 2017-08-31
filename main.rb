@@ -1,7 +1,8 @@
 
-require "colorize"
-#require "awesome_print"
 require "io/console"
+require "colorize"
+require "encrypt"
+#require "awesome_print"
 
 # game scripts
 require_relative "./src/instance"
@@ -20,6 +21,7 @@ output Area.goto!(:truck)
 
 $savedir = "./saves/"
 $default_savefile = "save0.rb"
+$encrypt_password = "TextAdventureSaveFileEncryptionPassword2017"
 
 
 class Game

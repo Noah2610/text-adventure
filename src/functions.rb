@@ -105,12 +105,12 @@ def save_game (savefile=$default_savefile)
 	}
 	Array.new.concat($inventory,AREAS,PEOPLE,AREA_OBJECTS).each do |inst|
 		instance = inst[1]
-		puts instance.name + "  -  " + instance.to_sym.to_s
 		save_hash = instance.save
 		save_data[instance.to_sym] = save_hash  unless (save_hash.empty?)
 	end
+	save_data_encrypted = Encrypt.dump(save_data.to_s, $encrypt_password)
 	file = File.new($savedir + savefile,"w")
-	file.print save_data.to_s
+	file.print save_data_encrypted
 	file.close
 	return "Game saved to '#{savefile}'!"
 end
@@ -118,7 +118,8 @@ end
 def load_game (savefile=$default_savefile)
 	savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
 	return "File '#{savefile}' not found."  unless (File.exists?($savedir + savefile))
-	save_data = eval(File.read($savedir + savefile))
+	save_data_encrypted = File.read($savedir + savefile)
+	save_data = eval(Encrypt.load(save_data_encrypted, $encrypt_password))
 	Area.goto! save_data[:current_area]
 	clear_inventory
 	save_data[:inventory_items].each do |item|
