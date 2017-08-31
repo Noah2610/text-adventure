@@ -42,6 +42,16 @@ class Load < Verb
 	end
 end
 
+class Savefile < Verb
+	# TODO
+	# let user change $current_savefile with this verb
+	def init
+	end
+	def action (*params)
+		return "Currently using savefile:\n#{$current_savefile.bold}"
+	end
+end
+
 
 class Look < Verb
 	def init
@@ -313,6 +323,8 @@ VERBS = [
 		Save.new],
 	[[:load],
 		Load.new],
+	[[:savefile],
+		Savefile.new],
 
 	[[:look,:inspect],
 		Look.new],

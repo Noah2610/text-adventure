@@ -1,6 +1,10 @@
 
-require "io/console"
 require "colorize"
+
+# main menu
+require_relative "./src/menu"
+
+require "io/console"
 require "encrypt"
 #require "awesome_print"
 
@@ -16,11 +20,7 @@ require_relative "./src/area_object"
 require_relative "./src/init_instance"
 #require_relative "./event"
 
-output Area.goto!(:truck)
-#output Area.goto!(:spaceship_abduct)
-
-$savedir = "./saves/"
-$default_savefile = "save0"
+#$default_savefile = "save0"
 $encrypt_password = File.read("./src/.password").strip
 
 
@@ -352,6 +352,14 @@ end
 
 game = Game.new
 game_running = true
+
+if (!$current_savefile)
+	output Area.goto!(:truck)
+	#output Area.goto!(:spaceship_abduct)
+	$current_savefile = gen_new_savefile
+else
+	output load_game($current_savefile)
+end
 
 while ( game_running )
 	game.update

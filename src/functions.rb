@@ -92,8 +92,9 @@ def output (text)
 	puts " " + text.gsub("\n","\n  ")
 end
 
-def save_game (savefile=$default_savefile)
-	Dir.mkdir("./saves")  unless (File.exists?("./saves"))
+def save_game (savefile=$current_savefile)
+	Dir.mkdir($savedir)  unless (Dir.exists?($savedir))
+	$current_savefile = savefile  if (savefile != $current_savefile)
 	#savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
 	inventory_items = []
 	$inventory.each do |row|
@@ -115,9 +116,10 @@ def save_game (savefile=$default_savefile)
 	return "Game saved to '#{savefile}'!"
 end
 
-def load_game (savefile=$default_savefile)
+def load_game (savefile=$current_savefile)
 	#savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
 	return "File '#{savefile}' not found."  unless (File.exists?($savedir + savefile))
+	$current_savefile = savefile  if (savefile != $current_savefile)
 	save_data_encrypted = File.read($savedir + savefile)
 	save_data = eval(Encrypt.load(save_data_encrypted, $encrypt_password))
 	Area.goto! save_data[:current_area]
@@ -129,6 +131,18 @@ def load_game (savefile=$default_savefile)
 		instance = inst[1]
 		instance.load(save_data[instance.to_sym])  if (save_data[instance.to_sym])
 	end
-	return "Game loaded from '#{savefile}'!"
+	output "Game loaded from '#{savefile}'!"
+	return $area.look
+end
+
+def gen_new_savefile
+	saves = Dir.entries($savedir)
+	saves.delete "."
+	saves.delete ".."
+	hi_num = 0
+	saves.each do |file|
+		hi_num = file.delete("save").to_i  if (file[0..3] == "save" && file.delete("save").to_i > hi_num)
+	end
+	return "save#{(hi_num + 1).to_s}"
 end
 
