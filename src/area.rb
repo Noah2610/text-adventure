@@ -11,6 +11,7 @@ class Area < Instance
 		@area_objects = []
 		@has_visited = false
 		@events = []
+		@to_save.push(:items, :has_visited)
 		self.init
 	end
 	def goto!

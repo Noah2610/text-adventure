@@ -9,6 +9,7 @@ class Person < Instance
 		@keywords = []
 		@take_items = []
 		@have_talked = false
+		@to_save.push :have_talked
 		eval(File.read("text/person/text_talk_default.rb"))
 		self.init
 	end

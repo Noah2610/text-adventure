@@ -105,6 +105,7 @@ def save_game (savefile=$default_savefile)
 	}
 	Array.new.concat($inventory,AREAS,PEOPLE,AREA_OBJECTS).each do |inst|
 		instance = inst[1]
+		puts instance.name + "  -  " + instance.to_sym.to_s
 		save_hash = instance.save
 		save_data[instance.to_sym] = save_hash  unless (save_hash.empty?)
 	end
