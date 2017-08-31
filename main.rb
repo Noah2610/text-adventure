@@ -21,7 +21,7 @@ output Area.goto!(:truck)
 
 $savedir = "./saves/"
 $default_savefile = "save0"
-$encrypt_password = File.read("./src/.password")
+$encrypt_password = File.read("./src/.password").strip
 
 
 class Game

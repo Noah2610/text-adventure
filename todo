@@ -37,7 +37,7 @@ x in files (shouldn't be too difficult if i follow my desc text storing system)
 
 add tests (with guard or something)
 
-encrypt savefile (to prohibit arbitrary code execution somewhat, because of eval())
+x encrypt savefile (to prohibit arbitrary code execution somewhat, because of eval())
 
 don't create all instances (aside from items) at start of game
 this makes savefile large from the start
