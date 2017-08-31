@@ -94,7 +94,7 @@ end
 
 def save_game (savefile=$default_savefile)
 	Dir.mkdir("./saves")  unless (File.exists?("./saves"))
-	savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
+	#savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
 	inventory_items = []
 	$inventory.each do |row|
 		inventory_items.push row[0][0]
@@ -116,7 +116,7 @@ def save_game (savefile=$default_savefile)
 end
 
 def load_game (savefile=$default_savefile)
-	savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
+	#savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
 	return "File '#{savefile}' not found."  unless (File.exists?($savedir + savefile))
 	save_data_encrypted = File.read($savedir + savefile)
 	save_data = eval(Encrypt.load(save_data_encrypted, $encrypt_password))

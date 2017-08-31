@@ -20,7 +20,7 @@ output Area.goto!(:truck)
 #output Area.goto!(:spaceship_abduct)
 
 $savedir = "./saves/"
-$default_savefile = "save0.rb"
+$default_savefile = "save0"
 $encrypt_password = "TextAdventureSaveFileEncryptionPassword2017"
 
 
