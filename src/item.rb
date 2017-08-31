@@ -40,11 +40,12 @@ end
 class Inventory < Item
 	def init
 		@desc = "Inventory description."
-		@desc_passive = "Crappy bag that can carrys stuff."
+		@desc_passive = "Crappy bag that can carry stuff."
 		@name = "Inventory (item)"
 	end
 
 	def look
+		return "You have no items."  if ($inventory.length == 1 && $inventory[0][0][0] == :inventory)
 		ret = "You have\n"
 		$inventory.each_with_index do |item,i|
 			next  if (item[0][0] == :inventory)

@@ -11,7 +11,7 @@ class Instance
 		@item_descs = {}
 		@is_open = true
 		@read_files = false
-		@to_save = [:name, :desc]
+		@to_save = []
 		self.initialize_instance (args)
 	end
 	def initialize_instance (*args)

@@ -15,8 +15,8 @@ require_relative "./src/area_object"
 require_relative "./src/init_instance"
 #require_relative "./event"
 
-#output Area.goto!(:truck)
-output Area.goto!(:spaceship_abduct)
+output Area.goto!(:truck)
+#output Area.goto!(:spaceship_abduct)
 
 $savedir = "./saves/"
 $default_savefile = "save0.rb"
@@ -29,10 +29,10 @@ class Game
 		$talking_to = false
 		$inventory = []
 		add_item :inventory
-		add_item :test_item
-		add_item :apple
-		add_item :foo
-		add_item :bar
+		#add_item :test_item
+		#add_item :apple
+		#add_item :foo
+		#add_item :bar
 	end
 
 	def update

@@ -3,6 +3,7 @@ class Glove_compartment_areaObject < Area_object
 	def init (args=[])
 		@items = [:joint]
 		@is_open = false
+		@to_save = [:is_open]
 	end
 
 	def open
@@ -34,6 +35,7 @@ class Console_abduct_areaObject < Area_object
 	def init (args=[])
 		@turned_on = false
 		@cmd_not_found = gibberish
+		@to_save = [:turned_on]
 	end
 	def use
 		return @text[:use_turned_off]  unless (@turned_on)

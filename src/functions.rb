@@ -20,6 +20,10 @@ def rm_item (item)
 	throw "Couldn't rm_item: #{item} (#{item.class})"
 end
 
+def clear_inventory
+	$inventory = []
+end
+
 def has_item? (item)
 	$inventory.each do |row|
 		return true  if (row[0][0] == item)
@@ -91,10 +95,18 @@ end
 def save_game (savefile=$default_savefile)
 	Dir.mkdir("./saves")  unless (File.exists?("./saves"))
 	savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
-	save_data = { current_area: $area.to_sym }
+	inventory_items = []
+	$inventory.each do |row|
+		inventory_items.push row[0][0]
+	end
+	save_data = {
+		current_area: $area.to_sym,
+		inventory_items: inventory_items
+	}
 	Array.new.concat($inventory,AREAS,PEOPLE,AREA_OBJECTS).each do |inst|
 		instance = inst[1]
-		save_data[instance.to_sym] = instance.save
+		save_hash = instance.save
+		save_data[instance.to_sym] = save_hash  unless (save_hash.empty?)
 	end
 	file = File.new($savedir + savefile,"w")
 	file.print save_data.to_s
@@ -106,6 +118,11 @@ def load_game (savefile=$default_savefile)
 	savefile = savefile + ".rb"  if (savefile[-3..-1] != ".rb")
 	return "File '#{savefile}' not found."  unless (File.exists?($savedir + savefile))
 	save_data = eval(File.read($savedir + savefile))
+	Area.goto! save_data[:current_area]
+	clear_inventory
+	save_data[:inventory_items].each do |item|
+		add_item item
+	end
 	Array.new.concat($inventory,AREAS,PEOPLE,AREA_OBJECTS).each do |inst|
 		instance = inst[1]
 		instance.load(save_data[instance.to_sym])  if (save_data[instance.to_sym])
