@@ -4,6 +4,7 @@ class Truck_area < Area
 		@people = [:parsley]
 		#@neighbors = AREA_MAP[:truck]
 		@area_objects = [:glove_compartment]
+		@items = [:test_item]
 	end
 end
 

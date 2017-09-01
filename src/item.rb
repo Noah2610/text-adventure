@@ -45,7 +45,7 @@ class Inventory < Item
 	end
 
 	def look
-		return "You have no items."  if ($inventory.length == 1 && $inventory[0][0][0] == :inventory)
+		return $text_global[:inventory_no_items]  if ($inventory.length == 1 && $inventory[0][0][0] == :inventory)
 		ret = "You have\n"
 		$inventory.each_with_index do |item,i|
 			next  if (item[0][0] == :inventory)

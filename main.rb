@@ -2,13 +2,14 @@
 require "colorize"
 
 # main menu
-require_relative "./src/menu"
+#require_relative "./src/menu"
 
 require "io/console"
 require "encrypt"
 #require "awesome_print"
 
 # game scripts
+require_relative "./text/global_text"
 require_relative "./src/instance"
 require_relative "./src/functions"
 require_relative "./src/area"
@@ -23,6 +24,10 @@ require_relative "./src/init_instance"
 #$default_savefile = "save0"
 $encrypt_password = File.read("./src/.password").strip
 
+$ENV = :development  unless (defined?($ENV))
+
+$savedir = "./saves/"  unless (defined?($savedir))
+
 
 class Game
 
@@ -31,7 +36,7 @@ class Game
 		$talking_to = false
 		$inventory = []
 		add_item :inventory
-		#add_item :test_item
+		add_item :test_item
 		#add_item :apple
 		#add_item :foo
 		#add_item :bar
@@ -351,17 +356,23 @@ end
 
 
 game = Game.new
-game_running = true
+if ($ENV == :development || $ENV == :production)
+	if (!$current_savefile)
+		output Area.goto!(:truck)
+		#output Area.goto!(:spaceship_abduct)
+		$current_savefile = gen_new_savefile
+	else
+		output load_game($current_savefile)
+	end
 
-if (!$current_savefile)
-	output Area.goto!(:truck)
-	#output Area.goto!(:spaceship_abduct)
-	$current_savefile = gen_new_savefile
+	game_running = true
 else
-	output load_game($current_savefile)
+	game_running = false
 end
 
 while ( game_running )
 	game.update
 end
+
+puts "GAME EXITED NATURALLY".bold.red
 
