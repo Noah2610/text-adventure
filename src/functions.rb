@@ -76,7 +76,7 @@ end
 
 # if given symbol is any name of any instance
 # then return the main identifier symbol of instance
-# NOT USED ANYMORE
+# NOT USED ANYMORE / DEPRECATED
 def is_instance_sym? (instance)
 	Array.new.concat(ITEMS,AREAS,PEOPLE,AREA_OBJECTS).each do |irow|
 		irow[0].each do |iname|

@@ -23,7 +23,7 @@ class Instance
 			return "#{@name}\n#{@desc.italic}"  if (self.in_inv?)
 			return @desc_passive.italic
 		end
-		return "#@name\n#{@desc.italic}"          if ($area == self)
+		return "#@name\n#{@desc.italic}"          if ($area.to_sym == self.to_sym)
 		return @desc_passive.italic               if (self.is_area?)
 		return "#@name\n#{@desc_passive.italic}"  if (self.is_person? && self.have_talked)
 		return @desc_passive.italic               if (self.is_person?)
@@ -73,7 +73,7 @@ class Instance
 			end
 		end  unless (@name_symbol && !@name_symbols.empty?)
 		Array.new.concat(AREAS,PEOPLE,AREA_OBJECTS).each do |instance|
-			if (instance[1] == self)
+			if (instance[1].class == self.class)
 				@name_symbols = instance[0]
 				@name_symbol = instance[0][0]
 			end

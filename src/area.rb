@@ -61,33 +61,25 @@ require_relative "./game/area"
 class Instance
 	def is_item?
 		ITEMS.each do |item|
-			if (item[1] == self.class)
-				return true
-			end
+			return true  if (item[0][0] == self.to_sym)
 		end
 		return false
 	end
 	def is_area?
 		AREAS.each do |area|
-			if (area[1] == self)
-				return true
-			end
+			return true  if (area[0][0] == self.to_sym)
 		end
 		return false
 	end
 	def is_person?
 		PEOPLE.each do |area|
-			if (area[1] == self)
-				return true
-			end
+			return true  if (area[0][0] == self.to_sym)
 		end
 		return false
 	end
 	def is_areaObject?
 		AREA_OBJECTS.each do |aobj|
-			if (aobj[1] == self)
-				return true
-			end
+			return true  if (aobj[0][0] == self.to_sym)
 		end
 		return false
 	end

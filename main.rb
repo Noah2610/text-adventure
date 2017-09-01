@@ -7,6 +7,7 @@ require "colorize"
 require "io/console"
 require "encrypt"
 #require "awesome_print"
+require "byebug"
 
 # game scripts
 require_relative "./text/global_text"
@@ -36,7 +37,7 @@ class Game
 		$talking_to = false
 		$inventory = []
 		add_item :inventory
-		add_item :test_item
+		#add_item :test_item
 		#add_item :apple
 		#add_item :foo
 		#add_item :bar
@@ -367,6 +368,7 @@ if ($ENV == :development || $ENV == :production)
 
 	game_running = true
 else
+	Area.goto! :starting_area
 	game_running = false
 end
 

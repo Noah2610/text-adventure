@@ -1,3 +1,0 @@
----
-BUNDLE_WITH: "development"
-BUNDLE_WITHOUT: "test"
