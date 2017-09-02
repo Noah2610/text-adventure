@@ -103,7 +103,7 @@ class Instance
 	def get_text
 		return  if (@read_files)
 		@read_files = true
-		eval(File.read($gamedir + "text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}.rb"))  if (File.exists?("text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}.rb"))
+		eval(File.read($gamedir + "text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}.rb"))  if (File.exists?($gamedir + "text/#{self.class.superclass.to_s.downcase}/#{self.to_sym}.rb"))
 	end
 
 	def add_item_instance (item)
