@@ -44,8 +44,10 @@ $encrypt_password = File.read($gamedir + "src/.password").strip
 $savedir = $gamedir + "saves/"  unless (defined?($savedir))
 
 $inputPath = $gamedir + "input/"
+Dir.mkdir($inputPath)  unless (Dir.exists?($inputPath))
 $input = $gamedir + "input/default"
 $outputPath = $gamedir + "output/"
+Dir.mkdir($outputPath)  unless (Dir.exists?($outputPath))
 $output = $gamedir + "output/default"
 
 
