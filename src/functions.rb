@@ -32,7 +32,16 @@ def has_item? (item)
 end
 
 def get_input
-	return gets.downcase.delete("'.,!?-").split(" ")
+	#return gets.downcase.delete("'.,!?-").split(" ")
+	input = ""
+	while ( input == "" )
+		input = File.read($input).strip
+		sleep 0.1
+	end
+	file = File.new($input,"w")
+	file.print("")
+	file.close
+	return input.downcase.delete("'.,!?-").split(" ")
 end
 
 def convert_symbol (sym)

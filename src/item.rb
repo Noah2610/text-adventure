@@ -62,6 +62,6 @@ class Inventory < Item
 end
 
 
-require_relative "./dev/item"
-require_relative "./game/item"
+require_relative "dev/item"
+require_relative "game/item"
 

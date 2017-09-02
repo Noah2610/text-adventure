@@ -2,32 +2,51 @@
 require "colorize"
 
 # main menu
-require_relative "./src/menu"
+#require_relative "./src/menu"
 
 require "io/console"
 require "encrypt"
 #require "awesome_print"
 require "byebug"
 
+$gamedir = "/home/noah/Projects/www/TextAdventure-node/text-adventure/"
+$srcdir = $gamedir + "src/"
+
 # game scripts
-require_relative "./text/global_text"
-require_relative "./src/instance"
-require_relative "./src/functions"
-require_relative "./src/area"
-require_relative "./src/item"
-require_relative "./src/verb"
-require_relative "./src/keyword"
-require_relative "./src/person"
-require_relative "./src/area_object"
-require_relative "./src/init_instance"
+#require_relative $srcdir + "text/global_text"
+#require_relative $srcdir + "src/instance"
+#require_relative $srcdir + "src/functions"
+#require_relative $srcdir + "src/area"
+#require_relative $srcdir + "src/item"
+#require_relative $srcdir + "src/verb"
+#require_relative $srcdir + "src/keyword"
+#require_relative $srcdir + "src/person"
+#require_relative $srcdir + "src/area_object"
+#require_relative $srcdir + "src/init_instance"
+require_relative $gamedir + "text/global_text"
+require_relative $gamedir + "src/instance"
+require_relative $gamedir + "src/functions"
+require_relative $gamedir + "src/area"
+require_relative $gamedir + "src/item"
+require_relative $gamedir + "src/verb"
+require_relative $gamedir + "src/keyword"
+require_relative $gamedir + "src/person"
+require_relative $gamedir + "src/area_object"
+require_relative $gamedir + "src/init_instance"
 #require_relative "./event"
 
 #$default_savefile = "save0"
-$encrypt_password = File.read("./src/.password").strip
 
 $ENV = :development  unless (defined?($ENV))
 
-$savedir = "./saves/"  unless (defined?($savedir))
+$encrypt_password = File.read($gamedir + "src/.password").strip
+
+$savedir = $gamedir + "saves/"  unless (defined?($savedir))
+
+$inputPath = $gamedir + "input/"
+$input = $gamedir + "input/default"
+$outputPath = $gamedir + "output/"
+$output = $gamedir + "output/default"
 
 
 class Game
@@ -358,13 +377,41 @@ end
 
 game = Game.new
 if ($ENV == :development || $ENV == :production)
+	if (ARGV[0])
+		$current_savefile = ARGV[0]
+	end
+
 	if (!$current_savefile)
-		output Area.goto!(:truck)
+		#output Area.goto!(:truck)
+		Area.goto!(:truck)
 		#output Area.goto!(:spaceship_abduct)
 		$current_savefile = gen_new_savefile
 	else
-		output load_game($current_savefile)
+		#output load_game($current_savefile)
+		if (File.exists?($savedir + $current_savefile))
+			load_game($current_savefile)
+		else
+			Area.goto!(:truck)
+		end
 	end
+
+	# generate input file
+	$input = $inputPath + $current_savefile
+	file = File.new($input, "w")
+	file.print("")
+	file.close
+	#fileStdin = File::open($input,"r")
+	#$stdin.reopen($input, "r")
+	#fileStdin.close
+	# generate output file and reopen stdout
+	$output = $outputPath + $current_savefile
+	file = File.new($output, "w")
+	file.print("")
+	file.close
+	$stdout.reopen($output, "w")
+	$stdout.sync = true
+
+	output $area.look
 
 	game_running = true
 else

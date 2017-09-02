@@ -10,7 +10,7 @@ class Person < Instance
 		@take_items = []
 		@have_talked = false
 		@to_save.push :have_talked
-		eval(File.read("text/person/text_talk_default.rb"))
+		eval(File.read($gamedir + "text/person/text_talk_default.rb"))
 		self.init
 	end
 	def talk (meth=false,params=[])
@@ -75,6 +75,6 @@ class Person < Instance
 end
 
 
-require_relative "./dev/person"
-require_relative "./game/person"
+require_relative "dev/person"
+require_relative "game/person"
 

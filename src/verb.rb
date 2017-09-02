@@ -6,7 +6,7 @@ class Verb
 		@default = "I don't understand.".yellow
 		@keywords = []
 		@accept_string = false
-		eval(File.read("./text/verb_text.rb"))
+		eval(File.read($gamedir + "text/verb_text.rb"))
 		self.init
 	end
 	def action (*args)
@@ -311,7 +311,7 @@ end
 
 
 
-require_relative "./dev/verb"
+require_relative "dev/verb"
 
 
 VERBS = [

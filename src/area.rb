@@ -54,8 +54,8 @@ class Area < Instance
 end
 
 
-require_relative "./dev/area"
-require_relative "./game/area"
+require_relative "dev/area"
+require_relative "game/area"
 
 
 class Instance
