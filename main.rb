@@ -9,7 +9,7 @@ require "encrypt"
 #require "awesome_print"
 require "byebug"
 
-$gamedir = "/home/noah/Projects/www/TextAdventure-node/text-adventure/"
+$gamedir = "/home/noah/Projects/www/TextAdventure-nodejs/text-adventure/"
 $srcdir = $gamedir + "src/"
 
 # game scripts
