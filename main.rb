@@ -1,8 +1,10 @@
 
 require "colorize"
 
+$ENV = :development  unless (defined?($ENV))
+
 # main menu
-require_relative "./src/menu"
+require_relative "./src/menu"  unless $ENV == :test
 
 require "io/console"
 require "encrypt"
@@ -24,8 +26,6 @@ require_relative "./src/init_instance"
 
 #$default_savefile = "save0"
 $encrypt_password = File.read("./src/.password").strip
-
-$ENV = :development  unless (defined?($ENV))
 
 $savedir = "./saves/"  unless (defined?($savedir))
 
