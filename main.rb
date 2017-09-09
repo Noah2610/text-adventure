@@ -2,7 +2,7 @@
 require "colorize"
 
 # main menu
-#require_relative "./src/menu"
+require_relative "./src/menu"
 
 require "io/console"
 require "encrypt"
