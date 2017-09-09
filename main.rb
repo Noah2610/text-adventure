@@ -359,8 +359,8 @@ end
 game = Game.new
 if ($ENV == :development || $ENV == :production)
 	if (!$current_savefile)
-		output Area.goto!(:truck)
-		#output Area.goto!(:spaceship_abduct)
+		#output Area.goto!(:truck)
+		output Area.goto!(:cell_abduct)
 		$current_savefile = gen_new_savefile
 	else
 		output load_game($current_savefile)

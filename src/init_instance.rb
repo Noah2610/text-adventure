@@ -12,7 +12,9 @@ AREA_MAP = {
 	spaceship_abduct: [ :bridge_abduct,:lounge_abduct,:window_abduct ],
 	window_abduct:    [ :spaceship_abduct ],
 	bridge_abduct:    [ :spaceship_abduct ],
-	lounge_abduct:    [ :spaceship_abduct ]
+	lounge_abduct:    [ :spaceship_abduct ],
+
+	cell_abduct: []
 }
 
 
@@ -23,7 +25,10 @@ ITEMS = [
 	[[:bar],                       Bar, []],
 	[[:apple],                     Apple, [:an]],
 
-	[[:joint,:weed,:gras,:doobie], Joint_item, []]
+	[[:joint,:weed,:gras,:doobie], Joint_item, []],
+
+	# keychain cell_abduct
+	[[:keychain_abduct,:keys],     Keychain_cell_abduct_item, []]
 ]
 
 
@@ -41,7 +46,10 @@ AREAS = [
 	[[:window_abduct],          Window_abduct_area.new],
 	[[:bridge_abduct],          Bridge_abduct_area.new],
 	[[:lounge_abduct,:social_area,:community_area,:living_room,:recreational_area],
-	                            Lounge_abduct_area.new]
+	                            Lounge_abduct_area.new],
+
+	# cell_abduct
+	[[:cell_abduct],  Cell_abduct_area.new]
 ]
 
 
@@ -50,7 +58,9 @@ PEOPLE = [
 	[[:crazy_person,:human_like_figure,:figure], Crazy_person.new],
 
 	[[:parsley,:friend], Parsley_person.new],
-	[[:aliens_abduct],   Aliens_abduct_person.new]
+	[[:aliens_abduct],   Aliens_abduct_person.new],
+
+	[[:guard_abduct,:alien_guard], Guard_abduct_person.new]
 ]
 
 
@@ -63,6 +73,10 @@ AREA_OBJECTS = [
 	[[:console_abduct,:computer,:controller,:command_console],
 	         Console_abduct_areaObject.new],
 
-	[[:sofa_abduct,:couch], Sofa_abduct_areaObject.new]
+	[[:sofa_abduct,:couch], Sofa_abduct_areaObject.new],
+
+	# cell_abduct
+	[[:cell_bed_abduct,:bed,:matress], CellBed_abduct_areaObject.new],
+	[[:cell_wall_abduct,:wall],        CellWall_abduct_areaObject.new]
 ]
 

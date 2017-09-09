@@ -14,6 +14,7 @@ class MainMenu
 		Gem.win_platform? ? (system "cls") : (system "clear")
 		welcome_msg = "WELCOME TO ...".bold.italic.red
 
+=begin
 		if (@saves_exist)
 			print "\n"
 			print " " * @spacing
@@ -29,6 +30,7 @@ class MainMenu
 			print_letters(@menu_title,0.0025)
 			sleep 1
 		end
+=end
 
 		print "\n\n\n" + " " * @spacing + "Choose an option...".bold.blue
 

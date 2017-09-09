@@ -106,3 +106,28 @@ class Sofa_abduct_areaObject < Area_object
 	end
 end
 
+
+# spaceship cell bed
+class CellBed_abduct_areaObject < Area_object
+	def init
+		@have_slept = false
+	end
+	def use
+		# sleep in bed
+		if (true)  # if player can go to sleep already
+			@have_slept = true
+			return "i sleep in bed now"
+		else
+			return ["I don't think I'm ready to sleep yet.", "I don't feel tired.", "I don't want to sleep yet."].sample
+		end
+	end
+end
+
+# cell wall
+class CellWall_abduct_areaObject < Area_object
+	def init
+		@is_open = false
+		@to_save.push :is_open
+	end
+end
+

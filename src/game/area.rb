@@ -49,3 +49,12 @@ class Lounge_abduct_area < Area
 	end
 end
 
+
+# spaceship cell
+class Cell_abduct_area < Area
+	def init
+		@area_objects = [:cell_bed_abduct,:cell_wall_abduct]
+		@people = [:guard_abduct]
+	end
+end
+

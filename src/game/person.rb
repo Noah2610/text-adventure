@@ -49,3 +49,12 @@ class Aliens_abduct_person < Person
 	end
 end
 
+
+# guard infront of cell_abduct
+class Guard_abduct_person < Person
+	def init
+		@items = [:keychain_abduct]
+		@to_save.push :items
+	end
+end
+
