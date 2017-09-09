@@ -10,18 +10,20 @@ personPath="${basePath}/person"
 area_objectPath="${basePath}/area_object"
 
 case "$class" in
-	# item
-	"item"|"i")
-		touch "${itemPath}/${name}.rb"
+"item"|"i")
+	touch "${itemPath}/${name}.rb"
 	;;
-	"area"|"a")
-		touch "${areaPath}/${name}.rb"
+"area"|"a")
+	touch "${areaPath}/${name}.rb"
 	;;
-	"person"|"p")
-		touch "${personPath}/${name}.rb"
+"person"|"p")
+	touch "${personPath}/${name}.rb"
 	;;
-	"area_object"|"o"|"object"|"aobj")
-		touch "${area_objectPath}/${name}.rb"
+"area_object"|"o"|"object"|"aobj")
+	touch "${area_objectPath}/${name}.rb"
+	;;
+*)
+	echo "What class?"
 	;;
 esac
 

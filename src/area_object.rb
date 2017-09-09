@@ -8,7 +8,7 @@ class Area_object < Instance
 		@desc_passive = "Default passive Area_object description."
 		@items = []
 		@args = args
-		@to_save.push :items
+		#@to_save.push :items
 		self.init# args
 	end
 

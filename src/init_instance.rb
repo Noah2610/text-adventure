@@ -28,7 +28,9 @@ ITEMS = [
 	[[:joint,:weed,:gras,:doobie], Joint_item, []],
 
 	# keychain cell_abduct
-	[[:keychain_abduct,:keys],     Keychain_cell_abduct_item, []]
+	[[:keychain_abduct,:keys],     Keychain_cell_abduct_item, []],
+	# stick in wall
+	[[:stick_abduct],              Stick_abduct_item, []]
 ]
 
 

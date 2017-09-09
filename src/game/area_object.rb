@@ -111,6 +111,7 @@ end
 class CellBed_abduct_areaObject < Area_object
 	def init
 		@have_slept = false
+		@to_save.push :have_slept
 	end
 	def use
 		# sleep in bed
@@ -127,7 +128,35 @@ end
 class CellWall_abduct_areaObject < Area_object
 	def init
 		@is_open = false
-		@to_save.push :is_open
+		@items = [:stick_abduct]
+		#@item_descs = { stick_abduct: @text[:stick_desc]}
+		@to_save.push :is_open, :items
+	end
+
+	def open
+		unless (@is_open)
+			@is_open = true
+			@item_descs = { stick_abduct: "There's a stick-like thing inside.\nIt looks long thin and grabbable."}  if @item_descs.empty?
+			return @text[:wall_open]
+		else
+			return "There's already a big hole in the wall."
+		end
+	end
+	def close
+		if (@is_open)
+			@is_open = false
+			return "I put the loose tile back into to wall."
+		else
+			return "It's not open."
+		end
+	end
+	def use
+		open
+	end
+
+	def look_additional
+		return @text[:open_desc]	  if @is_open
+		return @text[:closed_desc]  if !@is_open
 	end
 end
 

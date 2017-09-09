@@ -3,6 +3,7 @@ def add_item (item)
 	ITEMS.each do |row|
 		if (row[0][0] == item)
 			$inventory.push [row[0],row[1].new(row[2])]
+			$inventory[-1][1].get_text
 			return true
 		end
 	end
