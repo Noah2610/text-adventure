@@ -18,6 +18,8 @@ class Person < Instance
 		return "#@name:\n" + method("talk_" + meth.to_s).call(params)
 	end
 	def start_talk
+		$interaction_state = :talk
+		$talking_to = self
 		return "Started talking to #{@name} now. Default talk output."
 	end
 	def leave_talk

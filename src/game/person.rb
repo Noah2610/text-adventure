@@ -8,8 +8,6 @@ class Parsley_person < Person
 	end
 
 	def start_talk
-		$interaction_state = :normal
-		$talking_to = false
 		return "He's completely blacked-out,\nI can't do anything to get him to wake up.".italic
 	end
 
@@ -54,7 +52,33 @@ end
 class Guard_abduct_person < Person
 	def init
 		@items = [:keychain_abduct]
-		@to_save.push :items
+		@is_sleeping = false
+		@to_save.push :items, :is_sleeping
+	end
+	def start_talk
+		return @text[:talk]  unless @is_sleeping
+		return @text[:talk_sleeping]
+	end
+
+	def get_keychain  # use stick with guard
+		if (@is_sleeping)
+			if (@items.include? :keychain_abduct)
+				@items.delete :keychain_abduct
+				add_item :keychain_abduct
+				@desc_passive = @text[:desc_sleeping_nokeychain]
+				return @text[:use_stick_asleep]
+				# NOTE remove stick maybe?
+			else
+				return @text[:use_stick_again]
+			end
+		else
+			return @text[:use_stick_awake]
+		end
+	end
+
+	def fall_asleep
+		@is_sleeping = true
+		@desc_passive = @text[:desc_sleeping]
 	end
 end
 

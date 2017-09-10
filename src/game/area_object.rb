@@ -115,11 +115,17 @@ class CellBed_abduct_areaObject < Area_object
 	end
 	def use
 		# sleep in bed
-		if (true)  # if player can go to sleep already
+		if (true && !@have_slept)  # if player can go to sleep already
 			@have_slept = true
-			return "i sleep in bed now"
+			find_person(:guard_abduct).fall_asleep
+			output @text[:sleep]
+			3.times { sleep 0.5; print ["z","Z"].sample }
+			print "\n"
+			return @text[:wake_up]
+		elsif (@have_slept)
+			return @text[:sleep_again]
 		else
-			return ["I don't think I'm ready to sleep yet.", "I don't feel tired.", "I don't want to sleep yet."].sample
+			return @text[:sleep_too_early].sample
 		end
 	end
 end
@@ -157,6 +163,37 @@ class CellWall_abduct_areaObject < Area_object
 	def look_additional
 		return @text[:open_desc]	  if @is_open
 		return @text[:closed_desc]  if !@is_open
+	end
+end
+
+# cell door
+class CellDoor_abduct_areaObject < Area_object
+	attr_accessor :is_locked
+	def init
+		@is_open = false
+		@is_locked = true
+		@to_save.push :is_open, :is_locked
+	end
+
+	def look_addtitional
+		if (@is_locked)
+			return @text[:desc_locked]
+		else
+			return @text[:desc_unlocked]
+		end
+	end
+
+	def open
+		if (@is_locked)
+			return @text[:open_locked_door]
+		else
+			if (@is_open)
+				return "It's already open."
+			else
+				@is_open = true
+				return @text[:open_door]
+			end
+		end
 	end
 end
 

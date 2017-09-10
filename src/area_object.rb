@@ -16,9 +16,9 @@ class Area_object < Instance
 		ret = []
 		if (@is_open)
 			@items.each do |item|
-				add_item item
 				@items.delete item
-				ret.push "I took #{find_item(item).name}"
+				add_item item
+				ret.push "I took #{$inventory[-1][1].name}"
 			end
 		end
 		return ret.join("\n")  unless ret.empty?

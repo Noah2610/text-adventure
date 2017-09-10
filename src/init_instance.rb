@@ -79,6 +79,7 @@ AREA_OBJECTS = [
 
 	# cell_abduct
 	[[:cell_bed_abduct,:bed,:matress], CellBed_abduct_areaObject.new],
-	[[:cell_wall_abduct,:wall],        CellWall_abduct_areaObject.new]
+	[[:cell_wall_abduct,:wall,:tile],  CellWall_abduct_areaObject.new],
+	[[:cell_door_abduct,:door],        CellDoor_abduct_areaObject.new]
 ]
 

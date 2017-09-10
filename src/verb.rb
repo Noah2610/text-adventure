@@ -146,8 +146,6 @@ class Talk < Verb
 	#def action (person=false,opts=false)
 	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		if (!people.empty? && people[0].is_person?)
-			$interaction_state = :talk
-			$talking_to = people[0]
 			return people[0].talk
 		end
 		return "I don't think that would be a very interesting conversation.".italic  unless (items.empty? && areas.empty?)

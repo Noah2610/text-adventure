@@ -53,7 +53,7 @@ end
 # spaceship cell
 class Cell_abduct_area < Area
 	def init
-		@area_objects = [:cell_bed_abduct,:cell_wall_abduct]
+		@area_objects = [:cell_bed_abduct,:cell_wall_abduct,:cell_door_abduct]
 		@people = [:guard_abduct]
 	end
 end

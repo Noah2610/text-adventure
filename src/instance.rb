@@ -71,16 +71,21 @@ class Instance
 				@name_symbol = item[0][0]
 				break
 			end
-		end  unless (@name_symbol && !@name_symbols.empty?)
-		Array.new.concat(AREAS,PEOPLE,AREA_OBJECTS).each do |instance|
+		end  unless (@name_symbol && !@name_symbols.empty?) || (!defined?(ITEMS))
+		arr = []
+		arr.concat AREAS         if defined?(AREAS)
+		arr.concat PEOPLE        if defined?(PEOPLE)
+		arr.concat AREA_OBJECTS  if defined?(AREA_OBJECTS)
+		arr.each do |instance|
 			if (instance[1].class == self.class)
 				@name_symbols = instance[0]
 				@name_symbol = instance[0][0]
 			end
 		end  unless (@name_symbol && !@name_symbols.empty?)
-		@name_symbol = :no_symbol  unless @name_symbol
-		return @name_symbol  unless option == :all
-		return @name_symbols
+		@name_symbol = false  unless @name_symbol
+		return @name_symbol   unless option == :all
+		return @name_symbols  unless !@name_symbols
+		return false
 	end
 	def Instance.to_sym (instance,option=false)
 		ITEMS.each do |item|
