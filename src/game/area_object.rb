@@ -174,9 +174,11 @@ class CellDoor_abduct_areaObject < Area_object
 		@to_save.push :is_open, :is_locked
 	end
 
-	def look_addtitional
+	def look_additional
 		if (@is_locked)
 			return @text[:desc_locked]
+		elsif (@is_open)
+			return "It's open."
 		else
 			return @text[:desc_unlocked]
 		end
