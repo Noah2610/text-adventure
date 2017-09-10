@@ -14,8 +14,10 @@ AREA_MAP = {
 	bridge_abduct:    [ :spaceship_abduct ],
 	lounge_abduct:    [ :spaceship_abduct ],
 
-	cell_abduct: [],
-		cell_unlocked_abduct: [ :window_abduct ]
+	cell_abduct:            [ ],
+		cell_unlocked_abduct: [ :corridor_abduct ],
+	corridor_abduct:        [ :cell_abduct,:other_cell_abduct,:window_abduct ],
+	other_cell_abduct:      [ :corridor_abduct ]
 }
 
 
@@ -52,7 +54,9 @@ AREAS = [
 	                            Lounge_abduct_area.new],
 
 	# cell_abduct
-	[[:cell_abduct],  Cell_abduct_area.new]
+	[[:cell_abduct],                               Cell_abduct_area.new],
+	[[:corridor_abduct,:hallway,:prison_corridor], Corridor_abduct_area.new],
+	[[:other_cell_abduct],                         OtherCell_abduct_area.new]
 ]
 
 
@@ -63,7 +67,8 @@ PEOPLE = [
 	[[:parsley,:friend], Parsley_person.new],
 	[[:aliens_abduct],   Aliens_abduct_person.new],
 
-	[[:guard_abduct,:alien_guard], Guard_abduct_person.new]
+	[[:guard_abduct,:alien_guard], Guard_abduct_person.new],
+	[[:prisoner_abduct,:inmate],   Prisoner_abduct_person.new]
 ]
 
 

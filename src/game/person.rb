@@ -82,3 +82,9 @@ class Guard_abduct_person < Person
 	end
 end
 
+# prisoner in other cell
+class Prisoner_abduct_person < Person
+	def init
+	end
+end
+

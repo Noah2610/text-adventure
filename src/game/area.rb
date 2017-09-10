@@ -59,3 +59,17 @@ class Cell_abduct_area < Area
 	end
 end
 
+# cell area - hallway
+class Corridor_abduct_area < Area
+	def init
+		@people = [:guard_abduct,:prisoner_abduct]
+	end
+end
+
+# other cell, with prisoner in it
+class OtherCell_abduct_area < Area
+	def init
+		@people = [:prisoner_abduct]
+	end
+end
+
