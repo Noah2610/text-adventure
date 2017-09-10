@@ -168,7 +168,6 @@ end
 
 # cell door
 class CellDoor_abduct_areaObject < Area_object
-	attr_accessor :is_locked
 	def init
 		@is_open = false
 		@is_locked = true
@@ -191,8 +190,26 @@ class CellDoor_abduct_areaObject < Area_object
 				return "It's already open."
 			else
 				@is_open = true
+				$area.neighbors = AREA_MAP[:cell_unlocked_abduct]
 				return @text[:open_door]
 			end
+		end
+	end
+	def close
+		if (@is_open)
+			$area.neighbors = AREA_MAP[:cell_abduct]
+			return "I closed the #@name again."
+		else
+			return "It's not open, how should I close it?"
+		end
+	end
+
+	def unlock
+		if (@is_locked)
+			@is_locked = false
+			return @text[:unlock_door]
+		else
+			return @text[:unlock_door_again]
 		end
 	end
 end

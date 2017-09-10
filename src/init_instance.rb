@@ -14,7 +14,8 @@ AREA_MAP = {
 	bridge_abduct:    [ :spaceship_abduct ],
 	lounge_abduct:    [ :spaceship_abduct ],
 
-	cell_abduct: []
+	cell_abduct: [],
+		cell_unlocked_abduct: [ :window_abduct ]
 }
 
 
