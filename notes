@@ -1,0 +1,91 @@
+
+INSTANCE {
+	attr_accessor :name, :desc, :desc_passive
+	@to_save = Array  # instance varibles that need to be saved
+	                  # represented as symbols
+
+	def look
+		return ... + self.look_additional
+		             # look_additional is an optional method
+                 # that instances can use to add more description text after regular description
+	end
+
+	def to_sym
+		return  # returns it's main identifier symbol
+	end
+
+	# misc methods:
+		is_item?
+		is_area?
+		is_person?
+		is_areaObject?
+	# all return true or false
+
+	AREA {
+		attr_accessor :neighbors, :items, :people, :area_objects, :has_visited, :events
+		@neighbors = []       # the areas surrounding self
+		                      # should be all areas surrounding, even those not accessible currently
+                          # (except for easteregg areas)
+		@items = []           # an area can have items on the ground
+		@people = []          # or people
+		@area_objects = []    # or area_objects in it
+		@has_visited = false  # is set to true once player has visited area
+		@events = []          # special keywords only usable inside this area
+													# example:
+									# @events = [
+									#		[:hello,:hi,:gutentag],
+									#		[:bye,:goodbye,:seeya]
+									# ]
+													# the first symbol in each row is the event's main identifier,
+													# the others can be used by the user
+		@to_save.push :items, :has_visited
+
+		def goto_area
+			# method is called right after goto!
+			return  # returns an Array:
+							# [0] => Boolean
+							#        true: can goto area, false: cannot, will exit out of goto! method
+							# [1] => String, text that is displayed if player cannot go to this area
+		end
+		def goto!
+			# initial method called when user tries to go to this area
+			goto_area
+			# handle switching areas if goto_area returns true at index 0
+			goto
+		end
+		def goto
+			# additional goto method called as last method from goto!
+			first_visit  # optional method called when area is visited for the first time; can return custom text; default return value: false
+		end
+	}
+
+	PERSON {
+		attr_accessor :keywords, :have_talked
+		@keywords = []        # special keywords to be used in conversation with this person
+		@take_items = []      # items that this person accepts (for quests/favors)
+		@have_talked = false  # if player has already talked with this person
+		@to_save.push :have_talked
+
+		def talk (meth=false[,params=[]])
+			# start talking with person unless meth is defined
+			# if meth is defined then talk_#{meth} method is run (in-conversation methods)
+			start_talk  # calls method if meth is false
+		end
+		def start_talk
+			# initializes talk interaction_state with this person
+		end
+	}
+
+	AREA_OBJECT {
+		attr_accessor :is_open, :items
+		@items = []  # items that are inside this object when initialized
+		             # notice that this instance variable isn't saved by default
+                 # when creating new area_objects with items inside must add @items to @to_save manually
+
+		def take
+			# takes all @items inside self
+		end
+	}
+
+}
+
