@@ -33,7 +33,7 @@ ITEMS = [
 	# keychain cell_abduct
 	[[:keychain_abduct,:keys],     Keychain_cell_abduct_item, []],
 	# stick in wall
-	[[:stick_abduct],              Stick_abduct_item, []]
+	[[:stick_abduct,:stick,:pipe], Stick_abduct_item, []]
 ]
 
 
