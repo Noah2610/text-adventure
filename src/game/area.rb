@@ -55,7 +55,13 @@ class Cell_abduct_area < Area
 	def init
 		@area_objects = [:cell_bed_abduct,:cell_wall_abduct,:cell_door_abduct]
 		@people = [:guard_abduct]
+		@events = [
+			[:sleep]
+		]
 		@to_save.push :neighbors
+	end
+	def sleep
+		return find_areaObject(:cell_bed_abduct).use
 	end
 end
 
@@ -63,6 +69,20 @@ end
 class Corridor_abduct_area < Area
 	def init
 		@people = [:guard_abduct,:prisoner_abduct]
+		@area_objects = [:other_cell_door_abduct]
+	end
+
+	def goto_area
+		# return Array with [0] => true|false (can goto or not)
+		# [1] => text if [0] is false (cannot goto)
+		cell_door = find_areaObject(:cell_door_abduct)
+		if (cell_door.is_open)
+			return [true]
+		elsif (cell_door.is_locked)
+			return [false, @text[:open_locked_door]]
+		elsif (!cell_door.is_locked)
+			return [false, @text[:open_unlocked_closed_door]]
+		end
 	end
 end
 
@@ -70,6 +90,20 @@ end
 class OtherCell_abduct_area < Area
 	def init
 		@people = [:prisoner_abduct]
+		@area_objects = [:other_cell_door_abduct]
+	end
+
+	def goto_area
+		# return Array with [0] => true|false (can goto or not)
+		# [1] => text if [0] is false (cannot goto)
+		other_cell_door = find_areaObject(:other_cell_door_abduct)
+		if (other_cell_door.is_open)
+			return [true]
+		elsif (other_cell_door.is_locked)
+			return [false, @text[:open_locked_door]]
+		elsif (!other_cell_door.is_locked)
+			return [false, @text[:open_unlocked_closed_door]]
+		end
 	end
 end
 

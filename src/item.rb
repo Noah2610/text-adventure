@@ -8,6 +8,7 @@ class Item < Instance
 		@desc_passive = "item_desc_passive"
 		@name = "Default Item name"
 		@args = args
+		get_text
 		self.init
 	end
 

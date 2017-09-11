@@ -175,7 +175,11 @@ class Open < Verb
 	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
 		ret = []
 		Array.new.concat(items,areaObjects).each do |instance|
-			ret.push instance.open  if instance.class.method_defined? :open
+			if instance.class.method_defined? :open
+				ret.push instance.open
+			else
+				ret.push "I can't open #{instance.name}."
+			end
 		end
 		return ret.join("\n").italic  unless ret.empty?
 		return "Open what?".italic
@@ -300,6 +304,21 @@ class Sit < Verb
 	end
 end
 
+
+class Unlock < Verb
+	def init
+	end
+	def action (items:[],areas:[],people:[],areaObjects:[],misc:{})
+		arr = Array.new.concat(items,areas,people,areaObjects)
+		return "Unlock what?"  if arr.empty?
+		ret = []
+		arr.each do |instance|
+			ret.push instance.unlock
+		end
+		return ret.join("\n")
+	end
+end
+
 #class Stand_up < Verb
 	#def init
 	#end
@@ -352,7 +371,10 @@ VERBS = [
 		Turn.new],
 
 	[[:sit],
-		Sit.new]
+		Sit.new],
+
+	[[:unlock],
+		Unlock.new]
 
 ]
 

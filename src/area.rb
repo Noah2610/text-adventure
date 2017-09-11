@@ -10,11 +10,21 @@ class Area < Instance
 		@people = []
 		@area_objects = []
 		@has_visited = false
-		@events = []
+		@events = []                           # special keywords for this area
+		#@can_goto = true                       # if player can go to this area
+		#@cant_goto_text = "I can't go there."  # text if player CANNOT go there
 		@to_save.push(:items, :has_visited)
 		self.init
 	end
+	def goto_area
+		return [true]
+	end
 	def goto!
+		# goto_area is first called method for goto; return is Array
+		# if [0] of return is false then don't go to area and return [1]
+		goto_area_return = goto_area
+		return goto_area_return[1]  unless goto_area_return[0]
+		#return @cant_goto_text  unless @can_goto
 		$area = self
 		@neighbors = AREA_MAP[to_sym] || []
 		ret = []

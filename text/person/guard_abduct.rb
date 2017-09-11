@@ -1,5 +1,5 @@
 @name = "Guard".red
-@desc_passive = "The guard is watching me.\nHe has a keychain on his belt.\nOne of those keys probably unlocks this cell."
+@desc_passive = "The guard is watching me.\nHe has a #{find_item(:keychain_abduct).name} on his belt.\nOne of those keys probably unlocks this cell."
 @desc = "I AM A GUARD"
 @text = {
 	desc_sleeping:             "The guard has fallen asleep.\nMaybe there's a way for me to grab that #{find_item(:keychain_abduct).name} off his person somehow?",

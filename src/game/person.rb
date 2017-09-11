@@ -50,6 +50,7 @@ end
 
 # guard infront of cell_abduct
 class Guard_abduct_person < Person
+	attr_reader :is_sleeping
 	def init
 		@items = [:keychain_abduct]
 		@is_sleeping = false

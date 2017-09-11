@@ -141,6 +141,7 @@ class CellWall_abduct_areaObject < Area_object
 
 	def open
 		unless (@is_open)
+			return @text[:open_guard_awake]  unless (find_person(:guard_abduct).is_sleeping)
 			@is_open = true
 			@item_descs = { stick_abduct: "There's a stick-like thing inside.\nIt looks long thin and grabbable."}  if @item_descs.empty?
 			return @text[:wall_open]
@@ -161,13 +162,15 @@ class CellWall_abduct_areaObject < Area_object
 	end
 
 	def look_additional
-		return @text[:open_desc]	  if @is_open
-		return @text[:closed_desc]  if !@is_open
+		return @text[:can_open_wall]  unless @is_open
+		return @text[:open_desc]	    if @is_open
+		return @text[:closed_desc]    if !@is_open
 	end
 end
 
 # cell door
 class CellDoor_abduct_areaObject < Area_object
+	attr_reader :is_open, :is_locked
 	def init
 		@is_open = false
 		@is_locked = true
@@ -192,14 +195,14 @@ class CellDoor_abduct_areaObject < Area_object
 				return "It's already open."
 			else
 				@is_open = true
-				$area.neighbors = AREA_MAP[:cell_unlocked_abduct]
+				#$area.neighbors = AREA_MAP[:cell_unlocked_abduct]
 				return @text[:open_door]
 			end
 		end
 	end
 	def close
 		if (@is_open)
-			$area.neighbors = AREA_MAP[:cell_abduct]
+			#$area.neighbors = AREA_MAP[:cell_abduct]
 			return "I closed the #@name again."
 		else
 			return "It's not open, how should I close it?"
@@ -207,6 +210,49 @@ class CellDoor_abduct_areaObject < Area_object
 	end
 
 	def unlock
+		return @text[:unlock_door_nokey]  unless (has_item?(:keychain_abduct))
+		if (@is_locked)
+			@is_locked = false
+			return @text[:unlock_door]
+		else
+			return @text[:unlock_door_again]
+		end
+	end
+end
+
+# other cell door
+class OtherCellDoor_abduct_areaObject < Area_object
+	attr_reader :is_open, :is_locked
+	def init
+		@is_locked = true
+		@is_open = false
+		@to_save.push :is_locked, :is_open
+	end
+	def look_additional
+		if (@is_locked)
+			return @text[:desc_locked]
+		else
+			return @text[:desc_open]  if (@is_open)
+			return @text[:desc_unlocked]
+		end
+	end
+	def use
+		return unlock
+	end
+
+	def open
+		if (@is_locked)
+			return @text[:open_locked_door]
+		else
+			@is_open = true
+			return @text[:open_door]
+		end
+	end
+	def close
+	end
+
+	def unlock
+		return @text[:unlock_door_nokey]  unless (has_item?(:keychain_abduct))
 		if (@is_locked)
 			@is_locked = false
 			return @text[:unlock_door]

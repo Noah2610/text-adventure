@@ -198,6 +198,7 @@ class Game
 			params[:items].push input_item     if input_item
 			# check areas
 			#input_area = input_include?(input, Array.new.concat($area.neighbors,$area))
+			#input_area = input_include?(input, Array.new.concat($area,$area.neighbors.map { |nb| next [nb,find_area(nb)] }))
 			#params[:areas].push input_area     if input_area
 			# check person
 			#input_person = input_include?(input, PEOPLE)

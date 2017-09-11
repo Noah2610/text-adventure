@@ -14,9 +14,9 @@ AREA_MAP = {
 	bridge_abduct:    [ :spaceship_abduct ],
 	lounge_abduct:    [ :spaceship_abduct ],
 
-	cell_abduct:            [ ],
-		cell_unlocked_abduct: [ :corridor_abduct ],
+	cell_abduct:            [ :corridor_abduct ],
 	corridor_abduct:        [ :cell_abduct,:other_cell_abduct,:window_abduct ],
+		#corridor_other_cell_unlocked_abduct: [ :cell_abduct,:other_cell,:window_abduct ],
 	other_cell_abduct:      [ :corridor_abduct ]
 }
 
@@ -86,6 +86,7 @@ AREA_OBJECTS = [
 	# cell_abduct
 	[[:cell_bed_abduct,:bed,:matress], CellBed_abduct_areaObject.new],
 	[[:cell_wall_abduct,:wall,:tile],  CellWall_abduct_areaObject.new],
-	[[:cell_door_abduct,:door],        CellDoor_abduct_areaObject.new]
+	[[:cell_door_abduct,:door],        CellDoor_abduct_areaObject.new],
+	[[:other_cell_door_abduct,:door],  OtherCellDoor_abduct_areaObject.new]
 ]
 
