@@ -1,4 +1,16 @@
 
+$GLOBAL_VARS {
+	$ENV = :development | :test (| :production)
+	$encrypt_password = ...       # reads password for savefile en-/decryption from file
+	$savedir = ...                # default directory for saves
+	$interaction_state = :normal  # interaction state player is in
+										 | :talk
+	$talking_to = false | PERSON  # of $interaction_state == :talk then $talking_to must be set to the person instance player is talking to
+	$inventory = []               # the players inventory, same structure as all other instances in init_instance.rb
+	                              # the items are the actual objects though
+}
+
+
 INSTANCE {
 	attr_accessor :name, :desc, :desc_passive
 	@to_save = Array  # instance varibles that need to be saved
@@ -11,7 +23,7 @@ INSTANCE {
 	end
 
 	def to_sym
-		return  # returns it's main identifier symbol
+		return  # returns its main identifier symbol
 	end
 
 	# misc methods:
@@ -32,11 +44,11 @@ INSTANCE {
 		@has_visited = false  # is set to true once player has visited area
 		@events = []          # special keywords only usable inside this area
 													# example:
-									# @events = [
-									#		[:hello,:hi,:gutentag],
-									#		[:bye,:goodbye,:seeya]
-									# ]
-													# the first symbol in each row is the event's main identifier,
+									@events = [
+										[:hello,:hi,:gutentag],
+										[:bye,:goodbye,:seeya]
+									]
+													# the first symbol in each row is the events main identifier,
 													# the others can be used by the user
 		@to_save.push :items, :has_visited
 
@@ -87,5 +99,24 @@ INSTANCE {
 		end
 	}
 
+}
+
+
+VERB {
+	attr_accessor :keywords, :accept_string
+	@keywords = []  # special keywords that can be used in combination with verb
+									# example:
+				@keywords = [
+					[[:with,:and],     true],
+					[[:close,:closer], false]
+				]
+				# index 0 in each row is an Array of accepted keywords for user to enter,
+				# first one is its main identifier
+				# index 1 in each row is a Boolean representing if keyword takes an instance as parameter,
+				# if true, the instance following the keyword is handled seperately and given to the verb
+				# as a different parameter: misc[:keywords][KEYWORD SYMBOL] == Instance
+	@accept_string = false  # Boolean representing if everything followed by verb is given to verb as string
+	                        # currently this is only being used by save and load verbs
+													# it's given as a parameter to the verb: misc[:string]
 }
 
