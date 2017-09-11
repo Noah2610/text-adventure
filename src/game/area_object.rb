@@ -118,9 +118,11 @@ class CellBed_abduct_areaObject < Area_object
 		if (true && !@have_slept)  # if player can go to sleep already
 			@have_slept = true
 			find_person(:guard_abduct).fall_asleep
-			output @text[:sleep]
-			3.times { sleep 0.5; print ["z","Z"].sample }
-			print "\n"
+			unless ($ENV == :test)  # skip if running tests
+				output @text[:sleep]
+				3.times { sleep 0.5; print ["z","Z"].sample }
+				print "\n"
+			end
 			return @text[:wake_up]
 		elsif (@have_slept)
 			return @text[:sleep_again]
@@ -170,7 +172,7 @@ end
 
 # cell door
 class CellDoor_abduct_areaObject < Area_object
-	attr_reader :is_open, :is_locked
+	attr_reader :is_locked
 	def init
 		@is_open = false
 		@is_locked = true

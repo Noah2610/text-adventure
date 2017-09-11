@@ -6,6 +6,7 @@ $ENV = :test
 require_relative "./main"
 
 
+# test instances
 class Test_instance < Minitest::Test
 	def setup
 		@items = []
@@ -125,5 +126,57 @@ class Test_instance < Minitest::Test
 		assert_equal :box, find_areaObject(:box).to_sym
 	end
 
+end
+
+
+class Test_area_abduct < Minitest::Test
+	def test_cell
+		Area.goto! :cell_abduct
+		# wall
+		assert_equal true, $area.area_objects.include?(:cell_wall_abduct), "cell wall is not in cell (should be)"
+		wall = find_areaObject(:cell_wall_abduct)
+		assert_equal false, wall.is_open, "cell wall is open (should be closed)"
+		wall.open
+		assert_equal false, wall.is_open, "cell wall has been opened (shouldn' be allowed yet)"
+		# bed
+		assert_equal true, $area.area_objects.include?(:cell_bed_abduct), "cell bed is not in cell (should be)"
+		bed = find_areaObject(:cell_bed_abduct)
+		# guard
+		assert_equal true, $area.people.include?(:guard_abduct), "guard is not in cell (should be)"
+		guard = find_person(:guard_abduct)
+		assert_equal false, guard.is_sleeping, "guard is sleeping (should not be)"
+		bed.use  # use bed, make guard fall asleep, be able to open wall
+		assert_equal true, guard.is_sleeping, "guard is not sleeping (should be)"
+		# open wall
+		wall.open
+		assert_equal true, wall.is_open, "cell wall hasn't been opened (should have)"
+		# get stick
+		wall.take
+		assert_equal true, has_item?(:stick_abduct), "no stick in inventory (should be)"
+		stick = $inventory[-1][1]
+		# door
+		assert_equal true, $area.area_objects.include?(:cell_door_abduct), "cell door is not in cell (should be)"
+		door = find_areaObject(:cell_door_abduct)
+		door.open
+		assert_equal false, door.is_open, "door is open (shouldn't be)"
+		door.unlock
+		assert_equal true, door.is_locked, "door is not locked (should be)"
+		# try go to corridor
+		assert_equal true, $area.neighbors.include?(:corridor_abduct), "corridor_abduct is not a neighbor of cell_abduct (should be)"
+		corridor = find_area(:corridor_abduct)
+		corridor.goto!
+		assert_equal true, $area.to_sym != :corridor_abduct, "went to area corridor_abduct (shouldn't have been able to)"
+		# get keychain from guard
+		stick.use_with(guard)
+		assert_equal true, has_item?(:keychain_abduct)
+		door.unlock
+		assert_equal false, door.is_locked, "door is locked (shouldn't be)"
+		corridor.goto!
+		assert_equal true, $area.to_sym != :corridor_abduct, "went to area corridor_abduct (shouldn't have been able to, door is closed)"
+		door.open
+		assert_equal true, door.is_open, "door is not open (should be)"
+		corridor.goto!
+		assert_equal true, $area.to_sym == :corridor_abduct, "didn't go to area corridor_abduct (should have)"
+	end
 end
 
