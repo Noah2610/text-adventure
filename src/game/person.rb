@@ -86,12 +86,39 @@ end
 # prisoner in other cell
 class Prisoner_abduct_person < Person
 	def init
+		@tried_to_wake_up = false
 		@is_sleeping = true
+		#@got_everything = false
+		@keywords = [
+			[:cornfield,:field,:corn]
+		]
 		@to_save.push :is_sleeping
 	end
 
 	def wake_up
+		if (@tried_to_wake_up)
+			ret = []
+			ret.push @text[:wake_up_accept]#  unless (@got_everything)
+			@is_sleeping = false
+			return ret
+		else
+			@tried_to_wake_up = true
+			return @text[:try_to_wake_up]
+		end
+	end
 
+	def start_talk
+		if (@is_sleeping)
+			return @text[:talk_sleeping]
+		else
+			$interaction_state = :talk
+			$talking_to = self
+			return @text[:talk_start]
+		end
+	end
+
+	def talk_cornfield (params=[])
+		"TALKING ABOUT CORNFIELD\nparams: #{params.to_s}"
 	end
 end
 

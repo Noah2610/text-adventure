@@ -14,6 +14,7 @@ class Person < Instance
 		self.init
 	end
 	def talk (meth=false,params=[])
+		puts meth.to_s
 		return start_talk  unless (meth)
 		return "#@name:\n" + method("talk_" + meth.to_s).call(params)
 	end

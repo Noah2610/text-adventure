@@ -74,6 +74,10 @@ INSTANCE {
 	PERSON {
 		attr_accessor :keywords, :have_talked
 		@keywords = []        # special keywords to be used in conversation with this person
+							@keywords = [
+								[:gutentag,:bonjour],
+								[:why,:how,:who,:where]
+							]
 		@take_items = []      # items that this person accepts (for quests/favors)
 		@have_talked = false  # if player has already talked with this person
 		@to_save.push :have_talked

@@ -8,7 +8,7 @@ class WakeUp < Verb
 		return "Wake up what?"  if arr.empty?
 		ret = []
 		arr.each do |instance|
-			if (instance.instance_methods(true).include?(:wake_up))
+			if (instance.methods.include?(:wake_up))
 				ret.push instance.wake_up
 			else
 				ret.push "I can't wake up #{instance.name}."
