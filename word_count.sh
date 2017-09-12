@@ -1,2 +1,2 @@
 #!/bin/bash
-wc -l ./main.rb ./test.rb ./text/* ./text/*/* ./src/* ./src/*/*
+wc ./main.rb ./test.rb $(find ./src/ -type f) $(find ./text/ -type f)
