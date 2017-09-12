@@ -90,6 +90,9 @@ INSTANCE {
 		def start_talk
 			# initializes talk interaction_state with this person
 		end
+
+		# when you give a person an item that they accept, then method
+		# talk_ITEM_ID is called and outputs return value if not false
 	}
 
 	AREA_OBJECT {

@@ -1,12 +1,13 @@
 
 class Person < Instance
-	attr_accessor :keywords, :have_talked
+	attr_accessor :keywords, :keywords_phrases, :have_talked
 
 	def initialize_instance (*args)
 		@name = "person_name".red
 		@desc_passive = "Default passive Person description."
 		@desc = "I am a Person."
 		@keywords = []
+		@keywords_phrases = []
 		@take_items = []
 		@have_talked = false
 		@to_save.push :have_talked
@@ -14,7 +15,6 @@ class Person < Instance
 		self.init
 	end
 	def talk (meth=false,params=[])
-		puts meth.to_s
 		return start_talk  unless (meth)
 		return "#@name:\n" + method("talk_" + meth.to_s).call(params)
 	end
@@ -60,7 +60,13 @@ class Person < Instance
 					@take_items.delete item.to_sym
 					rm_item(item.to_sym)
 					ret.push "I gave the #{params[:items][i].name} to #{@name}.".italic
-					response.push "Thanks for that #{item.name}. I needed that."
+					if (defined?(@text_take) && @text_take[item.to_sym])
+						response.push @text_take[item.to_sym]
+					else
+						response.push "Thanks for that #{item.name}. I needed that."
+					end
+					take_output = method("take_" + item.to_sym.to_s).call  if (methods.include?(("take_" + item.to_sym.to_s).to_sym))
+					response.push take_output  if (take_output)
 				else
 					response.push "I don't know why I would need #{item.name}."
 				end

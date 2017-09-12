@@ -319,7 +319,16 @@ class Game
 		params = {items:[],areas:[],people:[],areaObjects:[]}
 		method = false
 
+		# check phrases
 		KEYWORDS_TALK_PHRASES.each do |phrases|
+			phrases[0].each do |phrase|
+				if (input.join(" ").include? phrase)
+					method = phrases[1]
+				end
+			end
+		end
+		# check phrases - person
+		$talking_to.keywords_phrases.each do |phrases|
 			phrases[0].each do |phrase|
 				if (input.join(" ").include? phrase)
 					method = phrases[1]
@@ -338,7 +347,7 @@ class Game
 							throw :big_break
 						end
 					end
-				end
+				end  #unless method
 			end
 			# check method - person
 			catch (:big_break) do
@@ -349,7 +358,7 @@ class Game
 							throw :big_break
 						end
 					end
-				end
+				end  #unless method
 			end
 
 			input_item   = input_check_item word
