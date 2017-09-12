@@ -123,7 +123,6 @@ def load_game (savefile=$current_savefile)
 	$current_savefile = savefile  if (savefile != $current_savefile)
 	save_data_encrypted = File.read($savedir + savefile)
 	save_data = eval(Encrypt.load(save_data_encrypted, $encrypt_password))
-	Area.goto! save_data[:current_area]
 	clear_inventory
 	save_data[:inventory_items].each do |item|
 		add_item item
@@ -132,6 +131,7 @@ def load_game (savefile=$current_savefile)
 		instance = inst[1]
 		instance.load(save_data[instance.to_sym])  if (save_data[instance.to_sym])
 	end
+	Area.goto! save_data[:current_area]
 	output "Game loaded from '#{savefile}'!"
 	return $area.look
 end
