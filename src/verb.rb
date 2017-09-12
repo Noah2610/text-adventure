@@ -378,3 +378,5 @@ VERBS = [
 
 ]
 
+require_relative "./verb_area"
+

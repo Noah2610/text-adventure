@@ -120,3 +120,11 @@ VERB {
 													# it's given as a parameter to the verb: misc[:string]
 }
 
+# Added VERBS_AREA constance and new file for area specific verbs (src/verb_area.rb)
+VERBS_AREA = [
+	#[[ :AREA1,:AREA2,... ], [ :KEYWORD1,:KEYWORD2,... ],
+  #	VERB.new]
+	[[:corridor_abduct,:other_cell_abduct], [:wake_up,:wake,:awake],
+		WakeUp.new ]
+]
+

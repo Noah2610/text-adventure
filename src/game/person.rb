@@ -86,6 +86,12 @@ end
 # prisoner in other cell
 class Prisoner_abduct_person < Person
 	def init
+		@is_sleeping = true
+		@to_save.push :is_sleeping
+	end
+
+	def wake_up
+
 	end
 end
 

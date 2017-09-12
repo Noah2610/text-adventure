@@ -73,6 +73,19 @@ class Game
 				end
 			end
 		end
+		# check area verbs
+		VERBS_AREA.each do |varow|
+			varow[0].each do |a|
+				if (a == $area.to_sym)
+					varow[1].each do |kw|
+						if (kw.to_s.gsub("_"," ") == word)
+							return true  if return_bool
+							return varow[2]
+						end
+					end
+				end
+			end
+		end
 		return false
 	end
 
