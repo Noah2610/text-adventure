@@ -347,7 +347,7 @@ class Game
 							throw :big_break
 						end
 					end
-				end  #unless method
+				end  unless method
 			end
 			# check method - person
 			catch (:big_break) do
@@ -358,7 +358,7 @@ class Game
 							throw :big_break
 						end
 					end
-				end  #unless method
+				end  unless method
 			end
 
 			input_item   = input_check_item word

@@ -17,6 +17,8 @@
 @text_talk[:special]      = "Well, I was even more special before you arrived. I mean, think about it, have you ever heard of somebody being kidnapped by #{"aliens".green}?\nI must be #{"famous".red} on earth."
 @text_talk[:famous]       = "Yeah, people must be admiring me for having the courage of being kidnapped!"
 @text_talk[:not_famous]   = "Oh, well that's sad...\nMaybe I'll become famous in space for being the best prisoner anyone's ever had!"
+@text_talk[:how_get_here] = "That's a funny story, not so funny when you consider the outcome but hey.\nI drew some #{"alien symbol".red} into a cornfield, that's when they arrived and abducted me."
+@text_talk[:symbol]       = "Yeah that #{"symbol".red} started everything.\nIf I hadn't forgotten what it looks like it might be useful to get some more information about this whole abduction thing."
 
 @text_take = {
 	keychain_abduct: "A great, this is perfect!\nHow did you get this #{find_item(:keychain_abduct).name}?"

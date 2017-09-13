@@ -94,7 +94,8 @@ class Prisoner_abduct_person < Person
 			[:cornfield,:field,:corn],
 			[:escape,:flee],
 			[:famous],
-			[:special]
+			[:special],
+			[:symbol]
 		]
 		@keywords_phrases = [
 			[["how long have you been here","when did you get here","when were you abducted","when were you kidnapped"],
@@ -102,10 +103,12 @@ class Prisoner_abduct_person < Person
 			[["get out of here"],
 				:escape],
 			[["not famous"],
-				:not_famous]
+				:not_famous],
+			[["how did you get here","why are you here","why are you here","why were you abducted","why are you prisoner"],
+				:how_get_here]
 		]
 		@take_items = [:keychain_abduct]
-		@to_save.push :is_sleeping, :talked_about_special, :take_items
+		@to_save.push :is_sleeping, :talked_about_not_famous, :take_items
 	end
 
 	def wake_up
@@ -154,6 +157,12 @@ class Prisoner_abduct_person < Person
 	def talk_not_famous (params=[])
 		@talked_about_not_famous = true
 		return @text_talk[:not_famous]
+	end
+	def talk_how_get_here (params=[])
+		return @text_talk[:how_get_here]
+	end
+	def talk_symbol (params=[])
+		return @text_talk[:symbol]
 	end
 end
 
