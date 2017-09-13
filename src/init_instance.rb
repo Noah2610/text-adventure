@@ -10,13 +10,14 @@ AREA_MAP = {
 	cornfield: [ :truck ],
 
 	spaceship_abduct: [ :bridge_abduct,:lounge_abduct,:window_abduct ],
-	window_abduct:    [ :spaceship_abduct ],
+	#window_abduct:    [ :spaceship_abduct ],
 	bridge_abduct:    [ :spaceship_abduct ],
 	lounge_abduct:    [ :spaceship_abduct ],
 
 	cell_abduct:            [ :corridor_abduct ],
 	corridor_abduct:        [ :cell_abduct,:other_cell_abduct,:window_abduct ],
 		#corridor_other_cell_unlocked_abduct: [ :cell_abduct,:other_cell,:window_abduct ],
+		window_abduct:    [ :corridor_abduct ],
 	other_cell_abduct:      [ :corridor_abduct ]
 }
 

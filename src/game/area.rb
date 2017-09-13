@@ -17,8 +17,9 @@ class Cornfield_area < Area
 	end
 
 	def pee
-		output "I am peeing, aliens should arrive now."
-		return Area.goto!(:spaceship_abduct)
+		output @text[:pee]
+		#return Area.goto!(:spaceship_abduct)
+		return Area.goto!(:cell_abduct)
 	end
 end
 
