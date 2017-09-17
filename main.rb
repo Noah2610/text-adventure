@@ -24,7 +24,6 @@ require_relative "./src/area_object"
 require_relative "./src/init_instance"
 #require_relative "./event"
 
-#$default_savefile = "save0"
 $encrypt_password = File.read("./src/.password").strip
 
 $savedir = "./saves/"  unless (defined?($savedir))
@@ -37,10 +36,6 @@ class Game
 		$talking_to = false
 		$inventory = []
 		add_item :inventory
-		#add_item :test_item
-		#add_item :apple
-		#add_item :foo
-		#add_item :bar
 	end
 
 	def update

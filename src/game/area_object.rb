@@ -110,25 +110,39 @@ end
 # spaceship cell bed
 class CellBed_abduct_areaObject < Area_object
 	def init
-		@have_slept = false
-		@to_save.push :have_slept
+		@sleep_cycle = 0
+		@to_save.push :sleep_cycle
 	end
 	def use
 		# sleep in bed
-		if (true && !@have_slept)  # if player can go to sleep already
-			@have_slept = true
-			find_person(:guard_abduct).fall_asleep
+		if (@sleep_cycle == 0)
 			unless ($ENV == :test)  # skip if running tests
 				output @text[:sleep]
 				3.times { sleep 0.5; print ["z","Z"].sample }
 				print "\n"
 			end
+			@sleep_cylcle = 1
 			return @text[:wake_up]
-		elsif (@have_slept)
-			return @text[:sleep_again]
-		else
-			return @text[:sleep_too_early].sample
+
+		elsif (@sleep_cycle == 1)
+
+			@sleep_cylcle = 0
 		end
+
+		#if (true && !@sleep_cycle)  # if player can go to sleep already
+		#	@sleep_cycle = true
+		#	find_person(:guard_abduct).fall_asleep
+		#	unless ($ENV == :test)  # skip if running tests
+		#		output @text[:sleep]
+		#		3.times { sleep 0.5; print ["z","Z"].sample }
+		#		print "\n"
+		#	end
+		#	return @text[:wake_up]
+		#elsif (@sleep_cycle)
+		#	return @text[:sleep_again]
+		#else
+		#	return @text[:sleep_too_early].sample
+		#end
 	end
 end
 
